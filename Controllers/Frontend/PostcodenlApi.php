@@ -8,8 +8,6 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
     public function indexAction(){
 
         $this->get('front')->Plugins()->ViewRenderer()->setNoRender();
-        $this->get('plugins')->Controller()->Json()->setPadding();
-
 
         $zipcode = $this->Request()->getParam('zipcode');
         $number = $this->Request()->getParam('number');

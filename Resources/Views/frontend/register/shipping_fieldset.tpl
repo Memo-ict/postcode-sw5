@@ -135,8 +135,8 @@
                            name="register[billing][number]"
                            type="number"
                            aria-required="true"
-                           placeholder="{s name='RegisterBillingPlaceholderNumber'}00{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           id="number"
+                           placeholder="{s name='RegisterBillingPlaceholderNumber'}Number{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                           id="number2"
                            value="{$form_data.number|escape}"
                            class="register--field register--spacer register--field-number is--required" />
 
@@ -144,8 +144,8 @@
                            name="register[billing][number-addition]"
                            type="text"
                            aria-required="true"
-                           placeholder="{s name='RegisterBillingPlaceholderNumberAddition'}A,01{/s}"
-                           id="number-addition"
+                           placeholder="{s name='RegisterBillingPlaceholderNumberAddition'}Addition{/s}"
+                           id="number-addition2"
                            value="{$form_data.numberAddition|escape}"
                            class="register--field register--spacer register--field-number-addition" />
 

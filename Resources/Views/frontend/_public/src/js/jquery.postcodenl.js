@@ -5,64 +5,38 @@
 
     $.plugin('Postcodenl',{
 
-        checkZipcode: function(zipcode, countryId){
-
-            var isValid = true;
-
-            switch (countryId) {
-                case "2": //Country is germany
-
-                    break;
-                case "7": // Country is Belgium
-
-
-
-                    break;
-                case "21":// Country is Netherlands
-                    var regex = /^[1-9][0-9]{3}[\s]?[A-Za-z]{2}$/i;
-                    isValid = regex.test(zipcode);
-                    break;
-                default:
-                    break;
-            }
-            
-            return isValid;
-        },
-
-
         validate: function (values) {
 
-            if (this.checkZipcode(values.zipcode, values.city) === true) {
-                $.ajax({
-                    'url': '/PostcodenlApi',
-                    'dataType': 'json',
-                    'data': values,
-                    'cache': false,
-                    'success': function (address) {
+            $.ajax({
+                'url': '/PostcodenlApi',
+                'dataType': 'json',
+                'data': values,
+                'cache': false,
+                'success': function (address) {
 
-                        if (address !== false) {
-                            var street = address.addressData.street;
-                            var number = address.addressData.houseNumber;
-                            var addition = address.addressData.houseNumberAddition;
-                            var city = address.addressData.city;
+                    if (address !== false) {
+                        var street = address.addressData.street;
+                        var number = address.addressData.houseNumber;
+                        var addition = address.addressData.houseNumberAddition;
+                        var city = address.addressData.city;
 
-                            if (values.type === 'billing') {
-                                if (street){
-                                $('#street').val(street + " " + number + " " + addition);
-                                $('#city').val(city);
-                            } else {
-                                    $('#street').val('Geen overeenkomst gevonden')
-                                }
-                        }
-                        else if (values.type === 'shipping') {
-                            $('#street2').val(street + " " + number + " " + addition);
-                            $('#city2').val(city);
-                        }
-
-                        }
+                        if (values.type === 'billing') {
+                            if (street){
+                            $('#street').val(street + " " + number + " " + addition);
+                            $('#city').val(city);
+                        } else {
+                                $('#street').val('Geen overeenkomst gevonden')
+                            }
                     }
-                });
-            }
+                    else if (values.type === 'shipping') {
+                        $('#street2').val(street + " " + number + " " + addition);
+                        $('#city2').val(city);
+                    }
+
+                    }
+                }
+            });
+
         },
 
         init: function () {

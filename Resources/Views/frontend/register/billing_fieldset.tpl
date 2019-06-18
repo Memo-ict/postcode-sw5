@@ -51,7 +51,7 @@
                            name="register[billing][number-addition]"
                            type="text"
                            aria-required="true"
-                           placeholder="{s name='RegisterBillingPlaceholderNumberAddition'}A,01{/s}"
+                           placeholder="{s name='RegisterBillingPlaceholderNumberAddition'}Addition{/s}"
                            id="number-addition"
                            value="{$form_data.numberAddition|escape}"
                            class="register--field register--spacer register--field-number-addition" />
