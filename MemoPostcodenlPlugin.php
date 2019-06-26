@@ -61,19 +61,29 @@ class MemoPostcodenlPlugin extends Plugin
         $queryBuilder->select(['id'])
             ->from('s_core_countries')
             ->where('countryiso = :iso')
-            ->setParameter(':iso' , $iso);
+            ->setParameter(':iso', $iso);
 
         $countryId = $queryBuilder->execute()->fetch();
 
-
         $queryBuilder
-            ->insert('s_core_countries_attributes')
-            ->values([
-                'id' => 'null',
-                'countryID' => $countryId['id'],
-                'zipcoderegex' => "'".$regex."'"
-            ]);
-        $queryBuilder->execute();
+            ->select('zipcoderegex')
+            ->from('s_core_countries_attributes')
+            ->where("countryID = :countryID")
+            ->setParameter(':countryID', $countryId['id']);
+
+        $exists = $queryBuilder->execute()->fetch();
+
+
+        if(empty($exists)) {
+            $queryBuilder
+                ->insert('s_core_countries_attributes')
+                ->values([
+                    'id' => 'null',
+                    'countryID' => $countryId['id'],
+                    'zipcoderegex' => "'" . $regex . "'"
+                ]);
+            $queryBuilder->execute();
+        }
     }
 
 }

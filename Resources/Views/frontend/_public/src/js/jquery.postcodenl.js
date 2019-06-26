@@ -25,14 +25,15 @@
                             $('#street').val(street + " " + number + " " + addition);
                             $('#city').val(city);
                         } else {
-                                $('#street').val('Geen overeenkomst gevonden')
+                            $('#street').val('Geen overeenkomst gevonden')
                             }
-                    }
-                    else if (values.type === 'shipping') {
-                        $('#street2').val(street + " " + number + " " + addition);
-                        $('#city2').val(city);
-                    }
-
+                        }
+                        else if (values.type === 'shipping') {
+                            $('#street2').val(street + " " + number + " " + addition);
+                            $('#city2').val(city);
+                        } else {
+                            $('#street').val('Geen overeenkomst gevonden')
+                        }
                     }
                 }
             });
