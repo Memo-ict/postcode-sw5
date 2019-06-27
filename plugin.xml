@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
+    <label>Postcode.nl Plugin</label>
+
+    <version>1.0.0</version>
+    <copyright>Memo ICT</copyright>
+    <license>MIT</license>
+    <link>https://www.memo-ict.nl</link>
+    <author>Memo ICT</author>
+    <compatibility minVersion="5.2.0" />
+
+    <description>
+        <![CDATA[
+            <h1>Postcode.nl Plugin</h1>
+            <p><p>
+
+            <h3 style="color:red;">Let op: Je bent hiervoor een API key nodig van <a href="https://www.postcode.nl>Postcode.nl</a></h3>
+        ]]>
+    </description>
+</plugin>

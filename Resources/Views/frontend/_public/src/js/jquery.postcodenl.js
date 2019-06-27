@@ -25,6 +25,7 @@
                             $('#street').val(street + " " + number + " " + addition);
                             $('#city').val(city);
                         } else {
+                            $('#city').val('')
                             $('#street').val('Geen overeenkomst gevonden')
                             }
                         }
@@ -32,7 +33,8 @@
                             $('#street2').val(street + " " + number + " " + addition);
                             $('#city2').val(city);
                         } else {
-                            $('#street').val('Geen overeenkomst gevonden')
+                            $('#city2').val('')
+                            $('#street2').val('Geen overeenkomst gevonden')
                         }
                     }
                 }
@@ -40,36 +42,36 @@
 
         },
 
+        getAddress: function(type){
+
+            var values = {};
+
+            values['country'] = $('#country').val();
+            values['zipcode'] = $('#zipcode').val();
+            values['number'] = $('#number').val();
+            values['addition'] = $('#number-addition').val();
+            values['type'] = type;
+
+            if(values['zipcode'] && values['number']) {
+                this.validate(values);
+            }
+        },
+
         init: function () {
             var me = this;
 
             me.applyDataAttributes();
 
-            $('#zipcode,#number,#number-addition').keyup(function(){
+            $('#zipcode,#number,#number-addition,#country').on('keyup change',function(){
 
-
-                var values = {};
-
-                values['country'] = $('#country').val();
-                values['zipcode'] = $('#zipcode').val();
-                values['number'] = $('#number').val();
-                values['addition'] = $('#number-addition').val();
-                values['type'] = 'billing';
-
-                me.validate(values);
+                me.getAddress('billing')
 
             });
 
-            $('#zipcode2,#number2,#number-addition2').keyup(function(){
 
-                var values = {};
-                values['country'] = $('#country2').val();
-                values['zipcode'] = $('#zipcode2').val();
-                values['number'] = $('#number2').val();
-                values['addition'] = $('#number-addition2').val();
-                values['type'] = 'shipping';
+            $('#zipcode2,#number2,#number-addition2,#country2').on('keyup change',function(){
 
-                me.validate(values);
+                me.getAddress('shipping')
 
             });
 

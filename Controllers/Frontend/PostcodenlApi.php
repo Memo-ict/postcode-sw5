@@ -4,44 +4,37 @@
 class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Action
 {
 
-
     public function indexAction(){
 
         $this->get('front')->Plugins()->ViewRenderer()->setNoRender();
+
+        $regexArray = $this->getRegex();
+        $hasAccess = $this->getApiInfo()['hasAccess'];
+        $results = [];
+
+        if($hasAccess == false){
+            Shopware()->Container()->get('pluginlogger')->warning('You don\'t have access to the Postcode.nl API');
+            return;
+        }
 
         $country = $this->request()->getParam('country');
         $zipcode = $this->Request()->getParam('zipcode');
         $number = $this->Request()->getParam('number');
         $addition = $this->Request()->getParam('addition');
 
-
-        if($this->checkZipcode($country, $zipcode) !== false) {
-
-            $listOfCities = $this->getAddressData(trim($zipcode), $number, $addition);
-
-            $results = [];
-            $results['addressData'] = $listOfCities;
+        if(!empty($zipcode) && !empty($number)) {
+            if (preg_match($regexArray[$country], $zipcode)) {
+                $listOfCities = $this->getAddressData(trim($zipcode), $number, $addition);
+                    $results['addressData'] = $listOfCities;
+            }
         }
+
         $this->Response()->setHeader('Content-type', 'application/json', true);
         $this->Response()->setBody( json_encode( $results));
 
 
     }
-
-    public function checkZipcode($country, $zipcode)
-    {
-        $queryBuilder = $this->container->get('dbal_connection')->CreateQueryBuilder();
-
-        $queryBuilder->select('zipcoderegex')
-            ->from('s_core_countries_attributes')
-            ->where('countryID =:countryID')
-            ->setParameter(':countryID', $country);
-
-
-        $regex = $queryBuilder->execute()->fetch();
-
-        return(preg_match($regex['zipcoderegex'], $zipcode));
-    }
+    
 
     public function getAddressData($zipcode, $number, $addition){
 
@@ -65,5 +58,51 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
 
         return(json_decode($output));
 
+    }
+
+    public function getApiInfo()
+    {
+        $config = $this->get('config');
+
+        $apiKey = $config->getByNamespace('MemoPostcodenlPlugin', 'memoPostcodenlKey');
+        $apiSecret = $config->getByNamespace('MemoPostcodenlPlugin', 'memoPostcodenlSecret');
+        $url = "https://api.postcode.eu/account/v1/info";
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_USERPWD, "$apiKey:$apiSecret");
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+        $output = curl_exec($ch);
+
+        $info = curl_getinfo($ch);
+
+        curl_close ($ch);
+
+        $return = json_decode($output, true);
+
+        return($return);
+    }
+
+    public function getRegex()
+    {
+        $return =[];
+        foreach($this->getApiInfo()['countries'] as $key => $value){
+            $queryBuilder = Shopware()->Container()->get('dbal_connection')->createQueryBuilder();
+            $queryBuilder->select('c.id','a.zipcoderegex')
+                ->from('s_core_countries', 'c')
+                ->innerJoin('c' , 's_core_countries_attributes', 'a', 'c.id = a.countryID')
+                ->where('iso3 = :country')
+                ->setParameter(':country', $value);
+
+            $arr[] = $queryBuilder->execute()->fetchAll(\PDO::FETCH_KEY_PAIR);
+        }
+
+        foreach($arr as $value) {
+            $return += $value;
+        }
+
+        return($return);
     }
 }
