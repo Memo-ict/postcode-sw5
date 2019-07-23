@@ -26,6 +26,8 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
             if (preg_match($regexArray[$country], $zipcode)) {
                 $listOfCities = $this->getAddressData(trim($zipcode), $number, $addition);
                     $results['addressData'] = $listOfCities;
+            } else {
+                $results = null;
             }
         }
 
