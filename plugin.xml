@@ -3,19 +3,119 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>Postcode.nl Plugin</label>
 
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <copyright>Memo ICT</copyright>
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
-    <author>Memo ICT</author>
+    <author>Johan Moormann - Memo ICT</author>
     <compatibility minVersion="5.2.0" />
 
-    <description>
+    <description lang="en">
         <![CDATA[
             <h1>Postcode.nl Plugin</h1>
-            <p><p>
+            <p>This plugin adds autocompletion for Dutch addresses. When entering a billing or shipping address users only need to provide a postal code and house number,
+            all other address fields will be instantly completed!
+            </p><p>
+            The Postcode.nl address API is used to retrieve up-to-date data from official Dutch government databases.
+            </p>
+            <h2>Registering a postcode.nl account</h2>
+            <p>
+            This plugin is free to try out. However, a Postcode.nl subscription is required for production use. Creating an account only takes a few minutes: create an account
+            </p>
 
-            <h3 style="color:red;">Let op: Je bent hiervoor een API key nodig van <a href="https://www.postcode.nl>Postcode.nl</a></h3>
+            <h3>About Postcode.nl</h3>
+            <p>Established in 1999, Postcode.nl is a trusted and well-known partner for address information in the Netherlands. Postcode.nl supplies databases to government agencies
+            , postal services, utility companies, banks, and insurance companies. The Postcode.nl API is used by thousands of webshops every day. Learn more at www.postcode.nl</p>
+
+            <h3 style="color:red;">Warning: for this service you wille need a API key from <a href="https://www.postcode.nl">Postcode.nl</a></h3>
         ]]>
     </description>
+
+    <description lang="de">
+        <![CDATA[
+            <h1>Postcode.nl Plugin</h1>
+            <p>Dieses Plugin fügt Ihrem Checkout automatisch die Auffüllung niederländischer Adressen hinzu. Wenn eine Adresse eingegeben werden muss, muss der Kunde nur seine
+            Postleitzahl und Hausnummer eingeben und die vollständige Adresse wird sofort hinzugefügt!</p>
+
+            <p>Die Adress API von Postcode.nl verwendet aktuelle Informationen aus offiziellen Regierungsquellen.</p>
+
+            <h3>Registrieren Sie ein Postcode.nl Konto</h3>
+            <p>Das Plugin kann kostenlos getestet werden, aber ein <a href="https://www.postcode.nl/en/services/adresdata/producten-overzicht"> Postcode.nl Abo</a> ist erforderlich,
+            um den Dienst tatsächlich zu betreiben benutze es. Das Erstellen eines Kontos dauert nur wenige Minuten: <a href="https://account.postcode.nl">erstellen sie ein Konto</a>.</p>
+
+            <h3>Über Postcode.nl BV</h3>
+            <p>Postcode.nl wurde 1999 gegründet und ist eine vertrauliche, bekannte Webseite in den Niederlanden. Postcode.nl liefert Datenbanken an Regierungsbehörden, die Post, an Versorgungsunternehmen, Banken, Versicherungsgesellschaften etc.
+            Das Postleitzahl.nl. API wird von tausenden von Webshops benutzt.</p>
+
+            <h3 style="color:red;">Hinweis: Sie benötigen einen API-Schlüssel von  <a href="https://www.postcode.nl">Postcode.nl</a></h3>
+        ]]>
+    </description>
+
+    <description lang="nl">
+    <![CDATA[
+            <h1>Postcode.nl Plugin</h1>
+            <p>Deze plugin voegt automatisch aanvullen van Nederlandse adressen toe aan je checkout. Wanneer een adres moet worden ingevuld hoeft de klant alleen maar zijn postcode en
+            huisnummer op te geven en het volledige adres wordt direct aangevuld!</p>
+
+            <p>De Postcode.nl adres API maakt gebruik van up-to-date gegevens uit officiële overheidsbronnen.</p>
+
+            <h3>Registreren Postcode.nl account</h3>
+            <p>De plugin kan gratis worden getest, maar een <a href="https://www.postcode.nl/en/services/adresdata/producten-overzicht">Postcode.nl  abonnement</a> is noodzakelijk om de dienst
+            daadwerkelijk te gebruiken. Het aanmaken van een account is binnen enkele minuten gebeurd:<a href="https://account.postcode.nl”>aanmaken account</a>.</p>
+
+            <h3>Over Postcode.nl</h3>
+            Opgericht in 1999, Postcode.nl is een vertrouwde en bekende partner op het gebied van adresdata. Postcode.nl levert postcode databases aan o.a. overheden, logistieke partijen, nuts bedrijven, banken, en verzekeringsmaatschappijen. De Postcode.nl API wordt elke dag gebruikt door duizenden webshops. Lees meer op <a href="https://www.postcode.nl/">www.postcode.nl<a/>.
+
+            <h3 style="color:red;">Let op: Je bent hiervoor een API key nodig van <a href="https://www.postcode.nl">Postcode.nl</a></h3>
+        ]]>
+
+    </description>
+
+    <changelog version="1.0.1">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                <li>Shopware 5.6 compatibility</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                <li>Shopware 5.6 kompatiblität</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                <li>Shopware 5.6 Compatibiliteit</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
+
+    <changelog version="1.0.0">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                    <li>First Release</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                    <li>Erstes Release</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                    <li>Eerste release</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
 </plugin>

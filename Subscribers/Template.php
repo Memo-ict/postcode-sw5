@@ -1,5 +1,5 @@
 <?php
-namespace MemoPostcodenlPlugin\Subscribers;
+namespace memoPostcodenlPlugin\Subscribers;
 
 use Enlight\Event\SubscriberInterface;
 use Shopware\Components\Theme\LessDefinition;
@@ -8,14 +8,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 
 class Template implements SubscriberInterface{
-    
+
     private $pluginDirectory;
     private $config;
 
     public static function getSubscribedEvents()
     {
         return [
-            'Enlight_Controller_Action_PostDispatchSecure_Frontend_Register' => 'onPostDispatchRegister',
             'Enlight_Controller_Action_PostDispatchSecure_Frontend' => 'onPostDispatchSecure',
             'Theme_Compiler_Collect_Plugin_Javascript' => 'onCollectJavascript',
             'Theme_Compiler_Collect_Plugin_Less' => 'onCollectLess',
@@ -23,10 +22,11 @@ class Template implements SubscriberInterface{
 
     }
 
-    public function __construct($pluginName, $pluginDirectory, Config $config)
+    public function __construct($pluginDirectory,Config $config)
     {
         $this->pluginDirectory = $pluginDirectory;
         $this->config = $config;
+
     }
 
     public function onPostDispatchSecure(\Enlight_Controller_ActionEventArgs $args)

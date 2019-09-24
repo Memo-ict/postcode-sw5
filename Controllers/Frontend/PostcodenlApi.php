@@ -13,11 +13,11 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $results = [];
 
         if($hasAccess == false){
-            Shopware()->Container()->get('pluginlogger')->warning('You don\'t have access to the Postcode.nl API');
+            $this->get('pluginlogger')->warning('You don\'t have access to the Postcode.nl API');
             return;
         }
 
-        $country = $this->request()->getParam('country');
+        $country = $this->Request()->getParam('country');
         $zipcode = $this->Request()->getParam('zipcode');
         $number = $this->Request()->getParam('number');
         $addition = $this->Request()->getParam('addition');
@@ -77,9 +77,6 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         curl_setopt($ch, CURLOPT_USERPWD, "$apiKey:$apiSecret");
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
         $output = curl_exec($ch);
-
-        $info = curl_getinfo($ch);
-
         curl_close ($ch);
 
         $return = json_decode($output, true);

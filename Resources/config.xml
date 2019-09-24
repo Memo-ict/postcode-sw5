@@ -16,5 +16,32 @@
             <label lang="en">Postcode.nl Secret</label>
             <label lang="nl">Postcode.nl Secret</label>
         </element>
+
+
+        <element type="button">
+            <name>buttonTest</name>
+            <label lang="de">Verbindung testen</label>
+            <label lang="en">Test Connection</label>
+            <label lang="nl">Test Connection</label>
+            <options>
+                <handler>
+                    <![CDATA[
+                function() {
+                  Ext.Ajax.request({
+                    url: 'PostcodenlTestConnection/test',
+                    success: function (response) {
+                      Shopware.Msg.createGrowlMessage(response.statusText, response.responseText)
+                    },
+                    failure: function (response) {
+                      Shopware.Msg.createGrowlMessage(response.statusText, response.responseText)
+                    }
+                  });
+                }
+                ]]>
+                </handler>
+            </options>
+        </element>
+
+
     </elements>
 </config>
