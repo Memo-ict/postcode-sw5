@@ -4,13 +4,13 @@
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/localware/localware/5.2/engine/localware/Components/Plugin/schema/config.xsd">
 
     <elements>
-        <element type="text" scope="shop">
+        <element type="text">
             <name>memoPostcodenlKey</name>
             <label lang="de">Postcode.nl Key</label>
             <label lang="en">Postcode.nl Key</label>
             <label lang="nl">Postcode.nl Key</label>
         </element>
-        <element type="text" scope="shop">
+        <element type="text">
             <name>memoPostcodenlSecret</name>
             <label lang="de">Postcode.nl Secret</label>
             <label lang="en">Postcode.nl Secret</label>
@@ -30,13 +30,14 @@
                   Ext.Ajax.request({
                     url: 'PostcodenlTestConnection/test',
                     success: function (response) {
-                      Shopware.Msg.createGrowlMessage(response.statusText, response.responseText)
+                      let json = JSON.parse(response.responseText);
+                      Shopware.Msg.createGrowlMessage(response.statusText, json.response)
                     },
                     failure: function (response) {
                       if (response.status === 404) {
                             Shopware.Msg.createGrowlMessage('Plugin Manager', 'Please activate plugin before testing api.');
                           } else {
-                            Shopware.Msg.createGrowlMessage(response.statusText, response.responseText)
+                            Shopware.Msg.createGrowlMessage(response.statusText, response.responseText);
                           }
                       }
                   });

@@ -1,0 +1,56 @@
+[
+    {
+        "name": "postcode-nl/api-client",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/postcode-nl/PostcodeNl_Api_Client.git",
+            "reference": "99036a02368867f46c2a5680afa5b4e2a3649124"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/postcode-nl/PostcodeNl_Api_Client/zipball/99036a02368867f46c2a5680afa5b4e2a3649124",
+            "reference": "99036a02368867f46c2a5680afa5b4e2a3649124",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "php": ">=7.2"
+        },
+        "time": "2020-02-05T13:10:18+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "PostcodeNl\\Api": "src/"
+            },
+            "classmap": [
+                "src/PostcodeNl/Api/Client.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-2-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Postcode.nl B.V.",
+                "role": "Developer"
+            }
+        ],
+        "description": "A client to the Postcode.nl Address Api for international address validation. You will need to create an account at https://api.postcode.nl.",
+        "homepage": "https://api.postcode.nl",
+        "keywords": [
+            "Belgium",
+            "address",
+            "api",
+            "autocomplete",
+            "client",
+            "germany",
+            "netherlands",
+            "postcode",
+            "rest"
+        ]
+    }
+]

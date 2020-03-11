@@ -1,95 +1,74 @@
-;(function($, window) {
+
+(function($, window) {
     'use strict';
 
-    console.log('Postcodenl plugin loaded');
+    $.fn.PostcodeNl = function() {
+        return this.each(function() {
+            var self = $(this);
+            var autocomplete;
 
-    $.plugin('Postcodenl',{
+            var inputElement = self.find('.register--field-autocompleteaddress').first();
 
-        validate: function (values) {
+            if(inputElement.length == 0) {
+                return;
+            }
 
-            $.ajax({
-                'url': '/PostcodenlApi',
-                'dataType': 'json',
-                'data': values,
-                'cache': false,
-                'success': function (address) {
+            autocomplete = new PostcodeNl.AutocompleteAddress(inputElement[0], {
+                autocompleteUrl: '/PostcodenlApi/autocomplete',
+                addressDetailsUrl: '/PostcodenlApi/address-details',
+            });
 
-                    if (address !== false) {
-                        var street = address.addressData.street;
-                        var number = address.addressData.houseNumber;
-                        var addition = address.addressData.houseNumberAddition;
-                        var city = address.addressData.city;
+            inputElement.on('autocomplete-select', function(e) {
+                if(e.detail.precision == 'Address') {
+                    autocomplete.getDetails(e.detail.context, function(json) {
+                        console.log(json);
 
-                        if (values.type === 'billing') {
-                            if (street){
-                            $('#street').val(street + " " + number + " " + addition);
-                            $('#city').val(city);
-                        } else {
-                            $('#city').val('')
-                            $('#street').val('Geen overeenkomst gevonden')
-                            }
-                        }
-                        else if (values.type === 'shipping') {
-                            $('#street2').val(street + " " + number + " " + addition);
-                            $('#city2').val(city);
-                        } else {
-                            $('#city2').val('')
-                            $('#street2').val('Geen overeenkomst gevonden')
-                        }
-                    }
+                        self.find('.register--field-street').val(json.address.street);
+                        self.find('.register--field-number').val(json.address.buildingNumber);
+                        self.find('.register--field-number-addition').val(json.address.buildingNumberAddition);
+                        self.find('.register--field-zipcode').val(json.address.postcode);
+                        self.find('.register--field-city').val(json.address.locality);
+                    });
                 }
             });
 
-        },
+            self.find('.select--country').on('keyup change', function(e) {
+                if($(this).val() == null) {
+                    return;
+                }
+                $.ajax({
+                    url: "/PostcodenlApi/countrycheck",
+                    dataType: "json",
+                    data: {
+                        country: $(this).val()
+                    },
+                    cache: false,
+                    success: function(json) {
+                        if(json.isSupported) {
+                            autocomplete.setCountry(json.iso3);
+                            //Show autocomplete field, hide others
+                            self.find('.postcodenl_autocomplete').css('display', 'block');
+                            self.find('.shopware_default').css('display', 'none');
+                        } else {
+                            //vice versa
+                            self.find('.postcodenl_autocomplete').css('display', 'none');
+                            self.find('.shopware_default').css('display', 'block');
+                        }
 
-        getAddress: function(type){
-
-            var values = {};
-
-            values['country'] = $('#country').val();
-            values['zipcode'] = $('#zipcode').val();
-            values['number'] = $('#number').val();
-            values['addition'] = $('#number-addition').val();
-            values['type'] = type;
-
-            if(values['zipcode'] && values['number']) {
-                this.validate(values);
-            }
-        },
-
-        init: function () {
-            var me = this;
-
-            me.applyDataAttributes();
-
-            $('#zipcode,#number,#number-addition,#country').on('keyup change',function(){
-
-                me.getAddress('billing')
-
-            });
-
-
-            $('#zipcode2,#number2,#number-addition2,#country2').on('keyup change',function(){
-
-                me.getAddress('shipping')
-
-            });
-
-        }
-    }
-    );
-
-
-
+                        // Reset address values
+                        self.find('.register--field-autocompleteaddress').val('');
+                        self.find('.register--field-street').val('');
+                        self.find('.register--field-number').val('');
+                        self.find('.register--field-number-addition').val('');
+                        self.find('.register--field-zipcode').val('');
+                        self.find('.register--field-city').val('');
+                    }
+                });
+            }).trigger('change');
+        });
+    };
 
     $(document).ready(function () {
-    $("#registration").Postcodenl();
-    $("form[name='frmAddresses']").Postcodenl();
-    $.subscribe('plugin/swAddressEditor/onRegisterPlugins', function () {
-        $("form[name='frmAddresses']").Postcodenl();
-
+        $('.register--address, .register--shipping').PostcodeNl();
     });
-
-});
-
 })(jQuery, window);

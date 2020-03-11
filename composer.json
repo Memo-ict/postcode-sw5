@@ -1,0 +1,5 @@
+{
+    "require": {
+        "postcode-nl/api-client": "dev-master"
+    }
+}

@@ -42,6 +42,7 @@ class Template implements SubscriberInterface{
     public function onCollectJavascript(\Enlight_Event_EventArgs $args)
     {
         $jsFiles = [
+            $this->pluginDirectory . '/Resources/Views/frontend/_public/src/js/AutocompleteAddress.js',
             $this->pluginDirectory . '/Resources/Views/frontend/_public/src/js/jquery.postcodenl.js',
         ];
         return new ArrayCollection($jsFiles);
