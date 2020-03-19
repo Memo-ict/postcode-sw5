@@ -132,6 +132,51 @@
         </div>
 
         <div class="shopware_default">
+            {* Street *}
+            {block name='frontend_register_shipping_fieldset_input_street'}
+                <div class="register--street">
+                    <input autocomplete="section-shipping shipping street-address"
+                           name="register[shipping][street]"
+                           type="text"
+                           required="required"
+                           aria-required="true"
+                           placeholder="{s name='RegisterShippingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                           id="street2"
+                           value="{$form_data.street|escape}"
+                           class="register--field register--field-street is--required{if isset($error_flags.street)} has--error{/if}" />
+                </div>
+            {/block}
+
+            {* Additional Address Line 1 *}
+            {block name='frontend_register_shipping_fieldset_input_addition_address_line1'}
+                {if {config name=showAdditionAddressLine1}}
+                    <div class="register--additional-line1">
+                        <input autocomplete="section-shipping shipping address-line2"
+                               name="register[shipping][additionalAddressLine1]"
+                               type="text"{if {config name=requireAdditionAddressLine1}} required="required" aria-required="true"{/if}
+                               placeholder="{s name='RegisterLabelAdditionalAddressLine1'}{/s}{if {config name=requireAdditionAddressLine1}}{s name="RequiredField" namespace="frontend/register/index"}{/s}{/if}"
+                               id="additionalAddressLine21"
+                               value="{$form_data.additionalAddressLine1|escape}"
+                               class="register--field{if {config name=requireAdditionAddressLine1}} is--required{/if}{if isset($error_flags.additionalAddressLine1) && {config name=requireAdditionAddressLine1}} has--error{/if}" />
+                    </div>
+                {/if}
+            {/block}
+
+            {* Additional Address Line 2 *}
+            {block name='frontend_register_shipping_fieldset_input_addition_address_line2'}
+                {if {config name=showAdditionAddressLine2}}
+                    <div class="register--additional-line2">
+                        <input autocomplete="section-shipping shipping address-line3"
+                               name="register[shipping][additionalAddressLine2]"
+                               type="text"{if {config name=requireAdditionAddressLine2}} required="required" aria-required="true"{/if}
+                               placeholder="{s name='RegisterLabelAdditionalAddressLine2'}{/s}{if {config name=requireAdditionAddressLine2}}{s name="RequiredField" namespace="frontend/register/index"}{/s}{/if}"
+                               id="additionalAddressLine22"
+                               value="{$form_data.additionalAddressLine2|escape}"
+                               class="register--field{if {config name=requireAdditionAddressLine2}} is--required{/if}{if isset($error_flags.additionalAddressLine2) && {config name=requireAdditionAddressLine2}} has--error{/if}" />
+                    </div>
+                {/if}
+            {/block}
+
             {* Zip + City *}
             {block name='frontend_register_shipping_fieldset_input_zip_and_city'}
                 <div class="register--zip-city">
@@ -145,23 +190,6 @@
                                id="zipcode2"
                                value="{$form_data.zipcode|escape}"
                                class="register--field register--spacer register--field-zipcode is--required{if isset($error_flags.zipcode)} has--error{/if}" />
-                        <input autocomplete="section-billing billing housenumber"
-                               name="register[billing][number]"
-                               type="number"
-                               aria-required="true"
-                               placeholder="{s name='RegisterBillingPlaceholderNumber'}Number{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                               id="number2"
-                               value="{$form_data.number|escape}"
-                               class="register--field register--spacer register--field-number is--required" />
-
-                        <input autocomplete="section-billing billing number-addition"
-                               name="register[billing][number-addition]"
-                               type="text"
-                               aria-required="true"
-                               placeholder="{s name='RegisterBillingPlaceholderNumberAddition'}Addition{/s}"
-                               id="number-addition2"
-                               value="{$form_data.numberAddition|escape}"
-                               class="register--field register--spacer register--field-number-addition" />
 
                         <input autocomplete="section-shipping shipping address-level2"
                                name="register[shipping][city]"
@@ -196,56 +224,7 @@
                                class="register--field register--field-zipcode is--required{if isset($error_flags.zipcode)} has--error{/if}" />
                     {/if}
                 </div>
-
-            {* Street *}
-            {block name='frontend_register_shipping_fieldset_input_street'}
-                <div class="register--street">
-                    <input autocomplete="section-shipping shipping street-address"
-                           name="register[shipping][street]"
-                           type="text"
-                           required="required"
-                           aria-required="true"
-                           placeholder="{s name='RegisterShippingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           id="street2"
-                           value="{$form_data.street|escape}"
-                           class="register--field register--field-street is--required{if isset($error_flags.street)} has--error{/if}" />
-                </div>
             {/block}
         </div>
-
-        {* Additional Address Line 1 *}
-        {block name='frontend_register_shipping_fieldset_input_addition_address_line1'}
-            {if {config name=showAdditionAddressLine1}}
-                <div class="register--additional-line1">
-                    <input autocomplete="section-shipping shipping address-line2"
-                           name="register[shipping][additionalAddressLine1]"
-                           type="text"{if {config name=requireAdditionAddressLine2}} required="required" aria-required="true"{/if}
-                           placeholder="{s name='RegisterLabelAdditionalAddressLine1'}{/s}{if {config name=requireAdditionAddressLine1}}{s name="RequiredField" namespace="frontend/register/index"}{/s}{/if}"
-                           id="additionalAddressLine21"
-                           value="{$form_data.additionalAddressLine1|escape}"
-                           class="register--field{if {config name=requireAdditionAddressLine1}} is--required{/if}{if isset($error_flags.additionalAddressLine1) && {config name=requireAdditionAddressLine1}} has--error{/if}" />
-                </div>
-            {/if}
-        {/block}
-
-        {* Additional Address Line 2 *}
-        {block name='frontend_register_shipping_fieldset_input_addition_address_line2'}
-            {if {config name=showAdditionAddressLine2}}
-                <div class="register--additional-line2">
-                    <input autocomplete="section-shipping shipping address-line3"
-                           name="register[shipping][additionalAddressLine2]"
-                           type="text"{if {config name=requireAdditionAddressLine2}} required="required" aria-required="true"{/if}
-                           placeholder="{s name='RegisterLabelAdditionalAddressLine2'}{/s}{if {config name=requireAdditionAddressLine2}}{s name="RequiredField" namespace="frontend/register/index"}{/s}{/if}"
-                           id="additionalAddressLine22"
-                           value="{$form_data.additionalAddressLine2|escape}"
-                           class="register--field{if {config name=requireAdditionAddressLine2}} is--required{/if}{if isset($error_flags.additionalAddressLine2) && {config name=requireAdditionAddressLine2}} has--error{/if}" />
-                </div>
-            {/if}
-        {/block}
-
-
-        {/block}
-
-
     </div>
 {/block}

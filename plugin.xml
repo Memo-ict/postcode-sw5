@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>Postcode.nl Plugin</label>
 
-    <version>1.0.1</version>
+    <version>2.0.0</version>
     <copyright>Memo ICT</copyright>
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
@@ -70,6 +70,29 @@
         ]]>
 
     </description>
+    <changelog version="2.0.0">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                <li>Adapted for use with the new autocomplete API</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                <li>Angepasst für die Verwendung mit der neuen Autovervollständigungs-API</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                <li>Aangepast voor gebruik met de nieuwe autocomplete API</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
 
     <changelog version="1.0.1">
         <changes lang="en">
