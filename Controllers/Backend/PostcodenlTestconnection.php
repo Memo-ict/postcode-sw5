@@ -13,7 +13,7 @@ Class Shopware_Controllers_Backend_PostcodenlTestconnection extends \Shopware_Co
 
         if(empty($apiKey) || empty($apiSecret) )
         {
-            $this->View()->assign('Error', 'You have not filled in all required fields, please check your input.');
+            $this->View()->assign('response', 'You have not filled in all required fields, please check your input.');
             return;
         }
 

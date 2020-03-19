@@ -31,7 +31,7 @@
                     url: 'PostcodenlTestConnection/test',
                     success: function (response) {
                       let json = JSON.parse(response.responseText);
-                      Shopware.Msg.createGrowlMessage(response.statusText, json.response)
+                      Shopware.Msg.createGrowlMessage(response.statusText, json.response.message)
                     },
                     failure: function (response) {
                       if (response.status === 404) {
