@@ -29,7 +29,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
 
         $supportedCountries = $this->client->internationalGetSupportedCountries();
 
-        $this->jsonResponse([
+        return $this->jsonResponse([
             'key' => $id,
             'iso3' => $iso3,
             'isSupported' => in_array($iso3, array_column($supportedCountries, "iso3"))
