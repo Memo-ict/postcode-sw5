@@ -51,7 +51,7 @@
                 <input type="text"
                        class="register--field register--field-autocompleteaddress{if isset($error_flags.street)} has--error{/if}"
                        id="autocompleteAddress"
-                       placeholder="{s name='RegisterBillingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                       placeholder="{s name='placeholder' namespace="frontend/postcodenl"}{/s}"
                        name="register[billing][autocomplete-address]"
                        value="{$form_data.autocomplete-address|escape}">
             </div>
