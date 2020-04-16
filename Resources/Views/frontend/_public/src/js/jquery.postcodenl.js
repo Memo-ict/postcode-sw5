@@ -14,18 +14,29 @@
                 autocompleteUrl: '/PostcodenlApi/autocomplete',
                 addressDetailsUrl: '/PostcodenlApi/address-details',
             });
+            self.autocomplete.reset();
 
-            self.inputElement.on('autocomplete-select', function(e) {
-                if(e.detail.precision == 'Address') {
-                    self.autocomplete.getDetails(e.detail.context, function(json) {
-                        self.$el.find('#street, #street2').first().val(json.address.street + " " + json.address.building);
-                        self.$el.find('#number, #number2').first().val(json.address.buildingNumber);
-                        self.$el.find('#number-addition, #number-addition2').first().val(json.address.buildingNumberAddition);
-                        self.$el.find('#zipcode, #zipcode2').first().val(json.address.postcode);
-                        self.$el.find('#city, #city2').first().val(json.address.locality);
-                    });
-                }
-            });
+            self.inputElement
+                .on('change keyup', function(e) {
+                    self.inputElement.removeClass('is--valid');
+                    self.$el.find('#street, #street2').first().val("");
+                    self.$el.find('#number, #number2').first().val("");
+                    self.$el.find('#number-addition, #number-addition2').first().val("");
+                    self.$el.find('#zipcode, #zipcode2').first().val("");
+                    self.$el.find('#city, #city2').first().val("");
+                })
+                .on('autocomplete-select', function(e) {
+                    if(e.detail.precision == 'Address') {
+                        self.autocomplete.getDetails(e.detail.context, function(json) {
+                            self.inputElement.addClass('is--valid').blur();
+                            self.$el.find('#street, #street2').first().val(json.address.street + " " + json.address.building);
+                            self.$el.find('#number, #number2').first().val(json.address.buildingNumber);
+                            self.$el.find('#number-addition, #number-addition2').first().val(json.address.buildingNumberAddition);
+                            self.$el.find('#zipcode, #zipcode2').first().val(json.address.postcode);
+                            self.$el.find('#city, #city2').first().val(json.address.locality);
+                        });
+                    }
+                });
 
             self.$el.find('.select--country').on('keyup change', function(e) {
                 if($(this).val() == null) {

@@ -124,8 +124,10 @@
         {block name="frontend_address_form_input_autocomplete"}
             <div>
                 <input type="text"
-                       class="address--field address--autocompleteaddress{if isset($error_flags.street)} has--error{/if}"
+                       class="address--field address--autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}"
                        id="autocompleteAddress"
+                       required="required"
+                       aria-required="true"
                        placeholder="{s name='RegisterBillingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                        name="register[billing][autocomplete-address]"
                        value="{if $formData.autocomplete-address !== null}{$formData.autocomplete-address|escape}{else}{$formData.zipcode|escape} {$formData.city|escape}, {$formData.street|escape}{/if}">

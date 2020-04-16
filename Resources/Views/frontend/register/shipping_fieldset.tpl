@@ -122,8 +122,10 @@
             {block name="frontend_register_shipping_fieldset_input_autocomplete"}
                 <div>
                     <input type="text"
-                           class="register--field register--field-autocompleteaddress{if isset($error_flags.street)} has--error{/if}"
+                           class="register--field register--field-autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}"
                            id="autocompleteAddress2"
+                           required="required"
+                           aria-required="true"
                            placeholder="{s name='RegisterShippingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                            name="register[billing][autocomplete-address]"
                            value="{$form_data.autocomplete-address|escape}">
