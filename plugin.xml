@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>Postcode.nl Plugin</label>
 
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <copyright>Memo ICT</copyright>
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
@@ -70,6 +70,29 @@
         ]]>
 
     </description>
+    <changelog version="3.0.0">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                <li>Added option to use the Dutch Address API for Dutch addresses.</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                <li>Option zur Verwendung der niederländischen Adress-API für niederländische Adressen hinzugefügt.</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                <li>Optie toegevoegd om de Nederlandse Adressen-API te gebruiken voor Nederlandse adressen.</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
     <changelog version="2.0.0">
         <changes lang="en">
             <![CDATA[

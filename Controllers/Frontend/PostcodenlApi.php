@@ -7,14 +7,15 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
 {
     private $client;
 
-    public function countrycheckAction() {
-        if(!$this->validateClient()) {
+    public function countrycheckAction()
+    {
+        if (!$this->validateClient()) {
             return false;
         }
 
         $id = $this->Request()->getParam('country') ?: null;
 
-        if(empty($id)) {
+        if (empty($id)) {
             return false;
         }
 
@@ -24,20 +25,29 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
             ->where('id = :id')
             ->setParameter(':id', $id);
 
-        $iso3 = $queryBuilder->execute()->fetch()['iso3'];
-
-
         $supportedCountries = $this->client->internationalGetSupportedCountries();
+
+        $iso3 = $queryBuilder->execute()->fetch()['iso3'];
+        $isSupported = in_array($iso3, array_column($supportedCountries, "iso3"));
+
+        if ($iso3 === "NLD") {
+            $config = $this->get('config');
+            $useAutocomplete = $config->getByNamespace('memoPostcodenlPlugin', 'memoUseDutchAddressAutocomplete') ?? false;
+        } else {
+            $useAutocomplete = $isSupported;
+        }
 
         return $this->jsonResponse([
             'key' => $id,
             'iso3' => $iso3,
-            'isSupported' => in_array($iso3, array_column($supportedCountries, "iso3"))
+            'isSupported' => $isSupported,
+            'useAutocomplete' => $useAutocomplete,
         ]);
     }
 
-    public function autocompleteAction() {
-        if(!$this->validateClient()) {
+    public function autocompleteAction()
+    {
+        if (!$this->validateClient()) {
             return false;
         }
 
@@ -47,12 +57,17 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $term = $params[1];
         $session = $this->Request()->getHeader("X-Autocomplete-Session");
 
-        return $this->jsonResponse($this->client->internationalAutocomplete($iso3Context, $term, $session));
-
+        try {
+            return $this->jsonResponse($this->client->internationalAutocomplete($iso3Context, $term, $session));
+        } catch (\Exception $e) {
+            var_dump($e);
+            return $this->jsonResponse([]);
+        }
     }
 
-    public function addressDetailsAction() {
-        if(!$this->validateClient()) {
+    public function addressDetailsAction()
+    {
+        if (!$this->validateClient()) {
             return false;
         }
 
@@ -61,23 +76,55 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $context = $params[0];
         $session = $this->Request()->getHeader("X-Autocomplete-Session");
 
-        return $this->jsonResponse($this->client->internationalGetDetails($context, $session));
+        try {
+            return $this->jsonResponse($this->client->internationalGetDetails($context, $session));
+        } catch (\Exception $e) {
+            var_dump($e);
+            return $this->jsonResponse([]);
+        }
     }
 
-    private function jsonResponse($response) {
+    public function dutchAddressAction()
+    {
+        if (!$this->validateClient()) {
+            return false;
+        }
+
+        $postcode = ($this->Request()->getParam('zipcode'));
+        $houseNumber = ($this->Request()->getParam('housenumber'));
+        $houseNumberAddition = ($this->Request()->getParam('addition'));
+
+        if (!preg_match('/\s*([0-9]{4})\s*([a-zA-Z]{2})\s*/', $postcode, $match)) {
+            throw new \Exception("{$postcode} is not a valid postcode");
+        }
+
+        $postcode = $match[1] . $match[2];
+
+        try {
+            $response = $this->client->dutchAddressByPostcode($postcode, $houseNumber, $houseNumberAddition);
+            return $this->jsonResponse($response);
+        } catch (\Exception $e) {
+            return $this->jsonResponse(['error' => $e->getMessage()], 404);
+        }
+    }
+
+    private function jsonResponse($response, $status = 200)
+    {
         $this->Response()->setHeader('Content-type', 'application/json', true);
-        $this->Response()->setBody( json_encode( $response));
+        $this->Response()->setBody(json_encode($response));
+        $this->Response()->setStatusCode($status);
     }
 
-    private function fixParams($paramBag) {
+    private function fixParams($paramBag)
+    {
         unset($paramBag['module'], $paramBag['controller'], $paramBag['action']);
 
         $return = [];
-        foreach($paramBag as $k => $v) {
-            if(!is_numeric($k) && strlen($k) > 0) {
+        foreach ($paramBag as $k => $v) {
+            if (!is_numeric($k) && strlen($k) > 0) {
                 $return[] = $k;
             }
-            if(strlen($v) > 0) {
+            if (strlen($v) > 0) {
                 $return[] = $v;
             }
         }
@@ -94,8 +141,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $apiKey = $config->getByNamespace('MemoPostcodenlPlugin', 'memoPostcodenlKey');
         $apiSecret = $config->getByNamespace('MemoPostcodenlPlugin', 'memoPostcodenlSecret');
 
-        if(empty($apiKey) || empty($apiSecret) )
-        {
+        if (empty($apiKey) || empty($apiSecret)) {
             $this->get('pluginlogger')->warning('You have not filled in all required fields, please check your input.');
             return false;
         }
@@ -105,7 +151,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
 
             $result = $this->client->accountInfo();
 
-            if($result['hasAccess'] == false) {
+            if ($result['hasAccess'] == false) {
                 $this->get('pluginlogger')->warning('You don\'t have access to the Postcode.nl API');
                 return false;
             }

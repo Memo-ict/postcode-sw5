@@ -129,10 +129,48 @@
                        required="required"
                        aria-required="true"
                        placeholder="{s name='RegisterBillingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                       name="register[billing][autocomplete-address]"
+                       name="{$inputPrefix}[autocomplete-address]"
                        value="{if $formData.autocomplete-address !== null}{$formData.autocomplete-address|escape}{else}{$formData.zipcode|escape} {$formData.city|escape}, {$formData.street|escape}{/if}">
+                {include file="frontend/_includes/messages.tpl" type="warning" content="Please select a valid address from the dropdown list."}
             </div>
         {/block}
+    </div>
+
+    <div class="postcodenl_dutch-address">
+        <div class="address--zip-city">
+            {block name="frontend_address_form_input_dutch-address_zipcode"}
+                <input type="text"
+                       class="address--field address--spacer address--field-dutch-address_zipcode is--required{if isset($error_flags.street)} has--error{/if}"
+                       id="dutchAddressZipcode"
+                       required="required"
+                       aria-required="true"
+                       placeholder="{s name='RegisterShippingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                       name="{$inputPrefix}[dutch-address_zipcode]"
+                       value="">
+            {/block}
+            {block name="frontend_register_shipping_fieldset_input_dutch-address_housenumber"}
+                <input type="text"
+                       class="address--field address--spacer address--field-dutch-address_housenumber is--required{if isset($error_flags.street)} has--error{/if}"
+                       id="dutchAddressHousenumber"
+                       required="required"
+                       aria-required="true"
+                       placeholder="{s name='housenumber' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                       name="{$inputPrefix}[dutch-address_housenumber]"
+                       value="">
+            {/block}
+            {block name="frontend_register_shipping_fieldset_input_dutch-address_housenumber-addition"}
+                <input type="text"
+                       class="address--field address--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
+                       id="dutchAddressHousenumberAddition"
+                       aria-required="true"
+                       placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
+                       name="{$inputPrefix}[dutch-address_housenumber-addition]"
+                       value="">
+            {/block}
+        </div>
+
+        {include file="frontend/_includes/messages.tpl" type="warning"}
+        {include file="frontend/_includes/messages.tpl" type="success"}
     </div>
 
     <div class="shopware_default">

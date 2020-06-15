@@ -1,33 +1,52 @@
 @import "autocomplete-address.css";
 
-#number, #number2 {
-  width: 20%;
-}
-
-#number-addition, #number-addition2 {
-  width: 17%;
-}
-
-.shopware_default, .postcodenl_autocomplete {
+.shopware_default, .postcodenl_autocomplete, .postcodenl_dutch-address {
     display: none;
+
+    .alert {
+        margin: 0 0 .25rem;
+        display: none;
+    }
 }
 
-.register--field-autocompleteaddress.is--valid {
-    color: darken(@highlight-success, 15%);
-    border-color: @highlight-success;
-    background-color: desaturate(lighten(@highlight-success, 42%),20%);
+.postcodenl_dutch-address {
+    .register--zip-city, .address--zip-city {
+        display: flex;
+        justify-content: space-between;
+
+        input {
+            flex: 1 0 1%;
+
+            &:first-of-type {
+                flex-grow: 2;
+            }
+        }
+    }
 }
 
-/* When the autocomplete field is:
-    not empty* (contains a (partial) address);
-    not in focus (user has selected something else);
-    not marked is--valid (having selected a valid address).
 
-    *Using :empty doesn't work as the autocomplete gives it a value of 0
-*/
-.register--field-autocompleteaddress:not(.postcodenl-autocomplete-address-input-blank):not(:focus):not(.is--valid) {
-    color: darken(@highlight-notice, 15%);
-    border-color: @highlight-notice;
-    background-color: desaturate(lighten(@highlight-notice, 42%),20%);
+.register--field-autocompleteaddress, .address--autocompleteaddress {
+    &.is--valid {
+        color: darken(@highlight-success, 15%);
+        border-color: @highlight-success;
+        background-color: desaturate(lighten(@highlight-success, 42%), 20%);
+    }
+
+    /* When the autocomplete field is:
+        not empty* (contains a (partial) address);
+        not in focus (user has selected something else);
+        not marked is--valid (having selected a valid address).
+
+        *Using :empty doesn't work as the autocomplete gives it a value of 0
+    */
+
+    &:not(.postcodenl-autocomplete-address-input-blank):not(:focus):not(.is--valid) {
+        color: darken(@highlight-notice, 15%);
+        border-color: @highlight-notice;
+        background-color: desaturate(lighten(@highlight-notice, 42%), 20%);
+
+        + .alert {
+            display: block;
+        }
+    }
 }
-
