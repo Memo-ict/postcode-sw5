@@ -8,7 +8,7 @@
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
     <author>Memo ICT</author>
-    <compatibility minVersion="5.2.0" />
+    <compatibility minVersion="5.6.0" />
 
     <description lang="en">
         <![CDATA[
