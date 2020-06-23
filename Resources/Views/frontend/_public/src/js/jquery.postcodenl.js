@@ -37,15 +37,25 @@
                             },
                             cache: false,
                             success: function(json) {
-                                console.log(json);
+                                let streetParts = [];
+                                if(json.street !== null && json.street !== '') {
+                                    streetParts.push(json.street);
+                                }
+                                if(json.houseNumber !== null && json.houseNumber !== '') {
+                                    streetParts.push(json.houseNumber);
+                                }
+                                if(json.houseNumberAddition !== null && json.houseNumberAddition !== '') {
+                                    streetParts.push(json.houseNumberAddition);
+                                }
+
                                 dutchAddressNotifications
                                     .css('display', 'none')
                                     .filter('.alert.is--success')
                                     .css('display', 'flex')
                                     .find('.alert--content')
-                                    .text((json.street + ' ' + json.houseNumber + ' ' + json.houseNumberAddition + ' ' + json.city).replace(/\s\s+/g, ' '));
+                                    .text(streetParts.join(' ') + ', ' + json.city)
 
-                                self.$el.find('#street, #street2').val(`${json.street} ${json.houseNumber} ${json.houseNumberAddition}`.replace(/\s\s+/g, ' '));
+                                self.$el.find('#street, #street2').val(streetParts.join(' '));
                                 self.$el.find('#zipcode, #zipcode2').val(json.postcode);
                                 self.$el.find('#city, #city2').val(json.city);
                             },

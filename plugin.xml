@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>Postcode.nl Plugin</label>
 
-    <version>3.0.0</version>
+    <version>3.0.1</version>
     <copyright>Memo ICT</copyright>
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
@@ -70,6 +70,29 @@
         ]]>
 
     </description>
+    <changelog version="3.0.1">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                <li>Fixed null value when entering a non-existing housenumber addition.</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                <li>Nullwert bei der Eingabe einer nicht vorhandenen Hausnummernzugabe korrigiert.</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                <li>Null waarde bij het invoeren van een niet-bestaande huisnummer toevoeging verholpen.</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
     <changelog version="3.0.0">
         <changes lang="en">
             <![CDATA[
