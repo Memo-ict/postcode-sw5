@@ -22,9 +22,17 @@
             <label>Use Autocomplete for dutch addresses</label>
             <label lang="de-DE">Verwenden Sie Autocomplete für niederländische Adressen</label>
             <label lang="nl-NL">Autocomplete gebruiken voor nederlandse adressen</label>
-            <description>The plugin will use the dutch address API for dutch addresses by default, instead of the international autocomplete API. Activate this to force using the autocomplete API for dutch addresses.</description>
-            <description lang="de-DE">Das Plugin verwendet standardmäßig die holländische Adress-API für holländische Adressen anstelle der internationalen Autovervollständigungs-API. Aktivieren Sie dies, um die Verwendung der Autovervollständigungs-API für holländische Adressen zu erzwingen.</description>
-            <description lang="nl-NL">De plugin zal standaard de Nederlandse adres API gebruiken voor Nederlandse adressen, in plaats van de internationale autocomplete API. Activeer dit om het gebruik van de autocomplete API voor Nederlandse adressen te forceren.</description>
+            <description>The plugin will use the dutch address API for dutch addresses by default, instead of the
+                international autocomplete API. Activate this to force using the autocomplete API for dutch addresses.
+            </description>
+            <description lang="de-DE">Das Plugin verwendet standardmäßig die holländische Adress-API für holländische
+                Adressen anstelle der internationalen Autovervollständigungs-API. Aktivieren Sie dies, um die Verwendung
+                der Autovervollständigungs-API für holländische Adressen zu erzwingen.
+            </description>
+            <description lang="nl-NL">De plugin zal standaard de Nederlandse adres API gebruiken voor Nederlandse
+                adressen, in plaats van de internationale autocomplete API. Activeer dit om het gebruik van de
+                autocomplete API voor Nederlandse adressen te forceren.
+            </description>
         </element>
 
 
@@ -36,27 +44,26 @@
             <options>
                 <handler>
                     <![CDATA[
-                function() {
-                  Ext.Ajax.request({
-                    url: 'PostcodenlTestConnection/test',
-                    success: function (response) {
-                      let json = JSON.parse(response.responseText);
-                      Shopware.Msg.createGrowlMessage(response.statusText, json.response.message)
-                    },
-                    failure: function (response) {
-                      if (response.status === 404) {
-                            Shopware.Msg.createGrowlMessage('Plugin Manager', 'Please activate plugin before testing api.');
-                          } else {
-                            Shopware.Msg.createGrowlMessage(response.statusText, response.responseText);
-                          }
-                      }
-                  });
-                }
+                        function() {
+                            Ext.Ajax.request({
+                                url: 'PostcodenlTestConnection/test',
+                                success: function (response) {
+                                    console.log(response);
+                                    let json = JSON.parse(response.responseText);
+                                    Shopware.Msg.createGrowlMessage(json.responseType, json.response)
+                                },
+                                failure: function (response) {
+                                    if (response.status === 404) {
+                                        Shopware.Msg.createGrowlMessage('Plugin Manager', 'Please activate plugin before testing api.');
+                                    } else {
+                                        Shopware.Msg.createGrowlMessage(response.statusText, response.responseText);
+                                    }
+                                }
+                            });
+                        }
                 ]]>
                 </handler>
             </options>
         </element>
-
-
     </elements>
 </config>
