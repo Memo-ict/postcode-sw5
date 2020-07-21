@@ -139,7 +139,7 @@
                 {block name="frontend_register_shipping_fieldset_input_dutch-address_zipcode"}
                     <input type="text"
                            class="register--field register--spacer register--field-dutch-address_zipcode is--required{if isset($error_flags.street)} has--error{/if}"
-                           id="dutchAddressZipcode"
+                           id="dutchAddressZipcode2"
                            required="required"
                            aria-required="true"
                            placeholder="{s name='RegisterBillingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
@@ -149,7 +149,7 @@
                 {block name="frontend_register_shipping_fieldset_input_dutch-address_housenumber"}
                     <input type="text"
                            class="register--field register--spacer register--field-dutch-address_housenumber is--required{if isset($error_flags.street)} has--error{/if}"
-                           id="dutchAddressHousenumber"
+                           id="dutchAddressHousenumber2"
                            required="required"
                            aria-required="true"
                            placeholder="{s name='housenumber' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
@@ -159,8 +159,7 @@
                 {block name="frontend_register_shipping_fieldset_input_dutch-address_housenumber-addition"}
                     <input type="text"
                            class="register--field register--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
-                           id="dutchAddressHousenumberAddition"
-                           aria-required="true"
+                           id="dutchAddressHousenumberAddition2"
                            placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
                            name="register[shipping][dutch-address_housenumber-addition]"
                            value="">

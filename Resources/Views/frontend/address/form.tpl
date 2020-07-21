@@ -162,7 +162,6 @@
                 <input type="text"
                        class="address--field address--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
                        id="dutchAddressHousenumberAddition"
-                       aria-required="true"
                        placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
                        name="{$inputPrefix}[dutch-address_housenumber-addition]"
                        value="">

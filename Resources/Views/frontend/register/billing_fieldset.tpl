@@ -87,7 +87,6 @@
                     <input type="text"
                            class="register--field register--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
                            id="dutchAddressHousenumberAddition"
-                           aria-required="true"
                            placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
                            name="register[billing][dutch-address_housenumber-addition]"
                            value="">

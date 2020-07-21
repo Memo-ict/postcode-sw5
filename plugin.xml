@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>Postcode.nl Plugin</label>
 
-    <version>3.0.1</version>
+    <version>3.0.2</version>
     <copyright>Memo ICT</copyright>
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
@@ -68,8 +68,34 @@
 
             <h3 style="color:red;">Let op: Je bent hiervoor een API key nodig van <a href="https://www.postcode.nl">Postcode.nl</a></h3>
         ]]>
-
     </description>
+
+    <changelog version="3.0.2">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                <li>Fixed a bug which wouldn't let you continue registration.</li>
+                <li>Solved issues with the "OK" message appearing when testing credentials regardless of actual status.</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                <li>Ein Fehler wurde behoben, durch den Sie die Registrierung nicht fortsetzen konnten.</li>
+                <li>Probleme mit der "OK"-Meldung beim Testen von Berechtigungsnachweisen unabhängig vom tatsächlichen Status behoben.</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                <li>Een bug opgelost waardoor je niet verder kon gaan met de registratie.</li>
+                <li>Problemen opgelost met het "OK"-bericht dat verschijnt bij het testen van de referenties, ongeacht de werkelijke status.</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
     <changelog version="3.0.1">
         <changes lang="en">
             <![CDATA[

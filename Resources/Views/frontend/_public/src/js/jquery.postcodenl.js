@@ -11,6 +11,8 @@
                 return;
             }
 
+            // this.$el.find('[required]').data('required', true);
+
             var dutchAddressZipcodeElement = this.$el.find('#dutchAddressZipcode').first();
             var dutchAddressHousenumberElement = this.$el.find('#dutchAddressHousenumber').first();
             var dutchAddressAdditionElement = this.$el.find('#dutchAddressHousenumberAddition').first();
@@ -116,15 +118,21 @@
                     },
                     cache: false,
                     success: function(json) {
+                        self.$el.find('.postcodenl_autocomplete').find('.is--required').attr('required', false);
+                        self.$el.find('.postcodenl_dutch-address').find('.is--required').attr('required', false);
+                        self.$el.find('.shopware_default').find('.is--required').attr('required', false);
+
                         if(json.isSupported) {
                             if(json.iso3 === 'NLD' && !json.useAutocomplete) {
                                 self.$el.find('.postcodenl_autocomplete').css('display', 'none');
-                                self.$el.find('.postcodenl_dutch-address').css('display', 'block');
+                                self.$el.find('.postcodenl_dutch-address').css('display', 'block')
+                                    .find('.is--required').attr('required', true);
                                 self.$el.find('.shopware_default').css('display', 'none');
                             } else {
                                 self.autocomplete.setCountry(json.iso3);
                                 //Show autocomplete field, hide others
-                                self.$el.find('.postcodenl_autocomplete').css('display', 'block');
+                                self.$el.find('.postcodenl_autocomplete').css('display', 'block')
+                                    .find('.is--required').attr('required', true);
                                 self.$el.find('.postcodenl_dutch-address').css('display', 'none');
                                 self.$el.find('.shopware_default').css('display', 'none');
                             }
@@ -132,7 +140,8 @@
                             //vice versa
                             self.$el.find('.postcodenl_autocomplete').css('display', 'none');
                             self.$el.find('.postcodenl_dutch-address').css('display', 'none');
-                            self.$el.find('.shopware_default').css('display', 'block');
+                            self.$el.find('.shopware_default').css('display', 'block')
+                                .find('.is--required').attr('required', true);
                         }
 
                         // Reset address values
