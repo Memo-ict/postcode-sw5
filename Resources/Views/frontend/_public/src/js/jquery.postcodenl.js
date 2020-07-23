@@ -158,7 +158,7 @@
     $(document).ready(function () {
         $('.register--address, .register--shipping, .address-form--panel').PostcodeNl();
         $.subscribe('plugin/swAddressEditor/onRegisterPlugins', function () {
-            $(".register--address, .register--shipping, .address-form--panel").Postcodenl();
+            $(".register--address, .register--shipping, .address-form--panel").PostcodeNl();
         });
     });
 
