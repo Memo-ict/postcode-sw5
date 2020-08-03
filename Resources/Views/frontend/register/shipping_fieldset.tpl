@@ -142,7 +142,7 @@
                            id="dutchAddressZipcode2"
                            required="required"
                            aria-required="true"
-                           placeholder="{s name='RegisterBillingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                           placeholder="{s name='RegisterShippingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                            name="register[shipping][dutch-address_zipcode]"
                            value="">
                 {/block}
@@ -166,8 +166,35 @@
                 {/block}
             </div>
 
-            {include file="frontend/_includes/messages.tpl" type="warning"}
-            {include file="frontend/_includes/messages.tpl" type="success"}
+            {if {config name=memoAllowDutchAddressOverride}}
+                <div class="register--street-city">
+                    {block name='frontend_register_shipping_fieldset_input_street'}
+                        <input autocomplete="section-shipping shipping street-address"
+                               name="register[shipping][dutch-address_street]"
+                               type="text"
+                               required="required"
+                               aria-required="true"
+                               placeholder="{s name='street' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                               id="dutchAddressStreet2"
+                               value=""
+                               class="register--field register--spacer register--field-street is--required{if isset($error_flags.street)} has--error{/if}" />
+                    {/block}
+                    {block name='frontend_register_shipping_fieldset_input_city'}
+                        <input autocomplete="section-shipping shipping city"
+                               name="register[shipping][dutch-address_city]"
+                               type="text"
+                               required="required"
+                               aria-required="true"
+                               placeholder="{s name='RegisterShippingPlaceholderCity'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                               id="dutchAddressCity2"
+                               value=""
+                               class="register--field register--field-city is--required{if isset($error_flags.street)} has--error{/if}" />
+                    {/block}
+                </div>
+            {else}
+                {include file="frontend/_includes/messages.tpl" type="warning"}
+                {include file="frontend/_includes/messages.tpl" type="success"}
+            {/if}
         </div>
 
         <div class="shopware_default">

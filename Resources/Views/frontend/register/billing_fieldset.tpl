@@ -93,8 +93,35 @@
                 {/block}
             </div>
 
-            {include file="frontend/_includes/messages.tpl" type="warning"}
-            {include file="frontend/_includes/messages.tpl" type="success"}
+            {if {config name=memoAllowDutchAddressOverride}}
+                <div class="register--street-city">
+                    {block name='frontend_register_billing_fieldset_input_street'}
+                        <input autocomplete="section-billing billing street-address"
+                               name="register[billing][dutch-address_street]"
+                               type="text"
+                               required="required"
+                               aria-required="true"
+                               placeholder="{s name='street' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                               id="dutchAddressStreet"
+                               value=""
+                               class="register--field register--spacer register--field-street is--required{if isset($error_flags.street)} has--error{/if}" />
+                    {/block}
+                    {block name='frontend_register_billing_fieldset_input_city'}
+                        <input autocomplete="section-billing billing city"
+                               name="register[billing][dutch-address_city]"
+                               type="text"
+                               required="required"
+                               aria-required="true"
+                               placeholder="{s name='RegisterBillingPlaceholderCity'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
+                               id="dutchAddressCity"
+                               value=""
+                               class="register--field register--field-city is--required{if isset($error_flags.street)} has--error{/if}" />
+                    {/block}
+                </div>
+            {else}
+                {include file="frontend/_includes/messages.tpl" type="warning"}
+                {include file="frontend/_includes/messages.tpl" type="success"}
+            {/if}
         </div>
 
         <div class="shopware_default">

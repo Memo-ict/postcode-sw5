@@ -9,6 +9,10 @@
     }
 }
 
+.postcodenl-autocomplete-menu {
+    z-index: 10000;
+}
+
 .postcodenl_dutch-address {
     .register--zip-city, .address--zip-city {
         display: flex;
@@ -18,8 +22,20 @@
             flex: 1 0 1%;
 
             &:first-of-type {
-                flex-grow: 2;
+                flex-grow: 4;
             }
+        }
+    }
+    .register--street-city, .address--street-city {
+        display: flex;
+        justify-content: space-between;
+
+        input {
+            flex: 1 0 1%;
+        }
+
+        .register--spacer, .address--spacer {
+            margin-right: 2%;
         }
     }
 }

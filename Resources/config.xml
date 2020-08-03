@@ -34,6 +34,18 @@
                 autocomplete API voor Nederlandse adressen te forceren.
             </description>
         </element>
+        <element type="boolean">
+            <name>memoAllowDutchAddressOverride</name>
+            <label>Allow the fetched dutch address to be overwritten by the customer</label>
+            <label lang="de-DE">VErlauben Sie dem Kunden, die gefundene niederländische Adresse zu überschreiben</label>
+            <label lang="nl-NL">Toestaan dat de klant het gevonden nederlandse adres kan overschrijven</label>
+            <description>This does not apply to addresses found with the autocomplete feature
+            </description>
+            <description lang="de-DE">Dies gilt nicht für Adressen, die mit der Autovervollständigungsfunktion gefunden wurden
+            </description>
+            <description lang="nl-NL">Dit geldt niet voor adressen die gevonden zijn met de autocomplete functie
+            </description>
+        </element>
 
 
         <element type="button">

@@ -13,9 +13,11 @@
 
             // this.$el.find('[required]').data('required', true);
 
-            var dutchAddressZipcodeElement = this.$el.find('#dutchAddressZipcode').first();
-            var dutchAddressHousenumberElement = this.$el.find('#dutchAddressHousenumber').first();
-            var dutchAddressAdditionElement = this.$el.find('#dutchAddressHousenumberAddition').first();
+            var dutchAddressStreetElement = this.$el.find('#dutchAddressStreet, #dutchAddressStreet2').first();
+            var dutchAddressCityElement = this.$el.find('#dutchAddressCity, #dutchAddressCity2').first();
+            var dutchAddressZipcodeElement = this.$el.find('#dutchAddressZipcode, #dutchAddressZipcode2').first();
+            var dutchAddressHousenumberElement = this.$el.find('#dutchAddressHousenumber, #dutchAddressHousenumber2').first();
+            var dutchAddressAdditionElement = this.$el.find('#dutchAddressHousenumberAddition, #dutchAddressHousenumberAddition2').first();
             var dutchAddressNotifications = this.$el.find('.postcodenl_dutch-address .alert');
             var dutchAddressInputElements = dutchAddressZipcodeElement.add(dutchAddressHousenumberElement).add(dutchAddressAdditionElement);
 
@@ -60,6 +62,8 @@
                                 self.$el.find('#street, #street2').val(streetParts.join(' '));
                                 self.$el.find('#zipcode, #zipcode2').val(json.postcode);
                                 self.$el.find('#city, #city2').val(json.city);
+                                self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').val(json.street);
+                                self.$el.find('#dutchAddressCity, #dutchAddressCity2').val(json.city);
                             },
                             error: function(jqxhr) {
                                 dutchAddressNotifications
@@ -69,9 +73,9 @@
                                     .find('.alert--content')
                                     .text(jqxhr.responseJSON.error);
 
-                                self.$el.find('#street, #street2').val('');
-                                self.$el.find('#zipcode, #zipcode2').val('');
-                                self.$el.find('#city, #city2').val('');
+                                self.$el.find('#zipcode, #zipcode2').val(dutchAddressZipcodeElement.val().toUpperCase());
+                                self.$el.find('#street, #street2').trigger('keyup');
+                                self.$el.find('#city, #city2').trigger('keyup');
                             }
                         })
                     }, 500);
@@ -81,6 +85,26 @@
                     return ($(this).val() != null);
                 })
                 .trigger('blur');
+
+            dutchAddressStreetElement
+                .on('keyup blur', function() {
+                    const streetParts = [];
+                    if(dutchAddressStreetElement.val() !== '') {
+                        streetParts.push(dutchAddressStreetElement.val());
+                    }
+                    if(dutchAddressHousenumberElement.val() !== '') {
+                        streetParts.push(dutchAddressHousenumberElement.val());
+                    }
+                    if(dutchAddressAdditionElement.val() !== '') {
+                        streetParts.push(dutchAddressAdditionElement.val());
+                    }
+
+                    self.$el.find('#street, #street2').val(streetParts.join(' '));
+                });
+            dutchAddressCityElement
+                .on('keyup blur', function() {
+                    self.$el.find('#city, #city2').val(dutchAddressCityElement.val());
+                });
 
             self.autocomplete = new PostcodeNl.AutocompleteAddress(self.inputElement[0], {
                 autocompleteUrl: '/PostcodenlApi/autocomplete',

@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>Postcode.nl Plugin</label>
 
-    <version>3.0.2</version>
+    <version>3.1.0</version>
     <copyright>Memo ICT</copyright>
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
@@ -70,6 +70,29 @@
         ]]>
     </description>
 
+    <changelog version="3.1.0">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                <li>Added option for dutch addresses to allow customers to overwrite the found streetname and city. Only works for dutch addresses using the Dutch Address API, not with the autocomplete API.</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                <li>Option für holländische Adressen hinzugefügt, damit Kunden den gefundenen Straßennamen und Ort überschreiben können. Funktioniert nur für holländische Adressen mit der API für holländische Adressen, nicht mit der Autovervollständigungs-API.</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                <li>Optie toegevoegd voor Nederlandse adressen om klanten in staat te stellen de gevonden straatnaam en stad te overschrijven. Werkt alleen voor Nederlandse adressen gevonden met behulp van de Nederlandse Adressen-API, niet met de autocomplete API.</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
     <changelog version="3.0.2">
         <changes lang="en">
             <![CDATA[

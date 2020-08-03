@@ -1,13 +1,14 @@
 <?php
+
 namespace memoPostcodenlPlugin\Subscribers;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Enlight\Event\SubscriberInterface;
 use Shopware\Components\Theme\LessDefinition;
 use Shopware_Components_Config as Config;
-use Doctrine\Common\Collections\ArrayCollection;
 
-
-class Template implements SubscriberInterface{
+class Template implements SubscriberInterface
+{
 
     private $pluginDirectory;
     private $config;
@@ -19,14 +20,12 @@ class Template implements SubscriberInterface{
             'Theme_Compiler_Collect_Plugin_Javascript' => 'onCollectJavascript',
             'Theme_Compiler_Collect_Plugin_Less' => 'onCollectLess',
         ];
-
     }
 
-    public function __construct($pluginDirectory,Config $config)
+    public function __construct($pluginDirectory, Config $config)
     {
         $this->pluginDirectory = $pluginDirectory;
         $this->config = $config;
-
     }
 
     public function onPostDispatchSecure(\Enlight_Controller_ActionEventArgs $args)
@@ -37,7 +36,6 @@ class Template implements SubscriberInterface{
 
         $view->addTemplateDir($this->pluginDirectory . '/Resources/Views');
     }
-
 
     public function onCollectJavascript(\Enlight_Event_EventArgs $args)
     {
@@ -59,6 +57,5 @@ class Template implements SubscriberInterface{
         );
 
         return $less;
-
     }
 }
