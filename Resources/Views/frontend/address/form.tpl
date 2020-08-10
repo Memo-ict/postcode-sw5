@@ -124,13 +124,14 @@
         {block name="frontend_address_form_input_autocomplete"}
             <div>
                 <input type="text"
-                       class="address--field address--autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}"
+                       class="address--field address--autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $formData.attribute.postcodenlAutocompleteAddress} is--existing{/if}"
+                       data-initial="{$formData.attribute.postcodenlAutocompleteAddress|escape}"
                        id="autocompleteAddress"
                        required="required"
                        aria-required="true"
                        placeholder="{s name='RegisterBillingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                       name="{$inputPrefix}[autocomplete-address]"
-                       value="{if $formData.autocomplete-address !== 0}{$formData.autocomplete-address|escape}{else}{$formData.zipcode|escape} {$formData.city|escape}, {$formData.street|escape}{/if}">
+                       name="{$inputPrefix}[attribute][postcodenlAutocompleteAddress]"
+                       value="{$formData.attribute.postcodenlAutocompleteAddress|escape}">
                 {include file="frontend/_includes/messages.tpl" type="warning" content="Please select a valid address from the dropdown list."}
             </div>
         {/block}
@@ -145,8 +146,8 @@
                        required="required"
                        aria-required="true"
                        placeholder="{s name='RegisterShippingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                       name="{$inputPrefix}[dutch-address_zipcode]"
-                       value="{if $formData.dutch-address_zipcode !== 0}{$formData.dutch-address_zipcode|escape}{else}{$formData.zipcode|escape}{/if}">
+                       name="{$inputPrefix}[attribute][postcodenlZipcode]"
+                       value="{$formData.attribute.postcodenlZipcode}">
             {/block}
             {block name="frontend_address_form_input_dutch-address_housenumber"}
                 <input type="text"
@@ -155,41 +156,41 @@
                        required="required"
                        aria-required="true"
                        placeholder="{s name='housenumber' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                       name="{$inputPrefix}[dutch-address_housenumber]"
-                       value="{if $formData.dutch-address_housenumber !== 0}{$formData.dutch-address_housenumber|escape}{/if}">
+                       name="{$inputPrefix}[attribute][postcodenlHousenumber]"
+                       value="{$formData.attribute.postcodenlHousenumber|escape}">
             {/block}
             {block name="frontend_address_form_input_dutch-address_housenumber-addition"}
                 <input type="text"
                        class="address--field address--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
                        id="dutchAddressHousenumberAddition"
                        placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
-                       name="{$inputPrefix}[dutch-address_housenumber-addition]"
-                       value="{if $formData.dutch-address_housenumber-addition !== 0}{$formData.dutch-address_housenumber-addition|escape}{/if}">
+                       name="{$inputPrefix}[attribute][postcodenlHousenumberAddition]"
+                       value="{$formData.attribute.postcodenlHousenumberAddition|escape}">
             {/block}
         </div>
         {if {config name=memoAllowDutchAddressOverride}}
             <div class="register--street-city">
                 {block name='frontend_address_form_input_street'}
                     <input autocomplete="section-billing billing street-address"
-                           name="{$inputPrefix}[dutch-address_street]"
+                           class="address--field address--spacer address--field-street is--required{if isset($error_flags.street)} has--error{/if}"
                            type="text"
                            required="required"
                            aria-required="true"
                            placeholder="{s name='street' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                            id="dutchAddressStreet"
-                           value="{if $formData.dutch-address_street !== 0}{$formData.dutch-address_street|escape}{/if}"
-                           class="address--field address--spacer address--field-street is--required{if isset($error_flags.street)} has--error{/if}" />
+                           name="{$inputPrefix}[attribute][postcodenlStreetname]"
+                           value="{$formData.attribute.postcodenlStreetname|escape}" />
                 {/block}
                 {block name='frontend_address_form_input_city'}
                     <input autocomplete="section-billing billing city"
-                           name="{$inputPrefix}[dutch-address_city]"
+                           class="address--field address--field-city is--required{if isset($error_flags.street)} has--error{/if}"
                            type="text"
                            required="required"
                            aria-required="true"
                            placeholder="{s name='RegisterBillingPlaceholderCity'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                            id="dutchAddressCity"
-                           value="{if $formData.dutch-address_city !== 0}{$formData.dutch-address_city|escape}{else}{$formData.city|escape}{/if}"
-                           class="address--field address--field-city is--required{if isset($error_flags.street)} has--error{/if}" />
+                           name="{$inputPrefix}[attribute][postcodenlCity]"
+                           value="{$formData.attribute.postcodenlCity}" />
                 {/block}
             </div>
         {else}

@@ -60,7 +60,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         try {
             return $this->jsonResponse($this->client->internationalAutocomplete($iso3Context, $term, $session));
         } catch (\Exception $e) {
-            var_dump($e);
+//            var_dump($e);
             return $this->jsonResponse([]);
         }
     }
@@ -79,7 +79,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         try {
             return $this->jsonResponse($this->client->internationalGetDetails($context, $session));
         } catch (\Exception $e) {
-            var_dump($e);
+//            var_dump($e);
             return $this->jsonResponse([]);
         }
     }
@@ -95,7 +95,8 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $houseNumberAddition = ($this->Request()->getParam('addition'));
 
         if (!preg_match('/\s*([0-9]{4})\s*([a-zA-Z]{2})\s*/', $postcode, $match)) {
-            throw new \Exception("{$postcode} is not a valid postcode");
+//            throw new \Exception("{$postcode} is not a valid postcode");
+            return $this->jsonResponse(['error' => "{$postcode} is not a valid postcode"], 404);
         }
 
         $postcode = $match[1] . $match[2];

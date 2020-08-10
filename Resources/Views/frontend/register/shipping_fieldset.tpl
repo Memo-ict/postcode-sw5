@@ -122,13 +122,14 @@
             {block name="frontend_register_shipping_fieldset_input_autocomplete"}
                 <div>
                     <input type="text"
-                           class="register--field register--field-autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}"
+                           class="register--field register--field-autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $formData.attribute.postcodenlAutocompleteAddress} is--existing{/if}"
+                           data-initial="{$formData.attribute.postcodenlAutocompleteAddress|escape}"
                            id="autocompleteAddress2"
                            required="required"
                            aria-required="true"
                            placeholder="{s name='placeholder' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           name="register[shipping][autocomplete-address]"
-                           value="">
+                           name="register[shipping][attribute][postcodenlAutocompleteAddress]"
+                           value="{$formData.attribute.postcodenlAutocompleteAddress|escape}">
                     {include file="frontend/_includes/messages.tpl" type="warning" content="Please select a valid address from the dropdown list."}
                 </div>
             {/block}
@@ -143,8 +144,8 @@
                            required="required"
                            aria-required="true"
                            placeholder="{s name='RegisterShippingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           name="register[shipping][dutch-address_zipcode]"
-                           value="">
+                           name="register[shipping][attribute[postcodenlZipcode]"
+                           value="{$formData.attribute.postcodenlZipcode}">
                 {/block}
                 {block name="frontend_register_shipping_fieldset_input_dutch-address_housenumber"}
                     <input type="text"
@@ -153,16 +154,16 @@
                            required="required"
                            aria-required="true"
                            placeholder="{s name='housenumber' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           name="register[shipping][dutch-address_housenumber]"
-                           value="">
+                           name="register[shipping][attribute][postcodenlHousenumber]"
+                           value="{$formData.attribute.postcodenlHousenumber|escape}">
                 {/block}
                 {block name="frontend_register_shipping_fieldset_input_dutch-address_housenumber-addition"}
                     <input type="text"
                            class="register--field register--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
                            id="dutchAddressHousenumberAddition2"
                            placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
-                           name="register[shipping][dutch-address_housenumber-addition]"
-                           value="">
+                           name="register[shipping][attribute][postcodenlHousenumberAddition]"
+                           value="{$formData.attribute.postcodenlHousenumberAddition|escape}">
                 {/block}
             </div>
 
@@ -170,25 +171,25 @@
                 <div class="register--street-city">
                     {block name='frontend_register_shipping_fieldset_input_street'}
                         <input autocomplete="section-shipping shipping street-address"
-                               name="register[shipping][dutch-address_street]"
+                               class="register--field register--spacer register--field-street is--required{if isset($error_flags.street)} has--error{/if}"
                                type="text"
                                required="required"
                                aria-required="true"
                                placeholder="{s name='street' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                                id="dutchAddressStreet2"
-                               value=""
-                               class="register--field register--spacer register--field-street is--required{if isset($error_flags.street)} has--error{/if}" />
+                               name="register[shipping][attribute][postcodenlStreetname]"
+                               value="{$formData.attribute.postcodenlStreetname|escape}"/>
                     {/block}
                     {block name='frontend_register_shipping_fieldset_input_city'}
                         <input autocomplete="section-shipping shipping city"
-                               name="register[shipping][dutch-address_city]"
+                               class="register--field register--field-city is--required{if isset($error_flags.street)} has--error{/if}"
                                type="text"
                                required="required"
                                aria-required="true"
                                placeholder="{s name='RegisterShippingPlaceholderCity'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                                id="dutchAddressCity2"
-                               value=""
-                               class="register--field register--field-city is--required{if isset($error_flags.street)} has--error{/if}" />
+                               name="register[shipping][attribute][postcodenlCity]"
+                               value="{$formData.attribute.postcodenlCity}"/>
                     {/block}
                 </div>
             {else}

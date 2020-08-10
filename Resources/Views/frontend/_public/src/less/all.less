@@ -1,7 +1,7 @@
 @import "autocomplete-address.css";
 
 .shopware_default, .postcodenl_autocomplete, .postcodenl_dutch-address {
-    display: none;
+    display:  none;
 
     .alert {
         margin: 0 0 .25rem;
@@ -56,7 +56,7 @@
         *Using :empty doesn't work as the autocomplete gives it a value of 0
     */
 
-    &:not(.postcodenl-autocomplete-address-input-blank):not(:focus):not(.is--valid) {
+    &:not(.postcodenl-autocomplete-address-input-blank):not(:focus):not(.is--valid):not(.is--existing) {
         color: darken(@highlight-notice, 15%);
         border-color: @highlight-notice;
         background-color: desaturate(lighten(@highlight-notice, 42%), 20%);

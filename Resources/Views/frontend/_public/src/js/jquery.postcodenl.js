@@ -11,8 +11,6 @@
                 return;
             }
 
-            // this.$el.find('[required]').data('required', true);
-
             var dutchAddressStreetElement = this.$el.find('#dutchAddressStreet, #dutchAddressStreet2').first();
             var dutchAddressCityElement = this.$el.find('#dutchAddressCity, #dutchAddressCity2').first();
             var dutchAddressZipcodeElement = this.$el.find('#dutchAddressZipcode, #dutchAddressZipcode2').first();
@@ -25,9 +23,11 @@
                 .on('keyup blur', function() {
                     clearTimeout(debounceTimeout);
                     debounceTimeout = setTimeout(function() {
-                        const zipcode = dutchAddressZipcodeElement.val();
-                        const housenumber = dutchAddressHousenumberElement.val();
-                        const addition = dutchAddressAdditionElement.val();
+                        const zipcode = dutchAddressZipcodeElement.val().trim();
+                        const housenumber = dutchAddressHousenumberElement.val().trim();
+                        const addition = dutchAddressAdditionElement.val().trim();
+
+                        console.log('key');
 
                         if(zipcode === '' || housenumber === '') return;
 
@@ -50,6 +50,8 @@
                                 }
                                 if(json.houseNumberAddition !== null && json.houseNumberAddition !== '') {
                                     streetParts.push(json.houseNumberAddition);
+                                } else if(addition !== null && addition !== '') {
+                                    streetParts.push(addition);
                                 }
 
                                 dutchAddressNotifications
@@ -74,17 +76,17 @@
                                     .text(jqxhr.responseJSON.error);
 
                                 self.$el.find('#zipcode, #zipcode2').val(dutchAddressZipcodeElement.val().toUpperCase());
-                                self.$el.find('#street, #street2').trigger('keyup');
-                                self.$el.find('#city, #city2').trigger('keyup');
+                                self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').trigger('keyup');
+                                self.$el.find('#dutchAddressCity, #dutchAddressCity2').trigger('keyup');
                             }
                         })
                     }, 500);
                 })
-            dutchAddressZipcodeElement
-                .filter(function() {
-                    return ($(this).val() != null);
-                })
-                .trigger('blur');
+            // dutchAddressZipcodeElement
+            //     .filter(function() {
+            //         return ($(this).val() != null);
+            //     })
+            //     .trigger('blur');
 
             dutchAddressStreetElement
                 .on('keyup blur', function() {
@@ -109,12 +111,14 @@
             self.autocomplete = new PostcodeNl.AutocompleteAddress(self.inputElement[0], {
                 autocompleteUrl: '/PostcodenlApi/autocomplete',
                 addressDetailsUrl: '/PostcodenlApi/address-details',
+                autoSelect: true,
             });
-            self.autocomplete.reset();
 
             self.inputElement
                 .on('change keyup', function(e) {
                     self.inputElement.removeClass('is--valid');
+                    self.inputElement.removeClass('is--existing');
+
                     self.$el.find('#street, #street2').first().val("");
                     self.$el.find('#zipcode, #zipcode2').first().val("");
                     self.$el.find('#city, #city2').first().val("");
@@ -130,6 +134,7 @@
                     }
                 });
 
+            let country = null;
             self.$el.find('.select--country').on('keyup change', function(e) {
                 if($(this).val() == null) {
                     return;
@@ -145,6 +150,21 @@
                         self.$el.find('.postcodenl_autocomplete').find('.is--required').attr('required', false);
                         self.$el.find('.postcodenl_dutch-address').find('.is--required').attr('required', false);
                         self.$el.find('.shopware_default').find('.is--required').attr('required', false);
+
+                        if(country !== null && country !== json.iso3) {
+                            // Reset address values
+                            self.$el.find('#autocompleteAddress, #autocompleteAddress2').first().val('');
+                            self.$el.find('#street, #street2').first().val('');
+                            self.$el.find('#zipcode, #zipcode2').first().first().val('');
+                            self.$el.find('#city, #city2').first().first().val('');
+                            self.$el.find('#dutchAddressZipcode, #dutchAddressZipcode2').first().first().val('');
+                            self.$el.find('#dutchAddressHousenumber, #dutchAddressHousenumber2').first().first().val('');
+                            self.$el.find('#dutchAddressHousenumberAddition, #dutchAddressHousenumberAddition2').first().first().val('');
+                            self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').first().first().val('');
+                            self.$el.find('#dutchAddressCity, #dutchAddressCity2').first().first().val('');
+                        }
+
+                        country = json.iso3;
 
                         if(json.isSupported) {
                             if(json.iso3 === 'NLD' && !json.useAutocomplete) {
@@ -168,11 +188,6 @@
                                 .find('.is--required').attr('required', true);
                         }
 
-                        // Reset address values
-                        self.$el.find('#autocompleteAddress, #autocompleteAddress2').first().val('');
-                        self.$el.find('#street, #street2').first().val('');
-                        self.$el.find('#zipcode, #zipcode2').first().first().val('');
-                        self.$el.find('#city, #city2').first().first().val('');
                     }
                 });
             }).trigger('change');
