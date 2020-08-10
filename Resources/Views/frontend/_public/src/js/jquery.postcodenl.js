@@ -29,6 +29,8 @@
                         const housenumber = dutchAddressHousenumberElement.val();
                         const addition = dutchAddressAdditionElement.val();
 
+                        console.log('key');
+
                         if(zipcode === '' || housenumber === '') return;
 
                         $.ajax({
@@ -109,8 +111,11 @@
             self.autocomplete = new PostcodeNl.AutocompleteAddress(self.inputElement[0], {
                 autocompleteUrl: '/PostcodenlApi/autocomplete',
                 addressDetailsUrl: '/PostcodenlApi/address-details',
+                autoSelect: true,
             });
-            self.autocomplete.reset();
+            // self.autocomplete.reset();
+
+
 
             self.inputElement
                 .on('change keyup', function(e) {
@@ -128,8 +133,14 @@
                             self.$el.find('#city, #city2').first().val(json.address.locality);
                         });
                     }
-                });
+                })
+                .on('autocomplete-create', function(e) {
+                    console.log(e);
 
+                })
+                .trigger('change');
+
+            let country = null;
             self.$el.find('.select--country').on('keyup change', function(e) {
                 if($(this).val() == null) {
                     return;
@@ -145,6 +156,16 @@
                         self.$el.find('.postcodenl_autocomplete').find('.is--required').attr('required', false);
                         self.$el.find('.postcodenl_dutch-address').find('.is--required').attr('required', false);
                         self.$el.find('.shopware_default').find('.is--required').attr('required', false);
+
+                        if(country !== null && country !== json.iso3) {
+                            // Reset address values
+                            self.$el.find('#autocompleteAddress, #autocompleteAddress2').first().val('');
+                            self.$el.find('#street, #street2').first().val('');
+                            self.$el.find('#zipcode, #zipcode2').first().first().val('');
+                            self.$el.find('#city, #city2').first().first().val('');
+
+                            country = json.iso3;
+                        }
 
                         if(json.isSupported) {
                             if(json.iso3 === 'NLD' && !json.useAutocomplete) {
@@ -168,11 +189,6 @@
                                 .find('.is--required').attr('required', true);
                         }
 
-                        // Reset address values
-                        self.$el.find('#autocompleteAddress, #autocompleteAddress2').first().val('');
-                        self.$el.find('#street, #street2').first().val('');
-                        self.$el.find('#zipcode, #zipcode2').first().first().val('');
-                        self.$el.find('#city, #city2').first().first().val('');
                     }
                 });
             }).trigger('change');
