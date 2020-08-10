@@ -27,8 +27,6 @@
                         const housenumber = dutchAddressHousenumberElement.val().trim();
                         const addition = dutchAddressAdditionElement.val().trim();
 
-                        console.log('key');
-
                         if(zipcode === '' || housenumber === '') return;
 
                         $.ajax({
@@ -82,11 +80,6 @@
                         })
                     }, 500);
                 })
-            // dutchAddressZipcodeElement
-            //     .filter(function() {
-            //         return ($(this).val() != null);
-            //     })
-            //     .trigger('blur');
 
             dutchAddressStreetElement
                 .on('keyup blur', function() {
