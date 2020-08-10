@@ -23,9 +23,9 @@
                 .on('keyup blur', function() {
                     clearTimeout(debounceTimeout);
                     debounceTimeout = setTimeout(function() {
-                        const zipcode = dutchAddressZipcodeElement.val();
-                        const housenumber = dutchAddressHousenumberElement.val();
-                        const addition = dutchAddressAdditionElement.val();
+                        const zipcode = dutchAddressZipcodeElement.val().trim();
+                        const housenumber = dutchAddressHousenumberElement.val().trim();
+                        const addition = dutchAddressAdditionElement.val().trim();
 
                         console.log('key');
 
@@ -50,6 +50,8 @@
                                 }
                                 if(json.houseNumberAddition !== null && json.houseNumberAddition !== '') {
                                     streetParts.push(json.houseNumberAddition);
+                                } else if(addition !== null && addition !== '') {
+                                    streetParts.push(addition);
                                 }
 
                                 dutchAddressNotifications
@@ -74,8 +76,8 @@
                                     .text(jqxhr.responseJSON.error);
 
                                 self.$el.find('#zipcode, #zipcode2').val(dutchAddressZipcodeElement.val().toUpperCase());
-                                self.$el.find('#street, #street2').trigger('keyup');
-                                self.$el.find('#city, #city2').trigger('keyup');
+                                self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').trigger('keyup');
+                                self.$el.find('#dutchAddressCity, #dutchAddressCity2').trigger('keyup');
                             }
                         })
                     }, 500);
