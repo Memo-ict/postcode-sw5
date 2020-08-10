@@ -79,10 +79,30 @@ class memoPostcodenlPlugin extends Plugin
         );
         $service->update(
             's_user_addresses_attributes',
-            'postcodenl_autocomplete_support',
-            TypeMapping::TYPE_TEXT,
+            'postcodenl_zipcode',
+            TypeMapping::TYPE_STRING,
             [
                 'position' => 4,
+                'displayInBackend' => true,
+                'label' => 'Postcode.nl Zipcode'
+            ]
+        );
+        $service->update(
+            's_user_addresses_attributes',
+            'postcodenl_city',
+            TypeMapping::TYPE_STRING,
+            [
+                'position' => 5,
+                'displayInBackend' => true,
+                'label' => 'Postcode.nl City'
+            ]
+        );
+        $service->update(
+            's_user_addresses_attributes',
+            'postcodenl_autocomplete_address',
+            TypeMapping::TYPE_TEXT,
+            [
+                'position' => 10,
                 'displayInBackend' => true,
                 'label' => 'Postcode.nl Autocomplete data'
             ]
@@ -98,7 +118,9 @@ class memoPostcodenlPlugin extends Plugin
         $service->delete('s_user_addresses_attributes' ,'postcodenl_streetname');
         $service->delete('s_user_addresses_attributes', 'postcodenl_housenumber');
         $service->delete('s_user_addresses_attributes', 'postcodenl_housenumber_addition');
-        $service->delete('s_user_addresses_attributes', 'postcodenl_autocomplete_support');
+        $service->delete('s_user_addresses_attributes', 'postcodenl_zipcode');
+        $service->delete('s_user_addresses_attributes', 'postcodenl_city');
+        $service->delete('s_user_addresses_attributes', 'postcodenl_autocomplete_address');
 
         Shopware()->Models()->generateAttributeModels(['s_user_addresses_attributes']);
     }

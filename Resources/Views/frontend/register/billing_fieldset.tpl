@@ -49,13 +49,14 @@
             {block name="frontend_register_billing_fieldset_input_autocomplete"}
             <div>
                 <input type="text"
-                       class="register--field register--field-autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}"
+                       class="register--field register--field-autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $formData.attribute.postcodenlAutocompleteAddress} is--existing{/if}"
+                       data-initial="{$formData.attribute.postcodenlAutocompleteAddress|escape}"
                        id="autocompleteAddress"
                        required="required"
                        aria-required="true"
                        placeholder="{s name='placeholder' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                       name="register[billing][autocomplete-address]"
-                       value="">
+                       name="register[billing][attribute][postcodenlAutocompleteAddress]"
+                       value="{$formData.attribute.postcodenlAutocompleteAddress|escape}">
                 {include file="frontend/_includes/messages.tpl" type="warning" content="Please select a valid address from the dropdown list."}
             </div>
             {/block}
@@ -70,8 +71,8 @@
                            required="required"
                            aria-required="true"
                            placeholder="{s name='RegisterBillingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           name="register[billing][dutch-address_zipcode]"
-                           value="">
+                           name="register[billing][attribute][postcodenlZipcode]"
+                           value="{$formData.attribute.postcodenlZipcode}">
                 {/block}
                 {block name="frontend_register_billing_fieldset_input_dutch-address_housenumber"}
                     <input type="text"
@@ -80,16 +81,16 @@
                            required="required"
                            aria-required="true"
                            placeholder="{s name='housenumber' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           name="register[billing][dutch-address_housenumber]"
-                           value="">
+                           name="register[billing][attribute][postcodenlHousenumber]"
+                           value="{$formData.attribute.postcodenlHousenumber|escape}">
                 {/block}
                 {block name="frontend_register_billing_fieldset_input_dutch-address_housenumber-addition"}
                     <input type="text"
                            class="register--field register--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
                            id="dutchAddressHousenumberAddition"
                            placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
-                           name="register[billing][dutch-address_housenumber-addition]"
-                           value="">
+                           name="register[billing][attribute][postcodenlHousenumberAddition]"
+                           value="{$formData.attribute.postcodenlHousenumberAddition|escape}">
                 {/block}
             </div>
 
@@ -97,25 +98,25 @@
                 <div class="register--street-city">
                     {block name='frontend_register_billing_fieldset_input_street'}
                         <input autocomplete="section-billing billing street-address"
-                               name="register[billing][dutch-address_street]"
+                               class="register--field register--spacer register--field-street is--required{if isset($error_flags.street)} has--error{/if}"
                                type="text"
                                required="required"
                                aria-required="true"
                                placeholder="{s name='street' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                                id="dutchAddressStreet"
-                               value=""
-                               class="register--field register--spacer register--field-street is--required{if isset($error_flags.street)} has--error{/if}" />
+                               name="register[billing][attribute][postcodenlStreetname]"
+                               value="{$formData.attribute.postcodenlStreetname|escape}"/>
                     {/block}
                     {block name='frontend_register_billing_fieldset_input_city'}
                         <input autocomplete="section-billing billing city"
-                               name="register[billing][dutch-address_city]"
+                               class="register--field register--field-city is--required{if isset($error_flags.street)} has--error{/if}"
                                type="text"
                                required="required"
                                aria-required="true"
                                placeholder="{s name='RegisterBillingPlaceholderCity'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                                id="dutchAddressCity"
-                               value=""
-                               class="register--field register--field-city is--required{if isset($error_flags.street)} has--error{/if}" />
+                               name="register[billing][attribute][postcodenlCity]"
+                               value="{$formData.attribute.postcodenlCity}"/>
                     {/block}
                 </div>
             {else}

@@ -11,8 +11,6 @@
                 return;
             }
 
-            // this.$el.find('[required]').data('required', true);
-
             var dutchAddressStreetElement = this.$el.find('#dutchAddressStreet, #dutchAddressStreet2').first();
             var dutchAddressCityElement = this.$el.find('#dutchAddressCity, #dutchAddressCity2').first();
             var dutchAddressZipcodeElement = this.$el.find('#dutchAddressZipcode, #dutchAddressZipcode2').first();
@@ -82,11 +80,11 @@
                         })
                     }, 500);
                 })
-            dutchAddressZipcodeElement
-                .filter(function() {
-                    return ($(this).val() != null);
-                })
-                .trigger('blur');
+            // dutchAddressZipcodeElement
+            //     .filter(function() {
+            //         return ($(this).val() != null);
+            //     })
+            //     .trigger('blur');
 
             dutchAddressStreetElement
                 .on('keyup blur', function() {
@@ -113,13 +111,12 @@
                 addressDetailsUrl: '/PostcodenlApi/address-details',
                 autoSelect: true,
             });
-            // self.autocomplete.reset();
-
-
 
             self.inputElement
                 .on('change keyup', function(e) {
                     self.inputElement.removeClass('is--valid');
+                    self.inputElement.removeClass('is--existing');
+
                     self.$el.find('#street, #street2').first().val("");
                     self.$el.find('#zipcode, #zipcode2').first().val("");
                     self.$el.find('#city, #city2').first().val("");
@@ -133,12 +130,7 @@
                             self.$el.find('#city, #city2').first().val(json.address.locality);
                         });
                     }
-                })
-                .on('autocomplete-create', function(e) {
-                    console.log(e);
-
-                })
-                .trigger('change');
+                });
 
             let country = null;
             self.$el.find('.select--country').on('keyup change', function(e) {
@@ -163,9 +155,14 @@
                             self.$el.find('#street, #street2').first().val('');
                             self.$el.find('#zipcode, #zipcode2').first().first().val('');
                             self.$el.find('#city, #city2').first().first().val('');
-
-                            country = json.iso3;
+                            self.$el.find('#dutchAddressZipcode, #dutchAddressZipcode2').first().first().val('');
+                            self.$el.find('#dutchAddressHousenumber, #dutchAddressHousenumber2').first().first().val('');
+                            self.$el.find('#dutchAddressHousenumberAddition, #dutchAddressHousenumberAddition2').first().first().val('');
+                            self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').first().first().val('');
+                            self.$el.find('#dutchAddressCity, #dutchAddressCity2').first().first().val('');
                         }
+
+                        country = json.iso3;
 
                         if(json.isSupported) {
                             if(json.iso3 === 'NLD' && !json.useAutocomplete) {
