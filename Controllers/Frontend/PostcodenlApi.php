@@ -109,11 +109,13 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $houseNumberAddition = ($this->Request()->getParam('addition'));
 
         try {
-            if (!preg_match('/\s*([0-9]{4})\s*([a-zA-Z]{2})\s*/', $postcode, $match)) {
+            if (!$this->client->isValidDutchPostcodeFormat($postcode)) {
                 throw new InvalidPostcodeException(sprintf('Postcode `%s` has an invalid format, it should be in the format `1234AB`.', $postcode));
             }
 
-            $postcode = $match[1] . $match[2];
+            if(!is_numeric($houseNumber)) {
+                throw new InvalidArgumentException(sprintf('Housenumber `%s` has an invalid format.'));
+            }
 
             $response = $this->client->dutchAddressByPostcode($postcode, $houseNumber, $houseNumberAddition);
             return $this->jsonResponse($response);
@@ -169,7 +171,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
                 $this->get('pluginlogger')->warning('You don\'t have access to the Postcode.nl API');
                 return false;
             }
-        } catch (\PostcodeNl\Api\Exception\ClientException $e) {
+        } catch (ClientException $e) {
             $this->get('pluginlogger')->addError($e->getMessage());
             return false;
         }
@@ -182,25 +184,17 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $namespace = $snippets->getNamespace('frontend/postcodenl');
 
         switch(get_class($e)) {
-            case AuthenticationException::class:
-            case BadRequestException::class:
-            case ClientException::class:
-            case CurlException::class:
-            case CurlNotLoadedException::class:
-            case ForbiddenException::class:
-            case InvalidJsonResponseException::class:
-            case InvalidSessionValueException::class:
-            case ServerUnavailableException::class:
-            case TooManyRequestsException::class:
-            case UnexpectedException::class:
-            default:
-                $error = 'errorGeneral';
-                break;
             case InvalidPostcodeException::class:
                 $error = 'errorPostcode';
                 break;
             case NotFoundException::class:
                 $error = 'errorNotFound';
+                break;
+            case InvalidArgumentException::class:
+                $error = 'errorInvalidArgument';
+                break;
+            default:
+                $error = 'errorGeneral';
                 break;
         }
 
