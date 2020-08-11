@@ -1,6 +1,7 @@
 <?php
 
 use PostcodeNl\Api\Client;
+use PostcodeNl\Api\Exception\BadRequestException;
 use PostcodeNl\Api\Exception\ClientException;
 use PostcodeNl\Api\Exception\InvalidPostcodeException;
 use PostcodeNl\Api\Exception\NotFoundException;
@@ -110,7 +111,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
             $response = $this->client->dutchAddressByPostcode($postcode, $houseNumber, $houseNumberAddition);
             return $this->jsonResponse($response);
         } catch (\Exception $e) {
-            return $this->jsonResponse(['error' => $this->errorResponse($e)], 404);
+            return $this->jsonResponse(['error' => $this->errorResponse($e), 'message' => $e->getMessage()], 404);
         }
     }
 
@@ -175,6 +176,9 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $namespace = $snippets->getNamespace('frontend/postcodenl');
 
         switch (get_class($e)) {
+            case BadRequestException::class:
+                $error = 'errorBadRequest';
+                break;
             case InvalidPostcodeException::class:
                 $error = 'errorPostcode';
                 break;
