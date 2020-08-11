@@ -1,7 +1,19 @@
 <?php
 
 use PostcodeNl\Api\Client;
+use PostcodeNl\Api\Exception\AuthenticationException;
+use PostcodeNl\Api\Exception\BadRequestException;
 use PostcodeNl\Api\Exception\ClientException;
+use PostcodeNl\Api\Exception\CurlException;
+use PostcodeNl\Api\Exception\CurlNotLoadedException;
+use PostcodeNl\Api\Exception\ForbiddenException;
+use PostcodeNl\Api\Exception\InvalidJsonResponseException;
+use PostcodeNl\Api\Exception\InvalidPostcodeException;
+use PostcodeNl\Api\Exception\InvalidSessionValueException;
+use PostcodeNl\Api\Exception\NotFoundException;
+use PostcodeNl\Api\Exception\ServerUnavailableException;
+use PostcodeNl\Api\Exception\TooManyRequestsException;
+use PostcodeNl\Api\Exception\UnexpectedException;
 
 class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Action
 {
@@ -25,7 +37,11 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
             ->where('id = :id')
             ->setParameter(':id', $id);
 
-        $supportedCountries = $this->client->internationalGetSupportedCountries();
+        try {
+            $supportedCountries = $this->client->internationalGetSupportedCountries();
+        } catch(\Exception $e) {
+            return $this->jsonResponse(['error' => $this->errorResponse($e)]);
+        }
 
         $iso3 = $queryBuilder->execute()->fetch()['iso3'];
         $isSupported = in_array($iso3, array_column($supportedCountries, "iso3"));
@@ -60,8 +76,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         try {
             return $this->jsonResponse($this->client->internationalAutocomplete($iso3Context, $term, $session));
         } catch (\Exception $e) {
-//            var_dump($e);
-            return $this->jsonResponse([]);
+            return $this->jsonResponse(['error' => $this->errorResponse($e)]);
         }
     }
 
@@ -79,8 +94,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         try {
             return $this->jsonResponse($this->client->internationalGetDetails($context, $session));
         } catch (\Exception $e) {
-//            var_dump($e);
-            return $this->jsonResponse([]);
+            return $this->jsonResponse(['error' => $this->errorResponse($e)]);
         }
     }
 
@@ -94,18 +108,17 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         $houseNumber = ($this->Request()->getParam('housenumber'));
         $houseNumberAddition = ($this->Request()->getParam('addition'));
 
-        if (!preg_match('/\s*([0-9]{4})\s*([a-zA-Z]{2})\s*/', $postcode, $match)) {
-//            throw new \Exception("{$postcode} is not a valid postcode");
-            return $this->jsonResponse(['error' => "{$postcode} is not a valid postcode"], 404);
-        }
-
-        $postcode = $match[1] . $match[2];
-
         try {
+            if (!preg_match('/\s*([0-9]{4})\s*([a-zA-Z]{2})\s*/', $postcode, $match)) {
+                throw new InvalidPostcodeException(sprintf('Postcode `%s` has an invalid format, it should be in the format `1234AB`.', $postcode));
+            }
+
+            $postcode = $match[1] . $match[2];
+
             $response = $this->client->dutchAddressByPostcode($postcode, $houseNumber, $houseNumberAddition);
             return $this->jsonResponse($response);
         } catch (\Exception $e) {
-            return $this->jsonResponse(['error' => $e->getMessage()], 404);
+            return $this->jsonResponse(['error' => $this->errorResponse($e)], 404);
         }
     }
 
@@ -161,5 +174,36 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
             return false;
         }
         return true;
+    }
+
+    private function errorResponse(\Exception $e) {
+        $snippets = Shopware()->Snippets();
+
+        $namespace = $snippets->getNamespace('frontend/postcodenl');
+
+        switch(get_class($e)) {
+            case AuthenticationException::class:
+            case BadRequestException::class:
+            case ClientException::class:
+            case CurlException::class:
+            case CurlNotLoadedException::class:
+            case ForbiddenException::class:
+            case InvalidJsonResponseException::class:
+            case InvalidSessionValueException::class:
+            case ServerUnavailableException::class:
+            case TooManyRequestsException::class:
+            case UnexpectedException::class:
+            default:
+                $error = 'errorGeneral';
+                break;
+            case InvalidPostcodeException::class:
+                $error = 'errorPostcode';
+                break;
+            case NotFoundException::class:
+                $error = 'errorNotFound';
+                break;
+        }
+
+        return $namespace->get($error, $e->getMessage());
     }
 }

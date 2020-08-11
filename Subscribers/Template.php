@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Enlight\Event\SubscriberInterface;
 use Shopware\Components\Theme\LessDefinition;
 use Shopware_Components_Config as Config;
-use Symfony\Component\HttpFoundation\Request;
 
 class Template implements SubscriberInterface
 {
