@@ -974,10 +974,7 @@ var PostcodeNl = PostcodeNl || {};
                 element.classList.toggle(inputBlankClassName, element.value === '');
             });
 
-            console.log('preCreate');
-            console.log(element, EVENT_NAMESPACE + 'create');
             element.dispatchEvent(new CustomEvent(EVENT_NAMESPACE + 'create'));
-            console.log('postCreate');
         });
 
         /**
