@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>Postcode.nl Plugin</label>
 
-    <version>3.1.0</version>
+    <version>5.1.0.0</version>
     <copyright>Memo ICT</copyright>
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
@@ -70,6 +70,32 @@
         ]]>
     </description>
 
+    <changelog version="5.1.0.0">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                <li>Switched to semantic versioning</li>
+                <li>Fixed problems with address data not showing when editing an address</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                <li>Auf semantische Versionierung umgestellt</li>
+                <li>Probleme mit nicht angezeigten Adressdaten beim Bearbeiten einer Adresse behoben</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                <li>Overgeschakeld naar semantische versiebeheer</li>
+                <li>Problemen met adresgegevens die niet worden weergegeven bij het bewerken van een adres zijn opgelost</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
     <changelog version="3.1.0">
         <changes lang="en">
             <![CDATA[

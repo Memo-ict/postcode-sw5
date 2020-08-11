@@ -194,6 +194,12 @@
                 {/block}
             </div>
         {else}
+            <input type="hidden" id="dutchAddressStreet"
+                   name="{$inputPrefix}[attribute][postcodenlStreetname]"
+                   value="{$formData.attribute.postcodenlStreetname}" />
+            <input type="hidden" id="dutchAddressCity"
+                   name="{$inputPrefix}[attribute][postcodenlCity]"
+                   value="{$formData.attribute.postcodenlCity}" />
             {include file="frontend/_includes/messages.tpl" type="warning"}
             {include file="frontend/_includes/messages.tpl" type="success"}
         {/if}
