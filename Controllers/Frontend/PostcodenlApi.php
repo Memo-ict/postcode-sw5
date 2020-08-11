@@ -1,19 +1,9 @@
 <?php
 
 use PostcodeNl\Api\Client;
-use PostcodeNl\Api\Exception\AuthenticationException;
-use PostcodeNl\Api\Exception\BadRequestException;
 use PostcodeNl\Api\Exception\ClientException;
-use PostcodeNl\Api\Exception\CurlException;
-use PostcodeNl\Api\Exception\CurlNotLoadedException;
-use PostcodeNl\Api\Exception\ForbiddenException;
-use PostcodeNl\Api\Exception\InvalidJsonResponseException;
 use PostcodeNl\Api\Exception\InvalidPostcodeException;
-use PostcodeNl\Api\Exception\InvalidSessionValueException;
 use PostcodeNl\Api\Exception\NotFoundException;
-use PostcodeNl\Api\Exception\ServerUnavailableException;
-use PostcodeNl\Api\Exception\TooManyRequestsException;
-use PostcodeNl\Api\Exception\UnexpectedException;
 
 class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Action
 {
@@ -39,7 +29,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
 
         try {
             $supportedCountries = $this->client->internationalGetSupportedCountries();
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return $this->jsonResponse(['error' => $this->errorResponse($e)]);
         }
 
@@ -113,8 +103,8 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
                 throw new InvalidPostcodeException(sprintf('Postcode `%s` has an invalid format, it should be in the format `1234AB`.', $postcode));
             }
 
-            if(!is_numeric($houseNumber)) {
-                throw new InvalidArgumentException(sprintf('Housenumber `%s` has an invalid format.'));
+            if (!is_numeric($houseNumber)) {
+                throw new InvalidArgumentException(sprintf('Housenumber `%s` has an invalid format.', $houseNumber));
             }
 
             $response = $this->client->dutchAddressByPostcode($postcode, $houseNumber, $houseNumberAddition);
@@ -178,12 +168,13 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         return true;
     }
 
-    private function errorResponse(\Exception $e) {
+    private function errorResponse(\Exception $e)
+    {
         $snippets = Shopware()->Snippets();
 
         $namespace = $snippets->getNamespace('frontend/postcodenl');
 
-        switch(get_class($e)) {
+        switch (get_class($e)) {
             case InvalidPostcodeException::class:
                 $error = 'errorPostcode';
                 break;
