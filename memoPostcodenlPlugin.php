@@ -43,6 +43,18 @@ class memoPostcodenlPlugin extends Plugin
         $this->removeAddressAttributes();
     }
 
+    public function update(UpdateContext $context)
+    {
+        $existingVersion = $context->getCurrentVersion();
+
+        switch(true){
+            case version_compare($existingVersion, '3.1.0', '<='):
+                $this->createAddressAttributes();
+        }
+
+        $context->scheduleClearCache(UpdateContext::CACHE_LIST_ALL);
+    }
+
     private function createAddressAttributes()
     {
         $service = $this->container->get('shopware_attribute.crud_service');
