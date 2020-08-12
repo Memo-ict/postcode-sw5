@@ -56,9 +56,9 @@
                                 self.$el.find('#street, #street2').val(streetParts.join(' '));
                                 self.$el.find('#zipcode, #zipcode2').val(json.postcode);
                                 self.$el.find('#city, #city2').val(json.city);
-                                self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').val(json.street);
-                                self.$el.find('#dutchAddressCity, #dutchAddressCity2').val(json.city);
-
+                                dutchAddressStreetElement.val(json.street);
+                                dutchAddressCityElement.val(json.city);
+                                dutchAddressZipcodeElement.val(json.postcode);
 
                                 if(!dutchAddressStreetCityWrapper.hasClass('is--hidden')) {
                                     return;
@@ -150,6 +150,10 @@
                         });
                     }
                 });
+
+            self.$el.find('.postcodenl_autocomplete').each(function() {
+                $(this).find(' .alert .alert--content').text($(this).data('autocompleteWarning'));
+            })
 
             let country = null;
             self.$el.find('.select--country').on('keyup change', function(e) {

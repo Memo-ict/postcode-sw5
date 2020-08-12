@@ -120,9 +120,9 @@
         </div>
     {/block}
 
-    <div class="postcodenl_autocomplete">
+    <div class="postcodenl_autocomplete" data-autocomplete-warning="{s name='autocompleteWarning' namespace='frontend/postcodenl'}{/s}">
         {block name="frontend_address_form_input_autocomplete"}
-            <div>{s name='autocompleteWarning' namespace='frontend/postcodenl'}{/s}
+            <div>
                 <input type="text"
                        class="address--field address--autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $formData.attribute.postcodenlAutocompleteAddress} is--existing{/if}"
                        data-initial="{$formData.attribute.postcodenlAutocompleteAddress|escape}"
@@ -132,7 +132,7 @@
                        placeholder="{s name='RegisterBillingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                        name="{$inputPrefix}[attribute][postcodenlAutocompleteAddress]"
                        value="{$formData.attribute.postcodenlAutocompleteAddress|escape}">
-                {include file="frontend/_includes/messages.tpl" type="warning" content="snippet here"}
+                {include file="frontend/_includes/messages.tpl" type="warning" content="Please select a valid address from the dropdown list."}
             </div>
         {/block}
     </div>

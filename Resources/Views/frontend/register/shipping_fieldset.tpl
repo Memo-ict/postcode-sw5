@@ -118,7 +118,7 @@
             </div>
         {/block}
 
-        <div class="postcodenl_autocomplete">
+        <div class="postcodenl_autocomplete" data-autocomplete-warning="{s name='autocompleteWarning' namespace='frontend/postcodenl'}{/s}">
             {block name="frontend_register_shipping_fieldset_input_autocomplete"}
                 <div>
                     <input type="text"
@@ -135,7 +135,10 @@
             {/block}
         </div>
 
-        <div class="postcodenl_dutch-address">
+        <div class="postcodenl_dutch-address"
+             data-config-override-allow="{config name=memoAllowDutchAddressOverride}"
+             data-config-override-button="{s name="overrideAddress" namespace="frontend/postcodenl"}{/s}"
+        >
             <div class="register--zip-city">
                 {block name="frontend_register_shipping_fieldset_input_dutch-address_zipcode"}
                     <input type="text"
@@ -168,7 +171,7 @@
             </div>
 
             {if {config name=memoAllowDutchAddressOverride}}
-                <div class="register--street-city">
+                <div class="register--street-city {if {config name=memoShowOverrideWhenNotFound}}is--hidden{/if}">
                     {block name='frontend_register_shipping_fieldset_input_street'}
                         <input autocomplete="section-shipping shipping street-address"
                                class="register--field register--spacer register--field-street is--required{if isset($error_flags.street)} has--error{/if}"
@@ -199,9 +202,10 @@
                 <input type="hidden" id="dutchAddressCity"
                        name="register[shipping][attribute][postcodenlCity]"
                        value="{$formData.attribute.postcodenlCity}" />
-                {include file="frontend/_includes/messages.tpl" type="warning"}
-                {include file="frontend/_includes/messages.tpl" type="success"}
             {/if}
+
+            {include file="frontend/_includes/messages.tpl" type="warning"}
+            {include file="frontend/_includes/messages.tpl" type="success"}
         </div>
 
         <div class="shopware_default">
