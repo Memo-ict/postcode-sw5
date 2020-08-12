@@ -60,6 +60,8 @@
                                 dutchAddressCityElement.val(json.city);
                                 dutchAddressZipcodeElement.val(json.postcode);
 
+                                self.$el.closest('form').find('button:submit, input:submit').attr('disabled', false);
+
                                 if(!dutchAddressStreetCityWrapper.hasClass('is--hidden')) {
                                     return;
                                 }
@@ -88,11 +90,13 @@
                                 if((jqxhr.responseJSON.error.code | 0b100000) > 0 &&
                                     dutchAddressStreetCityWrapper.hasClass('is--hidden'))
                                 {
+                                    self.$el.closest('form').find('button:submit, input:submit').attr('disabled', true);
                                     $('<a/>').addClass('overrideButton')
                                         .text(self.$el.find('.postcodenl_dutch-address').data('configOverrideButton'))
                                         .on('click', function() {
                                             dutchAddressNotifications.css('display', 'none');
                                             dutchAddressStreetCityWrapper.removeClass('is--hidden');
+                                            self.$el.closest('form').find('button:submit, input:submit').attr('disabled', false);
                                         })
                                         .appendTo($warningContent);
                                 }
