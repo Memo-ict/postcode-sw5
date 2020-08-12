@@ -11,6 +11,7 @@
                 return;
             }
 
+            var dutchAddressStreetCityWrapper = this.$el.find('.register--street-city, .address--street-city').first();
             var dutchAddressStreetElement = this.$el.find('#dutchAddressStreet, #dutchAddressStreet2').first();
             var dutchAddressCityElement = this.$el.find('#dutchAddressCity, #dutchAddressCity2').first();
             var dutchAddressZipcodeElement = this.$el.find('#dutchAddressZipcode, #dutchAddressZipcode2').first();
@@ -52,30 +53,53 @@
                                     streetParts.push(addition);
                                 }
 
-                                dutchAddressNotifications
-                                    .css('display', 'none')
-                                    .filter('.alert.is--success')
-                                    .css('display', 'flex')
-                                    .find('.alert--content')
-                                    .text(streetParts.join(' ') + ', ' + json.city)
-
                                 self.$el.find('#street, #street2').val(streetParts.join(' '));
                                 self.$el.find('#zipcode, #zipcode2').val(json.postcode);
                                 self.$el.find('#city, #city2').val(json.city);
                                 self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').val(json.street);
                                 self.$el.find('#dutchAddressCity, #dutchAddressCity2').val(json.city);
+
+
+                                if(!dutchAddressStreetCityWrapper.hasClass('is--hidden')) {
+                                    return;
+                                }
+
+                                dutchAddressNotifications
+                                    .css('display', 'none')
+                                    .filter('.alert.is--success')
+                                    .css('display', 'flex')
+                                    .find('.alert--content')
+                                    .text(streetParts.join(' ') + ', ' + json.city);
                             },
                             error: function(jqxhr) {
                                 dutchAddressNotifications
-                                    .css('display', 'none')
+                                    .css('display', 'none');
+
+                                if(!dutchAddressStreetCityWrapper.hasClass('is--hidden')) {
+                                    return;
+                                }
+
+                                let $warningContent = dutchAddressNotifications
                                     .filter('.alert.is--warning')
                                     .css('display', 'flex')
                                     .find('.alert--content')
-                                    .text(jqxhr.responseJSON.error);
+                                    .text(jqxhr.responseJSON.error.message);
+
+                                if((jqxhr.responseJSON.error.code | 0b100000) > 0 &&
+                                    dutchAddressStreetCityWrapper.hasClass('is--hidden'))
+                                {
+                                    $('<a/>').addClass('overrideButton')
+                                        .text(self.$el.find('.postcodenl_dutch-address').data('configOverrideButton'))
+                                        .on('click', function() {
+                                            dutchAddressNotifications.css('display', 'none');
+                                            dutchAddressStreetCityWrapper.removeClass('is--hidden');
+                                        })
+                                        .appendTo($warningContent);
+                                }
 
                                 self.$el.find('#zipcode, #zipcode2').val(dutchAddressZipcodeElement.val().toUpperCase());
-                                self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').trigger('keyup');
-                                self.$el.find('#dutchAddressCity, #dutchAddressCity2').trigger('keyup');
+                                dutchAddressStreetElement.trigger('keyup');
+                                dutchAddressCityElement.trigger('keyup');
                             }
                         })
                     }, 500);
@@ -148,13 +172,13 @@
                             // Reset address values
                             self.$el.find('#autocompleteAddress, #autocompleteAddress2').first().val('');
                             self.$el.find('#street, #street2').first().val('');
-                            self.$el.find('#zipcode, #zipcode2').first().first().val('');
-                            self.$el.find('#city, #city2').first().first().val('');
-                            self.$el.find('#dutchAddressZipcode, #dutchAddressZipcode2').first().first().val('');
-                            self.$el.find('#dutchAddressHousenumber, #dutchAddressHousenumber2').first().first().val('');
-                            self.$el.find('#dutchAddressHousenumberAddition, #dutchAddressHousenumberAddition2').first().first().val('');
-                            self.$el.find('#dutchAddressStreet, #dutchAddressStreet2').first().first().val('');
-                            self.$el.find('#dutchAddressCity, #dutchAddressCity2').first().first().val('');
+                            self.$el.find('#zipcode, #zipcode2').first().val('');
+                            self.$el.find('#city, #city2').first().val('');
+                            dutchAddressZipcodeElement.val('');
+                            dutchAddressHousenumberElement.val('');
+                            dutchAddressAdditionElement.val('');
+                            dutchAddressStreetElement.val('');
+                            dutchAddressCityElement.val('');
                         }
 
                         country = json.iso3;

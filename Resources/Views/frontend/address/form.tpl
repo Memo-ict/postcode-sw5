@@ -122,7 +122,7 @@
 
     <div class="postcodenl_autocomplete">
         {block name="frontend_address_form_input_autocomplete"}
-            <div>
+            <div>{s name='autocompleteWarning' namespace='frontend/postcodenl'}{/s}
                 <input type="text"
                        class="address--field address--autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $formData.attribute.postcodenlAutocompleteAddress} is--existing{/if}"
                        data-initial="{$formData.attribute.postcodenlAutocompleteAddress|escape}"
@@ -132,12 +132,15 @@
                        placeholder="{s name='RegisterBillingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                        name="{$inputPrefix}[attribute][postcodenlAutocompleteAddress]"
                        value="{$formData.attribute.postcodenlAutocompleteAddress|escape}">
-                {include file="frontend/_includes/messages.tpl" type="warning" content="Please select a valid address from the dropdown list."}
+                {include file="frontend/_includes/messages.tpl" type="warning" content="snippet here"}
             </div>
         {/block}
     </div>
 
-    <div class="postcodenl_dutch-address">
+    <div class="postcodenl_dutch-address"
+         data-config-override-allow="{config name=memoAllowDutchAddressOverride}"
+         data-config-override-button="{s name="overrideAddress" namespace="frontend/postcodenl"}{/s}"
+    >
         <div class="address--zip-city">
             {block name="frontend_address_form_input_dutch-address_zipcode"}
                 <input type="text"
@@ -168,8 +171,9 @@
                        value="{$formData.attribute.postcodenlHousenumberAddition|escape}">
             {/block}
         </div>
+
         {if {config name=memoAllowDutchAddressOverride}}
-            <div class="register--street-city">
+            <div class="address--street-city {if {config name=memoShowOverrideWhenNotFound}}is--hidden{/if}">
                 {block name='frontend_address_form_input_street'}
                     <input autocomplete="section-billing billing street-address"
                            class="address--field address--spacer address--field-street is--required{if isset($error_flags.street)} has--error{/if}"
@@ -200,9 +204,11 @@
             <input type="hidden" id="dutchAddressCity"
                    name="{$inputPrefix}[attribute][postcodenlCity]"
                    value="{$formData.attribute.postcodenlCity}" />
-            {include file="frontend/_includes/messages.tpl" type="warning"}
-            {include file="frontend/_includes/messages.tpl" type="success"}
         {/if}
+
+        {include file="frontend/_includes/messages.tpl" type="warning"}
+        {include file="frontend/_includes/messages.tpl" type="success"}
+
     </div>
 
     <div class="shopware_default">

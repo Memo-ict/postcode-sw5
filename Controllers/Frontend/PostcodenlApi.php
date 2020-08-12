@@ -111,7 +111,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
             $response = $this->client->dutchAddressByPostcode($postcode, $houseNumber, $houseNumberAddition);
             return $this->jsonResponse($response);
         } catch (\Exception $e) {
-            return $this->jsonResponse(['error' => $this->errorResponse($e), 'message' => $e->getMessage()], 404);
+            return $this->jsonResponse(['error' => $this->errorResponse($e)], 404);
         }
     }
 
@@ -178,21 +178,29 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
         switch (get_class($e)) {
             case BadRequestException::class:
                 $error = 'errorBadRequest';
+                $code = 0b101000;
                 break;
             case InvalidPostcodeException::class:
                 $error = 'errorPostcode';
-                break;
-            case NotFoundException::class:
-                $error = 'errorNotFound';
+                $code = 0b100100;
                 break;
             case InvalidArgumentException::class:
                 $error = 'errorInvalidArgument';
+                $code = 0b100010;
+                break;
+            case NotFoundException::class:
+                $error = 'errorNotFound';
+                $code = 0b000001;
                 break;
             default:
                 $error = 'errorGeneral';
+                $code = 0b000000;
                 break;
         }
 
-        return $namespace->get($error, $e->getMessage());
+        return [
+            'message' => $namespace->get($error, $e->getMessage()),
+            'code' => $code,
+        ];
     }
 }

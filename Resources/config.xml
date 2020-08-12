@@ -37,14 +37,20 @@
         <element type="boolean">
             <name>memoAllowDutchAddressOverride</name>
             <label>Allow the fetched dutch address to be overwritten by the customer</label>
-            <label lang="de-DE">VErlauben Sie dem Kunden, die gefundene niederländische Adresse zu überschreiben</label>
+            <label lang="de-DE">Erlauben Sie dem Kunden, die gefundene niederländische Adresse zu überschreiben</label>
             <label lang="nl-NL">Toestaan dat de klant het gevonden nederlandse adres kan overschrijven</label>
-            <description>This does not apply to addresses found with the autocomplete feature
-            </description>
-            <description lang="de-DE">Dies gilt nicht für Adressen, die mit der Autovervollständigungsfunktion gefunden wurden
-            </description>
-            <description lang="nl-NL">Dit geldt niet voor adressen die gevonden zijn met de autocomplete functie
-            </description>
+            <description>This does not apply to addresses found with the autocomplete feature</description>
+            <description lang="de-DE">Dies gilt nicht für Adressen, die mit der Autovervollständigungsfunktion gefunden wurden</description>
+            <description lang="nl-NL">Dit geldt niet voor adressen die gevonden zijn met de autocomplete functie</description>
+        </element>
+        <element type="boolean">
+            <name>memoShowOverrideWhenNotFound</name>
+            <label>Only shows the address override when the address could not be found</label>
+            <label lang="de-DE">Zeigt die Adressüberschreibung nur an, wenn die Adresse nicht gefunden werden konnte</label>
+            <label lang="nl-NL">Laat klanten alleen het adres overschrijven als het adres niet kan worden gevonden</label>
+            <description>Only applies to dutch addresses when overwriting is allowed</description>
+            <description lang="de-DE">Gilt nur für niederländische Adressen, wenn Überschreiben erlaubt ist</description>
+            <description lang="nl-NL">Alleen van toepassing op Nederlandse adressen wanneer overschrijven is toegestaan</description>
         </element>
 
 
