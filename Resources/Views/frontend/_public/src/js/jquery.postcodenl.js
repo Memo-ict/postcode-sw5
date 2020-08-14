@@ -21,9 +21,11 @@
             var dutchAddressInputElements = dutchAddressZipcodeElement.add(dutchAddressHousenumberElement).add(dutchAddressAdditionElement);
 
             dutchAddressInputElements
-                .on('keyup blur', function() {
+                .on('keyup', function() {
+
                     clearTimeout(debounceTimeout);
                     debounceTimeout = setTimeout(function() {
+                        dutchAddressStreetCityWrapper.addClass('is--hidden');
                         const zipcode = dutchAddressZipcodeElement.val().trim();
                         const housenumber = dutchAddressHousenumberElement.val().trim();
                         const addition = dutchAddressAdditionElement.val().trim();
@@ -52,6 +54,7 @@
                                 } else if(addition !== null && addition !== '') {
                                     streetParts.push(addition);
                                 }
+
 
                                 self.$el.find('#street, #street2').val(streetParts.join(' '));
                                 self.$el.find('#zipcode, #zipcode2').val(json.postcode);
