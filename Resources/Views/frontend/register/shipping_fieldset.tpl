@@ -118,7 +118,8 @@
             </div>
         {/block}
 
-        <div class="postcodenl_autocomplete" data-autocomplete-warning="{s name='autocompleteWarning' namespace='frontend/postcodenl'}{/s}">
+        <div class="postcodenl_autocomplete"
+             data-autocomplete-warning="{s name='autocompleteWarning' namespace='frontend/postcodenl'}{/s}">
             {block name="frontend_register_shipping_fieldset_input_autocomplete"}
                 <div>
                     <input type="text"
@@ -137,6 +138,7 @@
 
         <div class="postcodenl_dutch-address"
              data-config-override-allow="{config name=memoAllowDutchAddressOverride}"
+             data-config-override-show="{config name=memoShowOverrideWhenNotFound}"
              data-config-override-button="{s name="overrideAddress" namespace="frontend/postcodenl"}{/s}"
         >
             <div class="register--zip-city">

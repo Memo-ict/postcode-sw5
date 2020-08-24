@@ -20,6 +20,8 @@
             var dutchAddressNotifications = this.$el.find('.postcodenl_dutch-address .alert');
             var dutchAddressInputElements = dutchAddressZipcodeElement.add(dutchAddressHousenumberElement).add(dutchAddressAdditionElement);
 
+            var dutchAddressOptions = this.$el.find('.postcodenl_dutch-address').data();
+
             dutchAddressInputElements
                 .on('keyup', function() {
 
@@ -63,9 +65,12 @@
                                 dutchAddressCityElement.val(json.city);
                                 dutchAddressZipcodeElement.val(json.postcode);
 
+                                dutchAddressStreetElement.filter(':not(:focus)').trigger('blur');
+                                dutchAddressCityElement.filter(':not(:focus)').trigger('blur');
+
                                 self.$el.closest('form').find('button:submit, input:submit').attr('disabled', false);
 
-                                if(!dutchAddressStreetCityWrapper.hasClass('is--hidden')) {
+                                if(dutchAddressOptions.configOverrideAllow && !dutchAddressStreetCityWrapper.hasClass('is--hidden')) {
                                     return;
                                 }
 
@@ -80,7 +85,7 @@
                                 dutchAddressNotifications
                                     .css('display', 'none');
 
-                                if(!dutchAddressStreetCityWrapper.hasClass('is--hidden')) {
+                                if(dutchAddressOptions.configOverrideAllow && !dutchAddressStreetCityWrapper.hasClass('is--hidden')) {
                                     return;
                                 }
 
@@ -91,6 +96,7 @@
                                     .text(jqxhr.responseJSON.error.message);
 
                                 if((jqxhr.responseJSON.error.code | 0b100000) > 0 &&
+                                    dutchAddressOptions.configOverrideAllow &&
                                     dutchAddressStreetCityWrapper.hasClass('is--hidden'))
                                 {
                                     self.$el.closest('form').find('button:submit, input:submit').attr('disabled', true);
