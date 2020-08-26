@@ -2,14 +2,13 @@
 
 namespace memoPostcodenlPlugin;
 
-use MemoBeckhuisTemplate\Components\EmotionElements;
 use Shopware\Bundle\AttributeBundle\Service\TypeMapping;
 use Shopware\Components\Plugin;
 use Shopware\Components\Plugin\Context\ActivateContext;
 use Shopware\Components\Plugin\Context\DeactivateContext;
 use Shopware\Components\Plugin\Context\InstallContext;
 use Shopware\Components\Plugin\Context\UninstallContext;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Shopware\Components\Plugin\Context\UpdateContext;
 
 if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
@@ -47,7 +46,7 @@ class memoPostcodenlPlugin extends Plugin
     {
         $existingVersion = $context->getCurrentVersion();
 
-        switch(true){
+        switch (true) {
             case version_compare($existingVersion, '3.1.0', '<='):
                 $this->createAddressAttributes();
         }
@@ -127,7 +126,7 @@ class memoPostcodenlPlugin extends Plugin
     {
         $service = $this->container->get('shopware_attribute.crud_service');
 
-        $service->delete('s_user_addresses_attributes' ,'postcodenl_streetname');
+        $service->delete('s_user_addresses_attributes', 'postcodenl_streetname');
         $service->delete('s_user_addresses_attributes', 'postcodenl_housenumber');
         $service->delete('s_user_addresses_attributes', 'postcodenl_housenumber_addition');
         $service->delete('s_user_addresses_attributes', 'postcodenl_zipcode');
