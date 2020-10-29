@@ -35,7 +35,7 @@
                         if(zipcode === '' || housenumber === '') return;
 
                         $.ajax({
-                            url: "/PostcodenlApi/dutch-address",
+                            url: `${window.controller.postcodenl_api}/dutch-address`,
                             dataType: "json",
                             data: {
                                 zipcode: zipcode,
@@ -116,7 +116,7 @@
                             }
                         })
                     }, 500);
-                })
+                }).trigger('keyup');
 
             dutchAddressStreetElement
                 .on('keyup blur', function() {
@@ -139,8 +139,8 @@
                 });
 
             self.autocomplete = new PostcodeNl.AutocompleteAddress(self.inputElement[0], {
-                autocompleteUrl: '/PostcodenlApi/autocomplete',
-                addressDetailsUrl: '/PostcodenlApi/address-details',
+                autocompleteUrl: `${window.controller.postcodenl_api}/autocomplete`,
+                addressDetailsUrl: `${window.controller.postcodenl_api}/address-details`,
                 autoSelect: true,
             });
 
@@ -174,7 +174,7 @@
                     return;
                 }
                 $.ajax({
-                    url: "/PostcodenlApi/countrycheck",
+                    url: `${window.controller.postcodenl_api}/countrycheck`,
                     dataType: "json",
                     data: {
                         country: $(this).val()
@@ -224,6 +224,8 @@
 
                     }
                 });
+            }).filter(function() {
+                return ($(this).val() != null);
             }).trigger('change');
         }
     });

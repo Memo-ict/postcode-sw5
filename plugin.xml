@@ -3,7 +3,7 @@
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
     <label>Postcode.nl Plugin</label>
 
-    <version>5.1.0.0</version>
+    <version>5.1.1.0</version>
     <copyright>Memo ICT</copyright>
     <license>MIT</license>
     <link>https://www.memo-ict.nl</link>
@@ -70,6 +70,32 @@
         ]]>
     </description>
 
+    <changelog version="5.1.1.0">
+        <changes lang="en">
+            <![CDATA[
+                <ul>
+                <li>Fixed a bug preventing the address from being autofilled after an invalid registration</li>
+                <li>Fixed a bug that caused the plugin to not work with shops in a subdirectory</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="de">
+            <![CDATA[
+                <ul>
+                <li>Fehler behoben, durch den die Adresse nach einer ungültigen Registrierung nicht automatisch ausgefüllt wurde</li>
+                <li>Fehler behoben, durch den das Plugin nicht mit Shops in einem Unterverzeichnis funktionierte</li>
+                </ul>
+            ]]>
+        </changes>
+        <changes lang="nl">
+            <![CDATA[
+                <ul>
+                <li>Een bug verholpen die ervoor zorgde dat het adres na een ongeldige registratie niet automatisch werdt ingevuld.</li>
+                <li>Een bug verholpen die ervoor zorgde dat de plugin niet werkte met shops in een subdirectory</li>
+                </ul>
+            ]]>
+        </changes>
+    </changelog>
     <changelog version="5.1.0.0">
         <changes lang="en">
             <![CDATA[

@@ -1,6 +1,6 @@
-{extends file="parent:frontend/register/index.tpl"}
+{extends file="parent:frontend/index/index.tpl"}
 
 {*Add controller to registration page to handle API Communication*}
 {block  name="frontend_index_header_javascript_inline" append}
-    var postcodenl_api = "{url controller=PostcodenlApi}";
+    controller['postcodenl_api'] = "{url controller=PostcodenlApi}";
 {/block}
