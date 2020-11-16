@@ -65,7 +65,6 @@ class memoPostcodenlPlugin extends Plugin
             [
                 'position' => 1,
                 'displayInBackend' => true,
-                'label' => 'Postcode.nl Street'
             ]
         );
         $service->update(
