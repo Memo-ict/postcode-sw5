@@ -227,6 +227,10 @@
             }).filter(function() {
                 return ($(this).val() != null);
             }).trigger('change');
+
+            self.$el.find('[name="register[billing][shippingAddress]"]').on('change', function() {
+                $('[name="register[shipping][country]"]').trigger('change');
+            });
         }
     });
 
