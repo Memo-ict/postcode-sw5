@@ -8,12 +8,22 @@
  * https://tldrlegal.com/l/mit
  *
  * @author Postcode.nl
- * @version 1.1
+ * @version 1.2
  */
 
-var PostcodeNl = PostcodeNl || {};
+(function (global, factory) {
+    'use strict';
 
-(function () {
+    if (typeof define === 'function' && define.amd)
+    {
+        define([], factory);
+    }
+    else
+    {
+        global.PostcodeNl = global.PostcodeNl || {};
+        global.PostcodeNl.AutocompleteAddress = factory(global);
+    }
+}(typeof self !== 'undefined' ? self : this, function () {
     'use strict';
 
     const document = window.document,
@@ -28,142 +38,7 @@ var PostcodeNl = PostcodeNl || {};
         KEY_UP = 'ArrowUp',
         KEY_UP_LEGACY = 'Up',
         KEY_DOWN = 'ArrowDown',
-        KEY_DOWN_LEGACY = 'Down',
-
-        /**
-         * Default options.
-         * @type {Object}
-         */
-        defaults = Object.create(null, {
-            /**
-             * Initial autocomplete context. E.g. a country code "nld", "bel" or "deu" to start searching in that country.
-             * @type {string}
-             */
-            context: {
-                value: 'nld',
-                writable: true,
-            },
-
-            /**
-             * URL that will return autocomplete JSON data.
-             * @type {string}
-             */
-            autocompleteUrl: {
-                writable: true,
-            },
-
-            /**
-             * URL that will return address details JSON data.
-             * @type {string}
-             */
-            addressDetailsUrl: {
-                writable: true,
-            },
-
-            /**
-             * Text to use with tags.
-             * @type {Object}
-             */
-            tags: {
-                value: {
-                    'unvalidated-housenumber': '(unknown house number)',
-                    'unvalidated-housenumber-addition': '(unknown house number addition)',
-                },
-                writable: true,
-            },
-
-            /**
-             * CSS prefix
-             * @type {string}
-             */
-            cssPrefix: {
-                value: 'postcodenl-autocomplete-',
-                writable: true,
-            },
-
-            /**
-             * Minimum number of characters typed before a search is performed.
-             * @type {number}
-             */
-            minLength: {
-                value: 1,
-                writable: true,
-            },
-
-            /**
-             * Delay in milliseconds between when a keystroke occurs and when a search is performed.
-             * @type {number}
-             */
-            delay: {
-                value: 300,
-                writable: true,
-            },
-
-            /**
-             * Which element the menu should be appended to.
-             * @type {string|HTMLElement}
-             */
-            appendTo: {
-                value: document.body,
-                writable: true,
-            },
-
-            /**
-             * Focus the first item when the menu is shown.
-             * @type {boolean}
-             */
-            autoFocus: {
-                value: false,
-                writable: true,
-            },
-
-            /**
-             * Select the first full address suggestion on blur (if any, and no menu item was selected).
-             * @type {boolean}
-             */
-            autoSelect: {
-                value: false,
-                writable: true,
-            },
-
-            /**
-             * Automatically calculate menu width. Disable to define width in CSS.
-             * @type {boolean}
-             */
-            autoResize: {
-                value: true,
-                writable: true,
-            },
-
-            /**
-             * Get screen reader text for a successful response with at least one match.
-             * Override this function to translate the message.
-             * @type {Function}
-             *
-             * @param {number} count - Number of matches. Will be at least one.
-             * @return {string} Screen reader message based on the number of matches.
-             */
-            getResponseMessage: {
-                value: function (count)
-                {
-                    let message;
-
-                    if (count > 1)
-                    {
-                        message = count + ' address suggestions available. ';
-                    }
-                    else
-                    {
-                        message = 'One address suggestion available. ';
-                    }
-
-                    message += 'Use up and down arrow keys to navigate.';
-
-                    return message;
-                },
-                writable: true,
-            },
-        });
+        KEY_DOWN_LEGACY = 'Down';
 
     /**
      * The autocomplete menu.
@@ -315,14 +190,24 @@ var PostcodeNl = PostcodeNl || {};
                     return item !== null;
                 },
             },
+            wrapper: {
+                get: function () {
+                    return wrapper;
+                },
+            },
+            ul: {
+                get: function () {
+                    return ul;
+                },
+            },
         });
 
         wrapper.classList.add(options.cssPrefix + 'menu');
         ul.classList.add(options.cssPrefix + 'menu-items');
         wrapper.appendChild(ul);
 
-        ul.addEventListener('mouseover', function (e) {
-            if (e.target === ul)
+        ul.addEventListener('mousemove', function (e) {
+            if (e.target === item || e.target === ul)
             {
                 return;
             }
@@ -454,6 +339,18 @@ var PostcodeNl = PostcodeNl || {};
         this.focusNext = moveItemFocus.bind(this, true);
 
         /**
+         * Remove the item focus CSS class and clear the active item, if any.
+         */
+        this.blur = function ()
+        {
+            if (item !== null)
+            {
+                item.classList.remove(classNames.itemFocus);
+                item = null;
+            }
+        }
+
+        /**
          * Select the active menu item, update and focus the associated input element.
          */
         this.select = function ()
@@ -502,11 +399,115 @@ var PostcodeNl = PostcodeNl || {};
     }
 
     /**
+     * Get a random session identifier.
+     *
+     * @return {string} Cached session identifier.
+     */
+    const getSessionId = (function () {
+        const length = 32,
+            randomIntegers = new Uint8Array(length),
+            randomCharacters = [],
+            characterSet = '0123456789abcdef';
+
+        (window.crypto || window.msCrypto).getRandomValues(randomIntegers);
+
+        for (let i = 0, j = characterSet.length; i < length; i++)
+        {
+            randomCharacters.push(characterSet[randomIntegers[i] % j]);
+        }
+
+        const id = randomCharacters.join('');
+
+        return function () {
+            return id;
+        };
+    })();
+
+    /**
+     * Get a unique element identifier.
+     *
+     * @param {string} id - Element identifier.
+     * @return {string} Element identifier, with numeric suffix if the original identifier is already in use.
+     */
+    const getUniqueId = function (id)
+    {
+        let i = 2,
+            result = id;
+
+        while (document.getElementById(result) !== null)
+        {
+            result = id + '-' + i;
+            i++;
+        }
+
+        return result;
+    }
+
+    /**
+     * Basic object extension method.
+     *
+     * @param {Object} target
+     * @param {Object} source
+     * @return {Object} target
+     */
+    const extend = function (target, source)
+    {
+        for (let prop in source)
+        {
+            target[prop] = source[prop];
+        }
+
+        return target;
+    }
+
+    if (typeof window.CustomEvent !== 'function')
+    {
+        /**
+         * Fix CustomEvent in IE11.
+         *
+         * @param {string} event - DOMString representing the name of the event.
+         * @param {Object} [params] - Optional dictionary that emulates CustomEventInit.
+         * @return {Event} Custom event.
+         * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill}
+         */
+        const CustomEvent = function (event, params)
+        {
+            params = params || {bubbles: false, cancelable: false, detail: null};
+            var evt = document.createEvent('CustomEvent');
+            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+            return evt;
+        }
+
+        window.CustomEvent = CustomEvent;
+    }
+
+    if (window.DOMTokenList.prototype.toggle.length === 0)
+    {
+        /**
+         * Fix DOMTokenList.toggle in IE11.
+         *
+         * @param {string} value - Class value to toggle.
+         * @param {boolean} [force] - Add class value if the argument evaluates to true, else remove it.
+         * @return {boolean} True if the class value is added, false if removed.
+         * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/classList}
+         */
+        window.DOMTokenList.prototype.toggle = function (value)
+        {
+            if (arguments.length > 1)
+            {
+                return (this[arguments[1]? 'add' : 'remove'](value), !!arguments[1]);
+            }
+
+            return (this[this.contains(value)? 'remove' : 'add'](value), this.contains(value));
+        }
+    }
+
+    /**
      * @constructor
      * @param {HTMLElement|NodeList|string} elementsOrSelector - Element(s) or CSS selector string for element(s) to be used as autocomplete input.
      * @param {Object} options - Options to override the defaults. @see PostcodeNl~defaults.
      */
-    this.AutocompleteAddress = function (elementsOrSelector, options)
+    return function (elementsOrSelector, options)
     {
         let inputElements;
 
@@ -531,6 +532,156 @@ var PostcodeNl = PostcodeNl || {};
         {
             return;
         }
+
+        /**
+         * Default options.
+         * @type {Object}
+         */
+        const defaults = Object.create(null, {
+            /**
+             * Initial autocomplete context. E.g. a country code "nld", "bel" or "deu" to start searching in that country.
+             * @type {string}
+             */
+            context: {
+                value: 'nld',
+                writable: true,
+            },
+
+            /**
+             * URL that will return autocomplete JSON data.
+             * @type {string}
+             */
+            autocompleteUrl: {
+                writable: true,
+            },
+
+            /**
+             * URL that will return address details JSON data.
+             * @type {string}
+             */
+            addressDetailsUrl: {
+                writable: true,
+            },
+
+            /**
+             * Text to use with tags.
+             * @type {Object}
+             */
+            tags: {
+                value: {
+                    'unvalidated-housenumber': '(unknown house number)',
+                    'unvalidated-housenumber-addition': '(unknown house number addition)',
+                },
+                writable: true,
+            },
+
+            /**
+             * CSS prefix
+             * @type {string}
+             */
+            cssPrefix: {
+                value: 'postcodenl-autocomplete-',
+                writable: true,
+            },
+
+            /**
+             * Minimum number of characters typed before a search is performed.
+             * @type {number}
+             */
+            minLength: {
+                value: 1,
+                writable: true,
+            },
+
+            /**
+             * Delay in milliseconds between when a keystroke occurs and when a search is performed.
+             * @type {number}
+             */
+            delay: {
+                value: 300,
+                writable: true,
+            },
+
+            /**
+             * Which element the menu should be appended to.
+             * @type {string|HTMLElement}
+             */
+            appendTo: {
+                value: document.body,
+                writable: true,
+            },
+
+            /**
+             * Focus the first item when the menu is shown.
+             * @type {boolean}
+             */
+            autoFocus: {
+                value: false,
+                writable: true,
+            },
+
+            /**
+             * Select the first full address suggestion on blur (if any, and no menu item was selected).
+             * @type {boolean}
+             */
+            autoSelect: {
+                value: false,
+                writable: true,
+            },
+
+            /**
+             * Automatically calculate menu width. Disable to define width in CSS.
+             * @type {boolean}
+             */
+            autoResize: {
+                value: true,
+                writable: true,
+            },
+
+            /**
+             * Get screen reader text for a successful response with at least one match.
+             * Override this function to translate the message.
+             * @type {Function}
+             *
+             * @param {number} count - Number of matches. Will be at least one.
+             * @param {string} languageTag - Language tag, if specified via language option or setLanguage().
+             * @return {string} Screen reader message based on the number of matches.
+             */
+            getResponseMessage: {
+                value: function (count, languageTag)
+                {
+                    let message;
+
+                    if (count > 1)
+                    {
+                        message = count + ' address suggestions available. ';
+                    }
+                    else
+                    {
+                        message = 'One address suggestion available. ';
+                    }
+
+                    message += 'Use up and down arrow keys to navigate.';
+
+                    return message;
+                },
+                writable: true,
+            },
+
+            /**
+             * The language used for API calls.
+             */
+            language: {
+                writable: true,
+            },
+        });
+
+        // Expose plugin defaults.
+        Object.defineProperty(this, 'defaults', {
+            get: function () {
+                return defaults;
+            },
+        });
 
         // Create options object that inherits from defaults.
         options = extend(Object.create(defaults), options);
@@ -559,6 +710,21 @@ var PostcodeNl = PostcodeNl || {};
         liveRegion.setAttribute('aria-live', 'assertive');
         liveRegion.classList.add(options.cssPrefix + liveRegion.id);
         document.body.appendChild(liveRegion);
+
+        window.addEventListener('beforeunload', function () {
+            window.clearTimeout(searchTimeoutId);
+        });
+
+        // Expose elements.
+        Object.defineProperty(this, 'elements', {
+            get: function () {
+                return {
+                    menu: menu.wrapper,
+                    menuItems: menu.ul,
+                    liveRegion: liveRegion,
+                };
+            },
+        });
 
         /**
          * Announce screen reader text via the live region.
@@ -604,21 +770,28 @@ var PostcodeNl = PostcodeNl || {};
          * Get autocomplete matches for the specified context and term.
          *
          * @see {@link https://api.postcode.nl/documentation/international/v1/Autocomplete/autocomplete}
-         * @param {string} context - A place identifier denoting the context to search in. e.g. â€œnldâ€.
-         * @param {string} term - The search query to process. e.g. â€œ2012ESâ€, â€œHaarlemâ€, â€œJulianâ€.
+         * @param {string} context - A place identifier denoting the context to search in. e.g. "nld".
+         * @param {string} term - The search query to process. e.g. "2012ES", "Haarlem", "Julian".
          * @param {successCallback} response - Function that handles the response.
          * @return {XMLHttpRequest} @see PostcodeNl.AutocompleteAddress.xhrGet.
          */
         this.getSuggestions = function (context, term, response)
         {
-            return this.xhrGet(this.options.autocompleteUrl + '/' + encodeURIComponent(context) + '/' + encodeURIComponent(term), response);
+            let url = this.options.autocompleteUrl + '/' + encodeURIComponent(context) + '/' + encodeURIComponent(term);
+
+            if (typeof options.language !== 'undefined')
+            {
+                url += '/' + options.language;
+            }
+
+            return this.xhrGet(url, response);
         }
 
         /**
          * Get address details for the specified address identifier.
          *
          * @see {@link https://api.postcode.nl/documentation/international/v1/Autocomplete/getDetails}
-         * @param {string} addressId - Address identifier returned by a match of precision â€œAddressâ€.
+         * @param {string} addressId - Address identifier returned by a match of precision "Address".
          * @param {string} [dispatchCountry] - Dispatching country ISO3 code, used to determine country address line presence and language.
          * If not given, country is not added in mailLines.
          * @param {successCallback} response - Function that handles the response.
@@ -706,7 +879,7 @@ var PostcodeNl = PostcodeNl || {};
                 result = [],
                 pair;
 
-            while ((pair = indices[i++]))
+            while (pair = indices[i++])
             {
                 result.push(str.slice(end, pair[0]));
                 start = pair[0];
@@ -731,6 +904,16 @@ var PostcodeNl = PostcodeNl || {};
             {
                 elementData.get(element).context = options.context;
             }
+        }
+
+        /**
+         * Set the language used for API calls.
+         *
+         * @param {string} languageTag - Language tag, e.g. "nl", "nl_NL", "en-GB" or "de-DE".
+         */
+        this.setLanguage = function (languageTag)
+        {
+            options.language = languageTag;
         }
 
         /**
@@ -886,10 +1069,9 @@ var PostcodeNl = PostcodeNl || {};
                             menu.select();
                             e.preventDefault();
                         }
-                        else if (menu.isOpen)
+                        else
                         {
                             menu.close();
-                            e.preventDefault();
                         }
                         break;
 
@@ -900,6 +1082,8 @@ var PostcodeNl = PostcodeNl || {};
 
             element.addEventListener('input', eventHandlers.input = function (e) {
                 element.classList.remove(inputBlankClassName);
+                menu.blur(); // Prevent focus on old menu item when value has changed.
+                matches = []; // Prevent auto-selecting old menu item on blur.
 
                 // Skip key event to prevent searching twice.
                 if (isKeyEvent)
@@ -974,7 +1158,7 @@ var PostcodeNl = PostcodeNl || {};
                 element.classList.toggle(inputBlankClassName, element.value === '');
             });
 
-            element.dispatchEvent(new CustomEvent(EVENT_NAMESPACE + 'create'));
+            element.dispatchEvent(new CustomEvent(EVENT_NAMESPACE + 'create', {detail: self}));
         });
 
         /**
@@ -999,12 +1183,13 @@ var PostcodeNl = PostcodeNl || {};
 
             const data = elementData.get(element);
 
-            if (element.value.length < options.minLength)
+            // Bug #51485 - this shouldn't happen, but it does in IE
+            /*
+            if (typeof data.context === 'undefined')
             {
-                data.context = options.context;
-                menu.clear();
                 return;
             }
+            */
 
             if (element.value === previousValue && data.context === previousContext)
             {
@@ -1015,6 +1200,14 @@ var PostcodeNl = PostcodeNl || {};
             previousValue = element.value;
             previousContext = data.context;
             data.match = {};
+
+            // Reset context if we are below minimum length and clear menu instead of searching.
+            if (element.value.length < options.minLength)
+            {
+                data.context = options.context;
+                menu.clear();
+                return;
+            }
 
             // Trigger the search event. Cancel this event to prevent the request for address suggestions.
             if (false === element.dispatchEvent(new CustomEvent(EVENT_NAMESPACE + 'search', {cancelable: true})))
@@ -1028,7 +1221,7 @@ var PostcodeNl = PostcodeNl || {};
                 // Trigger the response event. Cancel this event to prevent rendering address suggestions.
                 if (true === element.dispatchEvent(new CustomEvent(EVENT_NAMESPACE + 'response', {detail: result, cancelable: true})))
                 {
-                    matches = result.matches;
+                    matches = result.matches || [];
 
                     if (hasSubstring && matches.length === 0)
                     {
@@ -1036,7 +1229,7 @@ var PostcodeNl = PostcodeNl || {};
                     }
 
                     menu.setItems(matches, self.renderItem.bind(self));
-                    self.announce(options.getResponseMessage(matches.length));
+                    self.announce(options.getResponseMessage(matches.length, options.language));
 
                     if (options.autoFocus)
                     {
@@ -1062,116 +1255,4 @@ var PostcodeNl = PostcodeNl || {};
             });
         }
     }
-
-    // Expose plugin defaults.
-    Object.defineProperty(this.AutocompleteAddress, 'defaults', {
-        get: function () {
-            return defaults;
-        },
-    });
-
-    /**
-     * Get a random session identifier.
-     *
-     * @return {string} Cached session identifier.
-     */
-    const getSessionId = (function () {
-        const length = 32,
-            randomIntegers = new Uint8Array(length),
-            randomCharacters = [],
-            characterSet = '0123456789abcdef';
-
-        (window.crypto || window.msCrypto).getRandomValues(randomIntegers);
-
-        for (let i = 0, j = characterSet.length; i < length; i++)
-        {
-            randomCharacters.push(characterSet[randomIntegers[i] % j]);
-        }
-
-        const id = randomCharacters.join('');
-
-        return function () {
-            return id;
-        };
-    })();
-
-    /**
-     * Get a unique element identifier.
-     *
-     * @param {string} id - Element identifier.
-     * @return {string} Element identifier, with numeric suffix if the original identifier is already in use.
-     */
-    const getUniqueId = function (id)
-    {
-        let i = 2,
-            result = id;
-
-        while (document.getElementById(result) !== null)
-        {
-            result = id + '-' + i;
-            i++;
-        }
-
-        return result;
-    }
-
-    /**
-     * Basic object extension method.
-     *
-     * @param {Object} target
-     * @param {Object} source
-     * @return {Object} target
-     */
-    const extend = function (target, source)
-    {
-        for (let prop in source)
-        {
-            target[prop] = source[prop];
-        }
-
-        return target;
-    }
-
-    if (typeof window.CustomEvent !== 'function')
-    {
-        /**
-         * Fix CustomEvent in IE11.
-         *
-         * @param {string} event - DOMString representing the name of the event.
-         * @param {Object} [params] - Optional dictionary that emulates CustomEventInit.
-         * @return {Event} Custom event.
-         * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#Polyfill}
-         */
-        const CustomEvent = function (event, params)
-        {
-            params = params || {bubbles: false, cancelable: false, detail: null};
-            var evt = document.createEvent('CustomEvent');
-            evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-            return evt;
-        }
-
-        window.CustomEvent = CustomEvent;
-    }
-
-    if (window.DOMTokenList.prototype.toggle.length === 0)
-    {
-        /**
-         * Fix DOMTokenList.toggle in IE11.
-         *
-         * @param {string} value - Class value to toggle.
-         * @param {boolean} [force] - Add class value if the argument evaluates to true, else remove it.
-         * @return {boolean} True if the class value is added, false if removed.
-         * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/classList}
-         */
-        window.DOMTokenList.prototype.toggle = function (value)
-        {
-            if (arguments.length > 1)
-            {
-                return (this[arguments[1]? 'add' : 'remove'](value), !!arguments[1]);
-            }
-
-            return (this[this.contains(value)? 'remove' : 'add'](value), this.contains(value));
-        }
-    }
-
-}).apply(PostcodeNl);
+}));
