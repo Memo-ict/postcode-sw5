@@ -2,6 +2,10 @@
     'use strict';
 
     $.plugin('PostcodeNl',{
+        defaults: {
+            registerShipping: false,
+        },
+
         init: function() {
             var self = this;
             var debounceTimeout;
@@ -200,17 +204,21 @@
 
                         country = json.iso3;
 
+                        const required = self.opts.registerShipping
+                            ? !self.$el.hasClass('is--hidden')
+                            : true
+
                         if(json.isSupported) {
                             if(json.iso3 === 'NLD' && !json.useAutocomplete) {
                                 self.$el.find('.postcodenl_autocomplete').css('display', 'none');
                                 self.$el.find('.postcodenl_dutch-address').css('display', 'block')
-                                    .find('.is--required').attr('required', true);
+                                    .find('.is--required').attr('required', required);
                                 self.$el.find('.shopware_default').css('display', 'none');
                             } else {
                                 self.autocomplete.setCountry(json.iso3);
                                 //Show autocomplete field, hide others
                                 self.$el.find('.postcodenl_autocomplete').css('display', 'block')
-                                    .find('.is--required').attr('required', true);
+                                    .find('.is--required').attr('required', required);
                                 self.$el.find('.postcodenl_dutch-address').css('display', 'none');
                                 self.$el.find('.shopware_default').css('display', 'none');
                             }
@@ -219,7 +227,7 @@
                             self.$el.find('.postcodenl_autocomplete').css('display', 'none');
                             self.$el.find('.postcodenl_dutch-address').css('display', 'none');
                             self.$el.find('.shopware_default').css('display', 'block')
-                                .find('.is--required').attr('required', true);
+                                .find('.is--required').attr('required', required);
                         }
 
                     }
@@ -235,9 +243,11 @@
     });
 
     $(document).ready(function () {
-        $('.register--address, .register--shipping, .address-form--panel').PostcodeNl();
+        $('.register--address, .address-form--panel').PostcodeNl();
+        $('.register--shipping').PostcodeNl({registerShipping:true});
         $.subscribe('plugin/swAddressEditor/onRegisterPlugins', function () {
-            $(".register--address, .register--shipping, .address-form--panel").PostcodeNl();
+            $('.register--address, .address-form--panel').PostcodeNl();
+            $('.register--shipping').PostcodeNl({registerShipping:true});
         });
     });
 
