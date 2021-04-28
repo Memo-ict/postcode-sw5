@@ -37,7 +37,7 @@ class Template implements SubscriberInterface
     {
         $jsFiles = [
             $this->pluginDirectory . '/Resources/Views/frontend/_public/src/js/AutocompleteAddress.js',
-            $this->pluginDirectory . '/Resources/Views/frontend/_public/src/js/jquery.postcodenl.js',
+            $this->pluginDirectory . '/Resources/Views/frontend/_public/src/js/jquery.postcode.eu.js',
         ];
         return new ArrayCollection($jsFiles);
     }
