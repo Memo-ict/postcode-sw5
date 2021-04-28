@@ -14,7 +14,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-class memoPostcodeEuPlugin extends Plugin
+class MemoPostcodeEuPlugin extends Plugin
 {
     public function activate(ActivateContext $context)
     {
