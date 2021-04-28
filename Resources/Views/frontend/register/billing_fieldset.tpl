@@ -45,7 +45,7 @@
             </div>
         {/block}
 
-        <div class="postcodenl_autocomplete"
+        <div class="postcode-eu_autocomplete"
              data-autocomplete-warning="{s name='autocompleteWarning' namespace='frontend/postcodenl'}{/s}">
             {block name="frontend_register_billing_fieldset_input_autocomplete"}
             <div>
@@ -63,7 +63,7 @@
             {/block}
         </div>
 
-        <div class="postcodenl_dutch-address"
+        <div class="postcode-eu_dutch-address"
              data-config-override-allow="{config name=allowDutchAddressOverride}"
              data-config-override-show="{config name=showDutchAddressOverrideWhenNotFound}"
              data-config-override-button="{s name="overrideAddress" namespace="frontend/postcodenl"}{/s}"

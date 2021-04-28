@@ -145,8 +145,8 @@ class Shopware_Controllers_Frontend_PostcodeEuApi extends Enlight_Controller_Act
 
         $config = $this->get('config');
 
-        $apiKey = $config->getByNamespace('MemoPostcodenlPlugin', 'apiKey');
-        $apiSecret = $config->getByNamespace('MemoPostcodenlPlugin', 'apiSecret');
+        $apiKey = $config->getByNamespace('MemoPostcodeEuPlugin', 'apiKey');
+        $apiSecret = $config->getByNamespace('MemoPostcodeEuPlugin', 'apiSecret');
 
         if (empty($apiKey) || empty($apiSecret)) {
             $this->get('pluginlogger')->warning('You have not filled in all required fields, please check your input.');

@@ -1,6 +1,6 @@
 @import "autocomplete-address.css";
 
-.shopware_default, .postcodeeu_autocomplete, .postcodeeu_dutch-address {
+.shopware_default, .postcode-eu_autocomplete, .postcode-eu_dutch-address {
     display:  none;
 
     .alert {
@@ -9,11 +9,11 @@
     }
 }
 
-.postcodeeu-autocomplete-menu {
+.postcode-eu-autocomplete-menu {
     z-index: 10000;
 }
 
-.postcodeeu_dutch-address {
+.postcode-eu_dutch-address {
     .register--zip-city, .address--zip-city {
         display: flex;
         justify-content: space-between;
@@ -61,7 +61,7 @@
         *Using :empty doesn't work as the autocomplete gives it a value of 0
     */
 
-    &:not(.postcodeeu-autocomplete-address-input-blank):not(:focus):not(.is--valid):not(.is--existing) {
+    &:not(.postcodenl-autocomplete-address-input-blank):not(:focus):not(.is--valid):not(.is--existing) {
         color: darken(@highlight-notice, 15%);
         border-color: @highlight-notice;
         background-color: desaturate(lighten(@highlight-notice, 42%), 20%);

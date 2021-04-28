@@ -7,6 +7,7 @@
         },
 
         init: function() {
+            console.log('hello');
             var self = this;
             var debounceTimeout;
             self.inputElement = this.$el.find('#autocompleteAddress, #autocompleteAddress2').first();
@@ -21,10 +22,10 @@
             var dutchAddressZipcodeElement = this.$el.find('#dutchAddressZipcode, #dutchAddressZipcode2').first();
             var dutchAddressHousenumberElement = this.$el.find('#dutchAddressHousenumber, #dutchAddressHousenumber2').first();
             var dutchAddressAdditionElement = this.$el.find('#dutchAddressHousenumberAddition, #dutchAddressHousenumberAddition2').first();
-            var dutchAddressNotifications = this.$el.find('.postcodeeu_dutch-address .alert');
+            var dutchAddressNotifications = this.$el.find('.postcode-eu_dutch-address .alert');
             var dutchAddressInputElements = dutchAddressZipcodeElement.add(dutchAddressHousenumberElement).add(dutchAddressAdditionElement);
 
-            var dutchAddressOptions = this.$el.find('.postcodeeu_dutch-address').data();
+            var dutchAddressOptions = this.$el.find('.postcode-eu_dutch-address').data();
 
             dutchAddressInputElements
                 .on('keyup', function() {
@@ -39,7 +40,7 @@
                         if(zipcode === '' || housenumber === '') return;
 
                         $.ajax({
-                            url: `${window.controller.postcodeeu_api}/dutch-address`,
+                            url: `${window.controller.postcode_eu_api}/dutch-address`,
                             dataType: "json",
                             data: {
                                 zipcode: zipcode,
@@ -105,7 +106,7 @@
                                 {
                                     self.$el.closest('form').find('button:submit, input:submit').attr('disabled', true);
                                     $('<a/>').addClass('overrideButton')
-                                        .text(self.$el.find('.postcodeeu_dutch-address').data('configOverrideButton'))
+                                        .text(self.$el.find('.postcode-eu_dutch-address').data('configOverrideButton'))
                                         .on('click', function() {
                                             dutchAddressNotifications.css('display', 'none');
                                             dutchAddressStreetCityWrapper.removeClass('is--hidden');
@@ -143,8 +144,8 @@
                 });
 
             self.autocomplete = new PostcodeNl.AutocompleteAddress(self.inputElement[0], {
-                autocompleteUrl: `${window.controller.postcodeeu_api}/autocomplete`,
-                addressDetailsUrl: `${window.controller.postcodeeu_api}/address-details`,
+                autocompleteUrl: `${window.controller.postcode_eu_api}/autocomplete`,
+                addressDetailsUrl: `${window.controller.postcode_eu_api}/address-details`,
                 autoSelect: true,
             });
 
@@ -168,7 +169,7 @@
                     }
                 });
 
-            self.$el.find('.postcodeeu_autocomplete').each(function() {
+            self.$el.find('.postcode-eu_autocomplete').each(function() {
                 $(this).find(' .alert .alert--content').text($(this).data('autocompleteWarning'));
             })
 
@@ -178,15 +179,15 @@
                     return;
                 }
                 $.ajax({
-                    url: `${window.controller.postcodeeu_api}/countrycheck`,
+                    url: `${window.controller.postcode_eu_api}/countrycheck`,
                     dataType: "json",
                     data: {
                         country: $(this).val()
                     },
                     cache: false,
                     success: function(json) {
-                        self.$el.find('.postcodeeu_autocomplete').find('.is--required').attr('required', false);
-                        self.$el.find('.postcodeeu_dutch-address').find('.is--required').attr('required', false);
+                        self.$el.find('.postcode-eu_autocomplete').find('.is--required').attr('required', false);
+                        self.$el.find('.postcode-eu_dutch-address').find('.is--required').attr('required', false);
                         self.$el.find('.shopware_default').find('.is--required').attr('required', false);
 
                         if(country !== null && country !== json.iso3) {
@@ -210,22 +211,22 @@
 
                         if(json.isSupported) {
                             if(json.iso3 === 'NLD' && !json.useAutocomplete) {
-                                self.$el.find('.postcodeeu_autocomplete').css('display', 'none');
-                                self.$el.find('.postcodeeu_dutch-address').css('display', 'block')
+                                self.$el.find('.postcode-eu_autocomplete').css('display', 'none');
+                                self.$el.find('.postcode-eu_dutch-address').css('display', 'block')
                                     .find('.is--required').attr('required', required);
                                 self.$el.find('.shopware_default').css('display', 'none');
                             } else {
                                 self.autocomplete.setCountry(json.iso3);
                                 //Show autocomplete field, hide others
-                                self.$el.find('.postcodeeu_autocomplete').css('display', 'block')
+                                self.$el.find('.postcode-eu_autocomplete').css('display', 'block')
                                     .find('.is--required').attr('required', required);
-                                self.$el.find('.postcodeeu_dutch-address').css('display', 'none');
+                                self.$el.find('.postcode-eu_dutch-address').css('display', 'none');
                                 self.$el.find('.shopware_default').css('display', 'none');
                             }
                         } else {
                             //vice versa
-                            self.$el.find('.postcodeeu_autocomplete').css('display', 'none');
-                            self.$el.find('.postcodeeu_dutch-address').css('display', 'none');
+                            self.$el.find('.postcode-eu_autocomplete').css('display', 'none');
+                            self.$el.find('.postcode-eu_dutch-address').css('display', 'none');
                             self.$el.find('.shopware_default').css('display', 'block')
                                 .find('.is--required').attr('required', required);
                         }
@@ -243,11 +244,11 @@
     });
 
     $(document).ready(function () {
-        $('.register--address, .address-form--panel').PostcodeNl();
-        $('.register--shipping').PostcodeNl({registerShipping:true});
+        $('.register--address, .address-form--panel').PostcodeEu();
+        $('.register--shipping').PostcodeEu({registerShipping:true});
         $.subscribe('plugin/swAddressEditor/onRegisterPlugins', function () {
-            $('.register--address, .address-form--panel').PostcodeNl();
-            $('.register--shipping').PostcodeNl({registerShipping:true});
+            $('.register--address, .address-form--panel').PostcodeEu();
+            $('.register--shipping').PostcodeEu({registerShipping:true});
         });
     });
 
