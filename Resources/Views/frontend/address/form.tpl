@@ -139,8 +139,8 @@
     </div>
 
     <div class="postcodenl_dutch-address"
-         data-config-override-allow="{config name=memoAllowDutchAddressOverride}"
-         data-config-override-show="{config name=memoShowOverrideWhenNotFound}"
+         data-config-override-allow="{config name=allowDutchAddressOverride}"
+         data-config-override-show="{config name=showDutchAddressOverrideWhenNotFound}"
          data-config-override-button="{s name="overrideAddress" namespace="frontend/postcodenl"}{/s}"
     >
         <div class="address--zip-city">
@@ -174,8 +174,8 @@
             {/block}
         </div>
 
-        {if {config name=memoAllowDutchAddressOverride}}
-            <div class="address--street-city {if {config name=memoShowOverrideWhenNotFound}}is--hidden{/if}">
+        {if {config name=allowDutchAddressOverride}}
+            <div class="address--street-city {if {config name=showDutchAddressOverrideWhenNotFound}}is--hidden{/if}">
                 {block name='frontend_address_form_input_street'}
                     <input autocomplete="section-billing billing street-address"
                            class="address--field address--spacer address--field-street is--required{if isset($error_flags.street)} has--error{/if}"
