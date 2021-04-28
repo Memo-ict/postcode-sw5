@@ -35,7 +35,5 @@ class Backend implements SubscriberInterface
         {
             $this->cacheManager->clearByTag(CacheManager::CACHE_TAG_CONFIG);
         }
-
-
     }
 }

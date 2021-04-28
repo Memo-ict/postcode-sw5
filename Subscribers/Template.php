@@ -5,7 +5,6 @@ namespace MemoPostcodeEuPlugin\Subscribers;
 use Doctrine\Common\Collections\ArrayCollection;
 use Enlight\Event\SubscriberInterface;
 use Shopware\Components\Theme\LessDefinition;
-use Shopware_Components_Config as Config;
 
 class Template implements SubscriberInterface
 {
@@ -45,12 +44,10 @@ class Template implements SubscriberInterface
 
     public function onCollectLess(\Enlight_Event_EventArgs $args)
     {
-        $pluginPath = Shopware()->Container()->getParameter('memo_postcodenl_plugin.plugin_dir');
-
         $less = new LessDefinition(
             [],
-            [$pluginPath . '/Resources/Views/frontend/_public/src/less/all.less'],
-            $pluginPath . '/Resources/Views/frontend/_public/src/less/'
+            [$this->pluginDirectory . '/Resources/Views/frontend/_public/src/less/all.less'],
+            $this->pluginDirectory . '/Resources/Views/frontend/_public/src/less/'
         );
 
         return $less;

@@ -4,13 +4,13 @@
            xmlns="http://symfony.com/schema/dic/services"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="memo_postcodenl_plugin.subscriber.route" class="MemoPostcodeEuPlugin\Subscribers\Template">
-            <argument>%memo_postcodenl_plugin.plugin_dir%</argument>
+        <service id="memo_postcode_eu_plugin.subscribers.template" class="MemoPostcodeEuPlugin\Subscribers\Template">
+            <argument>%memo_postcode_eu_plugin.plugin_dir%</argument>
             <tag name="shopware.event_subscriber"/>
         </service>
 
-        <service id="memo_postcodenl_plugin.backend.route" class="MemoPostcodeEuPlugin\Subscribers\Backend">
-            <argument>%memo_postcodenl_plugin.plugin_name%</argument>
+        <service id="memo_postcode_eu_plugin.subscribers.backend" class="MemoPostcodeEuPlugin\Subscribers\Backend">
+            <argument>%memo_postcode_eu_plugin.plugin_name%</argument>
             <argument type="service" id="shopware.cache_manager"/>
 
             <tag name="shopware.event_subscriber"/>

@@ -2,7 +2,7 @@
 
 use PostcodeNl\Api\Client;
 
-Class Shopware_Controllers_Backend_PostcodeEuTestconnection extends \Shopware_Controllers_Backend_ExtJs
+class Shopware_Controllers_Backend_PostcodeEuTestConnection extends \Shopware_Controllers_Backend_ExtJs
 {
     public function testAction()
     {

@@ -64,7 +64,7 @@
                     <![CDATA[
                         function() {
                             Ext.Ajax.request({
-                                url: 'PostcodenlTestConnection/test',
+                                url: 'PostcodeEuTestConnection/test',
                                 success: function (response) {
                                     console.log(response);
                                     let json = JSON.parse(response.responseText);
