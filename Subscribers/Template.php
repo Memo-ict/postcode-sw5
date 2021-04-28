@@ -10,12 +10,10 @@ use Shopware_Components_Config as Config;
 class Template implements SubscriberInterface
 {
     private $pluginDirectory;
-    private $config;
 
-    public function __construct($pluginDirectory, Config $config)
+    public function __construct($pluginDirectory)
     {
         $this->pluginDirectory = $pluginDirectory;
-        $this->config = $config;
     }
 
     public static function getSubscribedEvents()
