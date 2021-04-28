@@ -1,6 +1,6 @@
 <?php
 
-namespace memoPostcodenlPlugin\Subscribers;
+namespace MemoPostcodeEuPlugin\Subscribers;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Enlight\Event\SubscriberInterface;

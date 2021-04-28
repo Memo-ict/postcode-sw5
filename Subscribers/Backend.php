@@ -1,6 +1,6 @@
 <?php
 
-namespace memoPostcodenlPlugin\Subscribers;
+namespace MemoPostcodeEuPlugin\Subscribers;
 
 use Shopware\Components\CacheManager;
 use Enlight\Event\SubscriberInterface;

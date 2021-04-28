@@ -1,6 +1,6 @@
 <?php
 
-namespace memoPostcodenlPlugin;
+namespace MemoPostcodeEuPlugin;
 
 use Shopware\Bundle\AttributeBundle\Service\TypeMapping;
 use Shopware\Components\Plugin;
@@ -14,7 +14,7 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/vendor/autoload.php';
 }
 
-class memoPostcodenlPlugin extends Plugin
+class memoPostcodeEuPlugin extends Plugin
 {
     public function activate(ActivateContext $context)
     {
