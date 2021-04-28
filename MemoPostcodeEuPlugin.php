@@ -65,6 +65,9 @@ class MemoPostcodeEuPlugin extends Plugin
             [
                 'position' => 1,
                 'displayInBackend' => true,
+                'label' => 'Postcode.eu Streetname',
+                'readonly' => true,
+                'translatable' => true,
             ]
         );
         $service->update(
@@ -74,7 +77,9 @@ class MemoPostcodeEuPlugin extends Plugin
             [
                 'position' => 2,
                 'displayInBackend' => true,
-                'label' => 'Postcode.eu Housenumber'
+                'label' => 'Postcode.eu Housenumber',
+                'readonly' => true,
+                'translatable' => true,
             ]
         );
         $service->update(
@@ -84,7 +89,9 @@ class MemoPostcodeEuPlugin extends Plugin
             [
                 'position' => 3,
                 'displayInBackend' => true,
-                'label' => 'Postcode.eu Housenumber Addition'
+                'label' => 'Postcode.eu Housenumber Addition',
+                'readonly' => true,
+                'translatable' => true,
             ]
         );
         $service->update(
@@ -94,7 +101,9 @@ class MemoPostcodeEuPlugin extends Plugin
             [
                 'position' => 4,
                 'displayInBackend' => true,
-                'label' => 'Postcode.eu Zipcode'
+                'label' => 'Postcode.eu Zipcode',
+                'readonly' => true,
+                'translatable' => true,
             ]
         );
         $service->update(
@@ -104,17 +113,22 @@ class MemoPostcodeEuPlugin extends Plugin
             [
                 'position' => 5,
                 'displayInBackend' => true,
-                'label' => 'Postcode.eu City'
+                'label' => 'Postcode.eu City',
+                'readonly' => true,
+                'translatable' => true,
             ]
         );
         $service->update(
             's_user_addresses_attributes',
             'postcode_eu_autocomplete_address',
-            TypeMapping::TYPE_TEXT,
+            TypeMapping::TYPE_STRING,
             [
                 'position' => 10,
                 'displayInBackend' => true,
-                'label' => 'Postcode.eu Autocomplete data'
+                'label' => 'Postcode.eu Autocomplete address',
+                'supportText' => "As returned by the Postcode.eu Autocomplete API",
+                'readonly' => true,
+                'translatable' => true,
             ]
         );
 
