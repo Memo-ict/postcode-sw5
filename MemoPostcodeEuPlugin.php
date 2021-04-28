@@ -60,7 +60,7 @@ class MemoPostcodeEuPlugin extends Plugin
 
         $service->update(
             's_user_addresses_attributes',
-            'postcodenl_streetname',
+            'postcode_eu_streetname',
             TypeMapping::TYPE_STRING,
             [
                 'position' => 1,
@@ -69,52 +69,52 @@ class MemoPostcodeEuPlugin extends Plugin
         );
         $service->update(
             's_user_addresses_attributes',
-            'postcodenl_housenumber',
+            'postcode_eu_housenumber',
             TypeMapping::TYPE_STRING,
             [
                 'position' => 2,
                 'displayInBackend' => true,
-                'label' => 'Postcode.nl Housenumber'
+                'label' => 'Postcode.eu Housenumber'
             ]
         );
         $service->update(
             's_user_addresses_attributes',
-            'postcodenl_housenumber_addition',
+            'postcode_eu_housenumber_addition',
             TypeMapping::TYPE_STRING,
             [
                 'position' => 3,
                 'displayInBackend' => true,
-                'label' => 'Postcode.nl Housenumber Addition'
+                'label' => 'Postcode.eu Housenumber Addition'
             ]
         );
         $service->update(
             's_user_addresses_attributes',
-            'postcodenl_zipcode',
+            'postcode_eu_zipcode',
             TypeMapping::TYPE_STRING,
             [
                 'position' => 4,
                 'displayInBackend' => true,
-                'label' => 'Postcode.nl Zipcode'
+                'label' => 'Postcode.eu Zipcode'
             ]
         );
         $service->update(
             's_user_addresses_attributes',
-            'postcodenl_city',
+            'postcode_eu_city',
             TypeMapping::TYPE_STRING,
             [
                 'position' => 5,
                 'displayInBackend' => true,
-                'label' => 'Postcode.nl City'
+                'label' => 'Postcode.eu City'
             ]
         );
         $service->update(
             's_user_addresses_attributes',
-            'postcodenl_autocomplete_address',
+            'postcode_eu_autocomplete_address',
             TypeMapping::TYPE_TEXT,
             [
                 'position' => 10,
                 'displayInBackend' => true,
-                'label' => 'Postcode.nl Autocomplete data'
+                'label' => 'Postcode.eu Autocomplete data'
             ]
         );
 
@@ -125,12 +125,12 @@ class MemoPostcodeEuPlugin extends Plugin
     {
         $service = $this->container->get('shopware_attribute.crud_service');
 
-        $service->delete('s_user_addresses_attributes', 'postcodenl_streetname');
-        $service->delete('s_user_addresses_attributes', 'postcodenl_housenumber');
-        $service->delete('s_user_addresses_attributes', 'postcodenl_housenumber_addition');
-        $service->delete('s_user_addresses_attributes', 'postcodenl_zipcode');
-        $service->delete('s_user_addresses_attributes', 'postcodenl_city');
-        $service->delete('s_user_addresses_attributes', 'postcodenl_autocomplete_address');
+        $service->delete('s_user_addresses_attributes', 'postcode_eu_streetname');
+        $service->delete('s_user_addresses_attributes', 'postcode_eu_housenumber');
+        $service->delete('s_user_addresses_attributes', 'postcode_eu_housenumber_addition');
+        $service->delete('s_user_addresses_attributes', 'postcode_eu_zipcode');
+        $service->delete('s_user_addresses_attributes', 'postcode_eu_city');
+        $service->delete('s_user_addresses_attributes', 'postcode_eu_autocomplete_address');
 
         Shopware()->Models()->generateAttributeModels(['s_user_addresses_attributes']);
     }

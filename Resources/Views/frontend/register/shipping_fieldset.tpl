@@ -123,14 +123,14 @@
             {block name="frontend_register_shipping_fieldset_input_autocomplete"}
                 <div>
                     <input type="text"
-                           class="register--field register--field-autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $form_data['attribute']['postcodenlAutocompleteAddress']} is--existing{/if}"
-                           data-initial="{$form_data['attribute']['postcodenlAutocompleteAddress']|escape}"
+                           class="register--field register--field-autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $form_data['attribute']['postcodeEuAutocompleteAddress']} is--existing{/if}"
+                           data-initial="{$form_data['attribute']['postcodeEuAutocompleteAddress']|escape}"
                            id="autocompleteAddress2"
                            required="required"
                            aria-required="true"
                            placeholder="{s name='placeholder' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           name="register[shipping][attribute][postcodenlAutocompleteAddress]"
-                           value="{$form_data['attribute']['postcodenlAutocompleteAddress']}">
+                           name="register[shipping][attribute][postcodeEuAutocompleteAddress]"
+                           value="{$form_data['attribute']['postcodeEuAutocompleteAddress']}">
                     {include file="frontend/_includes/messages.tpl" type="warning" content="Please select a valid address from the dropdown list."}
                 </div>
             {/block}
@@ -149,8 +149,8 @@
                            required="required"
                            aria-required="true"
                            placeholder="{s name='RegisterShippingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           name="register[shipping][attribute[postcodenlZipcode]"
-                           value="{$form_data['attribute']['postcodenlZipcode']}">
+                           name="register[shipping][attribute[postcodeEuZipcode]"
+                           value="{$form_data['attribute']['postcodeEuZipcode']}">
                 {/block}
                 {block name="frontend_register_shipping_fieldset_input_dutch-address_housenumber"}
                     <input type="text"
@@ -159,16 +159,16 @@
                            required="required"
                            aria-required="true"
                            placeholder="{s name='housenumber' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                           name="register[shipping][attribute][postcodenlHousenumber]"
-                           value="{$form_data['attribute']['postcodenlHousenumber']}">
+                           name="register[shipping][attribute][postcodeEuHousenumber]"
+                           value="{$form_data['attribute']['postcodeEuHousenumber']}">
                 {/block}
                 {block name="frontend_register_shipping_fieldset_input_dutch-address_housenumber-addition"}
                     <input type="text"
                            class="register--field register--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
                            id="dutchAddressHousenumberAddition2"
                            placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
-                           name="register[shipping][attribute][postcodenlHousenumberAddition]"
-                           value="{$form_data['attribute']['postcodenlHousenumberAddition']}">
+                           name="register[shipping][attribute][postcodeEuHousenumberAddition]"
+                           value="{$form_data['attribute']['postcodeEuHousenumberAddition']}">
                 {/block}
             </div>
 
@@ -182,8 +182,8 @@
                                aria-required="true"
                                placeholder="{s name='street' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                                id="dutchAddressStreet2"
-                               name="register[shipping][attribute][postcodenlStreetname]"
-                               value="{$form_data['attribute']['postcodenlStreetname']}"/>
+                               name="register[shipping][attribute][postcodeEuStreetname]"
+                               value="{$form_data['attribute']['postcodeEuStreetname']}"/>
                     {/block}
                     {block name='frontend_register_shipping_fieldset_input_city'}
                         <input autocomplete="section-shipping shipping city"
@@ -193,17 +193,17 @@
                                aria-required="true"
                                placeholder="{s name='RegisterShippingPlaceholderCity'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                                id="dutchAddressCity2"
-                               name="register[shipping][attribute][postcodenlCity]"
-                               value="{$form_data['attribute']['postcodenlCity']}"/>
+                               name="register[shipping][attribute][postcodeEuCity]"
+                               value="{$form_data['attribute']['postcodeEuCity']}"/>
                     {/block}
                 </div>
             {else}
                 <input type="hidden" id="dutchAddressStreet"
-                       name="register[shipping][attribute][postcodenlStreetname]"
-                       value="{$form_data['attribute']['postcodenlStreetname']}" />
+                       name="register[shipping][attribute][postcodeEuStreetname]"
+                       value="{$form_data['attribute']['postcodeEuStreetname']}" />
                 <input type="hidden" id="dutchAddressCity"
-                       name="register[shipping][attribute][postcodenlCity]"
-                       value="{$form_data['attribute']['postcodenlCity']}" />
+                       name="register[shipping][attribute][postcodeEuCity]"
+                       value="{$form_data['attribute']['postcodeEuCity']}" />
             {/if}
 
             {include file="frontend/_includes/messages.tpl" type="warning"}

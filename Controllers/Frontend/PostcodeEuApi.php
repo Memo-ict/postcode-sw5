@@ -159,7 +159,7 @@ class Shopware_Controllers_Frontend_PostcodeEuApi extends Enlight_Controller_Act
             $result = $this->client->accountInfo();
 
             if ($result['hasAccess'] == false) {
-                $this->get('pluginlogger')->warning('You don\'t have access to the Postcode.nl API');
+                $this->get('pluginlogger')->warning('You don\'t have access to the Postcode.eu API');
                 return false;
             }
         } catch (ClientException $e) {
@@ -173,7 +173,7 @@ class Shopware_Controllers_Frontend_PostcodeEuApi extends Enlight_Controller_Act
     {
         $snippets = Shopware()->Snippets();
 
-        $namespace = $snippets->getNamespace('frontend/postcodenl');
+        $namespace = $snippets->getNamespace('frontend/postcodeeu');
 
         switch (get_class($e)) {
             case BadRequestException::class:
