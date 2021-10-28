@@ -2,14 +2,14 @@
 
 use PostcodeNl\Api\Client;
 
-Class Shopware_Controllers_Backend_PostcodenlTestconnection extends \Shopware_Controllers_Backend_ExtJs
+class Shopware_Controllers_Backend_PostcodeEuTestConnection extends \Shopware_Controllers_Backend_ExtJs
 {
     public function testAction()
     {
         $config = $this->get('config');
 
-        $apiKey = $config->getByNamespace('memoPostcodenlPlugin' , 'memoPostcodenlKey');
-        $apiSecret = $config->getByNamespace('memoPostcodenlPlugin', 'memoPostcodenlSecret');
+        $apiKey = $config->getByNamespace('MemoPostcodeEuPlugin' , 'apiKey');
+        $apiSecret = $config->getByNamespace('MemoPostcodeEuPlugin', 'apiSecret');
 
         if(empty($apiKey) || empty($apiSecret) )
         {

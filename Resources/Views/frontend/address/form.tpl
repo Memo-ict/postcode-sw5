@@ -120,27 +120,27 @@
         </div>
     {/block}
 
-    <div class="postcodenl_autocomplete"
+    <div class="postcode-eu_autocomplete"
          data-autocomplete-warning="{s name='autocompleteWarning' namespace='frontend/postcodenl'}{/s}">
         {block name="frontend_address_form_input_autocomplete"}
             <div>
                 <input type="text"
-                       class="address--field address--autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $formData['attribute']['postcodenlAutocompleteAddress']} is--existing{/if}"
-                       data-initial="{$formData['attribute']['postcodenlAutocompleteAddress']|escape}"
+                       class="address--field address--autocompleteaddress is--required{if isset($error_flags.street)} has--error{/if}{if $formData['attribute']['postcodeEuAutocompleteAddress']} is--existing{/if}"
+                       data-initial="{$formData['attribute']['postcodeEuAutocompleteAddress']|escape}"
                        id="autocompleteAddress"
                        required="required"
                        aria-required="true"
                        placeholder="{s name='RegisterBillingPlaceholderStreet'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                       name="{$inputPrefix}[attribute][postcodenlAutocompleteAddress]"
-                       value="{$formData['attribute']['postcodenlAutocompleteAddress']}">
+                       name="{$inputPrefix}[attribute][postcodeEuAutocompleteAddress]"
+                       value="{$formData['attribute']['postcodeEuAutocompleteAddress']}">
                 {include file="frontend/_includes/messages.tpl" type="warning" content="Please select a valid address from the dropdown list."}
             </div>
         {/block}
     </div>
 
-    <div class="postcodenl_dutch-address"
-         data-config-override-allow="{config name=memoAllowDutchAddressOverride}"
-         data-config-override-show="{config name=memoShowOverrideWhenNotFound}"
+    <div class="postcode-eu_dutch-address"
+         data-config-override-allow="{config name=allowDutchAddressOverride}"
+         data-config-override-show="{config name=showDutchAddressOverrideWhenNotFound}"
          data-config-override-button="{s name="overrideAddress" namespace="frontend/postcodenl"}{/s}"
     >
         <div class="address--zip-city">
@@ -151,8 +151,8 @@
                        required="required"
                        aria-required="true"
                        placeholder="{s name='RegisterShippingPlaceholderZipcode'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                       name="{$inputPrefix}[attribute][postcodenlZipcode]"
-                       value="{$formData['attribute']['postcodenlZipcode']}">
+                       name="{$inputPrefix}[attribute][postcodeEuZipcode]"
+                       value="{$formData['attribute']['postcodeEuZipcode']}">
             {/block}
             {block name="frontend_address_form_input_dutch-address_housenumber"}
                 <input type="text"
@@ -161,21 +161,21 @@
                        required="required"
                        aria-required="true"
                        placeholder="{s name='housenumber' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
-                       name="{$inputPrefix}[attribute][postcodenlHousenumber]"
-                       value="{$formData['attribute']['postcodenlHousenumber']}">
+                       name="{$inputPrefix}[attribute][postcodeEuHousenumber]"
+                       value="{$formData['attribute']['postcodeEuHousenumber']}">
             {/block}
             {block name="frontend_address_form_input_dutch-address_housenumber-addition"}
                 <input type="text"
                        class="address--field address--field-dutch-address_housenumber-addition{if isset($error_flags.street)} has--error{/if}"
                        id="dutchAddressHousenumberAddition"
                        placeholder="{s name='addition' namespace="frontend/postcodenl"}{/s}"
-                       name="{$inputPrefix}[attribute][postcodenlHousenumberAddition]"
-                       value="{$formData['attribute']['postcodenlHousenumberAddition']}">
+                       name="{$inputPrefix}[attribute][postcodeEuHousenumberAddition]"
+                       value="{$formData['attribute']['postcodeEuHousenumberAddition']}">
             {/block}
         </div>
 
-        {if {config name=memoAllowDutchAddressOverride}}
-            <div class="address--street-city {if {config name=memoShowOverrideWhenNotFound}}is--hidden{/if}">
+        {if {config name=allowDutchAddressOverride}}
+            <div class="address--street-city {if {config name=showDutchAddressOverrideWhenNotFound}}is--hidden{/if}">
                 {block name='frontend_address_form_input_street'}
                     <input autocomplete="section-billing billing street-address"
                            class="address--field address--spacer address--field-street is--required{if isset($error_flags.street)} has--error{/if}"
@@ -184,8 +184,8 @@
                            aria-required="true"
                            placeholder="{s name='street' namespace="frontend/postcodenl"}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                            id="dutchAddressStreet"
-                           name="{$inputPrefix}[attribute][postcodenlStreetname]"
-                           value="{$formData['attribute']['postcodenlStreetname']}" />
+                           name="{$inputPrefix}[attribute][postcodeEuStreetname]"
+                           value="{$formData['attribute']['postcodeEuStreetname']}" />
                 {/block}
                 {block name='frontend_address_form_input_city'}
                     <input autocomplete="section-billing billing city"
@@ -195,17 +195,17 @@
                            aria-required="true"
                            placeholder="{s name='RegisterBillingPlaceholderCity'}{/s}{s name="RequiredField" namespace="frontend/register/index"}{/s}"
                            id="dutchAddressCity"
-                           name="{$inputPrefix}[attribute][postcodenlCity]"
-                           value="{$formData['attribute']['postcodenlCity']}" />
+                           name="{$inputPrefix}[attribute][postcodeEuCity]"
+                           value="{$formData['attribute']['postcodeEuCity']}" />
                 {/block}
             </div>
         {else}
             <input type="hidden" id="dutchAddressStreet"
-                   name="{$inputPrefix}[attribute][postcodenlStreetname]"
-                   value="{$formData['attribute']['postcodenlStreetname']}" />
+                   name="{$inputPrefix}[attribute][postcodeEuStreetname]"
+                   value="{$formData['attribute']['postcodeEuStreetname']}" />
             <input type="hidden" id="dutchAddressCity"
-                   name="{$inputPrefix}[attribute][postcodenlCity]"
-                   value="{$formData['attribute']['postcodenlCity']}" />
+                   name="{$inputPrefix}[attribute][postcodeEuCity]"
+                   value="{$formData['attribute']['postcodeEuCity']}" />
         {/if}
 
         {include file="frontend/_includes/messages.tpl" type="warning"}

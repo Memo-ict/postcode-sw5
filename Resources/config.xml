@@ -5,20 +5,20 @@
 
     <elements>
         <element type="text">
-            <name>memoPostcodenlKey</name>
+            <name>apiKey</name>
             <label lang="de">Postcode.nl Key</label>
             <label lang="en">Postcode.nl Key</label>
             <label lang="nl">Postcode.nl Key</label>
         </element>
         <element type="text">
-            <name>memoPostcodenlSecret</name>
+            <name>apiSecret</name>
             <label lang="de">Postcode.nl Secret</label>
             <label lang="en">Postcode.nl Secret</label>
             <label lang="nl">Postcode.nl Secret</label>
         </element>
 
         <element type="boolean">
-            <name>memoUseDutchAddressAutocomplete</name>
+            <name>useDutchAddressAutocomplete</name>
             <label>Use Autocomplete for dutch addresses</label>
             <label lang="de-DE">Verwenden Sie Autocomplete für niederländische Adressen</label>
             <label lang="nl-NL">Autocomplete gebruiken voor nederlandse adressen</label>
@@ -35,7 +35,7 @@
             </description>
         </element>
         <element type="boolean">
-            <name>memoAllowDutchAddressOverride</name>
+            <name>allowDutchAddressOverride</name>
             <label>Allow the fetched dutch address to be overwritten by the customer</label>
             <label lang="de-DE">Erlauben Sie dem Kunden, die gefundene niederländische Adresse zu überschreiben</label>
             <label lang="nl-NL">Toestaan dat de klant het gevonden nederlandse adres kan overschrijven</label>
@@ -44,7 +44,7 @@
             <description lang="nl-NL">Dit geldt niet voor adressen die gevonden zijn met de autocomplete functie</description>
         </element>
         <element type="boolean">
-            <name>memoShowOverrideWhenNotFound</name>
+            <name>showDutchAddressOverrideWhenNotFound</name>
             <label>Only shows the address override when the address could not be found</label>
             <label lang="de-DE">Zeigt die Adressüberschreibung nur an, wenn die Adresse nicht gefunden werden konnte</label>
             <label lang="nl-NL">Laat klanten alleen het adres overschrijven als het adres niet kan worden gevonden</label>
@@ -55,7 +55,7 @@
 
 
         <element type="button">
-            <name>buttonTest</name>
+            <name>testApiConnection</name>
             <label lang="de">Verbindung testen</label>
             <label lang="en">Test Connection</label>
             <label lang="nl">Test Connection</label>
@@ -64,7 +64,7 @@
                     <![CDATA[
                         function() {
                             Ext.Ajax.request({
-                                url: 'PostcodenlTestConnection/test',
+                                url: 'PostcodeEuTestConnection/test',
                                 success: function (response) {
                                     console.log(response);
                                     let json = JSON.parse(response.responseText);

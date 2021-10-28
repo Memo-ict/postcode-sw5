@@ -2,5 +2,5 @@
 
 {*Add controller to registration page to handle API Communication*}
 {block  name="frontend_index_header_javascript_inline" append}
-    controller['postcodenl_api'] = "{url controller=PostcodenlApi}";
+    controller['postcode_eu_api'] = "{url controller=PostcodeEuApi}";
 {/block}

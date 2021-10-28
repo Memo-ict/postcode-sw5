@@ -1,6 +1,6 @@
 <?php
 
-namespace memoPostcodenlPlugin\Subscribers;
+namespace MemoPostcodeEuPlugin\Subscribers;
 
 use Shopware\Components\CacheManager;
 use Enlight\Event\SubscriberInterface;
@@ -35,7 +35,5 @@ class Backend implements SubscriberInterface
         {
             $this->cacheManager->clearByTag(CacheManager::CACHE_TAG_CONFIG);
         }
-
-
     }
 }

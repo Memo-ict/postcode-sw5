@@ -6,7 +6,7 @@ use PostcodeNl\Api\Exception\ClientException;
 use PostcodeNl\Api\Exception\InvalidPostcodeException;
 use PostcodeNl\Api\Exception\NotFoundException;
 
-class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Action
+class Shopware_Controllers_Frontend_PostcodeEuApi extends Enlight_Controller_Action
 {
     private $client;
 
@@ -39,7 +39,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
 
         if ($iso3 === "NLD") {
             $config = $this->get('config');
-            $useAutocomplete = $config->getByNamespace('memoPostcodenlPlugin', 'memoUseDutchAddressAutocomplete') ?? false;
+            $useAutocomplete = $config->getByNamespace('MemoPostcodeEuPlugin', 'useDutchAddressAutocomplete') ?? false;
         } else {
             $useAutocomplete = $isSupported;
         }
@@ -145,8 +145,8 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
 
         $config = $this->get('config');
 
-        $apiKey = $config->getByNamespace('MemoPostcodenlPlugin', 'memoPostcodenlKey');
-        $apiSecret = $config->getByNamespace('MemoPostcodenlPlugin', 'memoPostcodenlSecret');
+        $apiKey = $config->getByNamespace('MemoPostcodeEuPlugin', 'apiKey');
+        $apiSecret = $config->getByNamespace('MemoPostcodeEuPlugin', 'apiSecret');
 
         if (empty($apiKey) || empty($apiSecret)) {
             $this->get('pluginlogger')->warning('You have not filled in all required fields, please check your input.');
@@ -159,7 +159,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
             $result = $this->client->accountInfo();
 
             if ($result['hasAccess'] == false) {
-                $this->get('pluginlogger')->warning('You don\'t have access to the Postcode.nl API');
+                $this->get('pluginlogger')->warning('You don\'t have access to the Postcode.eu API');
                 return false;
             }
         } catch (ClientException $e) {
@@ -173,7 +173,7 @@ class Shopware_Controllers_Frontend_PostcodenlApi extends Enlight_Controller_Act
     {
         $snippets = Shopware()->Snippets();
 
-        $namespace = $snippets->getNamespace('frontend/postcodenl');
+        $namespace = $snippets->getNamespace('frontend/postcodeeu');
 
         switch (get_class($e)) {
             case BadRequestException::class:

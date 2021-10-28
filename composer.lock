@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/postcode-nl/PostcodeNl_Api_Client.git",
-                "reference": "99036a02368867f46c2a5680afa5b4e2a3649124"
+                "reference": "4001d518f5cfd9dcff6b0affe5f57592b00965a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/postcode-nl/PostcodeNl_Api_Client/zipball/99036a02368867f46c2a5680afa5b4e2a3649124",
-                "reference": "99036a02368867f46c2a5680afa5b4e2a3649124",
+                "url": "https://api.github.com/repos/postcode-nl/PostcodeNl_Api_Client/zipball/4001d518f5cfd9dcff6b0affe5f57592b00965a8",
+                "reference": "4001d518f5cfd9dcff6b0affe5f57592b00965a8",
                 "shasum": ""
             },
             "require": {
@@ -47,16 +47,19 @@
             "homepage": "https://api.postcode.nl",
             "keywords": [
                 "Belgium",
+                "Luxembourg",
                 "address",
                 "api",
+                "austria",
                 "autocomplete",
                 "client",
                 "germany",
                 "netherlands",
                 "postcode",
-                "rest"
+                "rest",
+                "switzerland"
             ],
-            "time": "2020-02-05T13:10:18+00:00"
+            "time": "2020-11-18T12:51:48+00:00"
         }
     ],
     "packages-dev": [],
@@ -68,5 +71,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }

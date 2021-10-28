@@ -1,21 +1,18 @@
 <?php
 
-namespace memoPostcodenlPlugin\Subscribers;
+namespace MemoPostcodeEuPlugin\Subscribers;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Enlight\Event\SubscriberInterface;
 use Shopware\Components\Theme\LessDefinition;
-use Shopware_Components_Config as Config;
 
 class Template implements SubscriberInterface
 {
     private $pluginDirectory;
-    private $config;
 
-    public function __construct($pluginDirectory, Config $config)
+    public function __construct($pluginDirectory)
     {
         $this->pluginDirectory = $pluginDirectory;
-        $this->config = $config;
     }
 
     public static function getSubscribedEvents()
@@ -40,19 +37,17 @@ class Template implements SubscriberInterface
     {
         $jsFiles = [
             $this->pluginDirectory . '/Resources/Views/frontend/_public/src/js/AutocompleteAddress.js',
-            $this->pluginDirectory . '/Resources/Views/frontend/_public/src/js/jquery.postcodenl.js',
+            $this->pluginDirectory . '/Resources/Views/frontend/_public/src/js/jquery.postcode.eu.js',
         ];
         return new ArrayCollection($jsFiles);
     }
 
     public function onCollectLess(\Enlight_Event_EventArgs $args)
     {
-        $pluginPath = Shopware()->Container()->getParameter('memo_postcodenl_plugin.plugin_dir');
-
         $less = new LessDefinition(
             [],
-            [$pluginPath . '/Resources/Views/frontend/_public/src/less/all.less'],
-            $pluginPath . '/Resources/Views/frontend/_public/src/less/'
+            [$this->pluginDirectory . '/Resources/Views/frontend/_public/src/less/all.less'],
+            $this->pluginDirectory . '/Resources/Views/frontend/_public/src/less/'
         );
 
         return $less;

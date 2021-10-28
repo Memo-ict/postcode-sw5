@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="../../../engine/Shopware/Components/Plugin/schema/plugin.xsd">
-    <label lang="en">Postcode.nl Plugin</label>
-    <label lang="de">Postcode.nl Plugin</label>
+    <label lang="en">Postcode.eu Plugin</label>
+    <label lang="de">Postcode.eu Plugin</label>
 
     <version>5.1.1.2</version>
     <copyright>Memo ICT</copyright>

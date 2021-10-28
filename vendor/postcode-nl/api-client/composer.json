@@ -6,6 +6,9 @@
     "netherlands",
     "germany",
     "belgium",
+    "luxembourg",
+    "austria",
+    "switzerland",
     "api",
     "rest",
     "client",
@@ -42,5 +45,8 @@
   "require": {
     "php": ">=7.2",
     "ext-curl": "*"
+  },
+  "scripts": {
+    "phpcs": "phpcs --standard=phpcs.xml"
   }
 }
