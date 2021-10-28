@@ -7,7 +7,6 @@
         },
 
         init: function() {
-            console.log('hello');
             var self = this;
             var debounceTimeout;
             self.inputElement = this.$el.find('#autocompleteAddress, #autocompleteAddress2').first();
